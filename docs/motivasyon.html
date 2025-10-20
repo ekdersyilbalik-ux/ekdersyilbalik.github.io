@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Motivasyon — Seni Çok Seviyorum 💖</title>
+  <style>
+    html,body{height:100%;margin:0;padding:0;background: linear-gradient(180deg,#fff6f9,#fff0f6);font-family:'Poppins',sans-serif;overflow:hidden}
+    .stage{
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      background: radial-gradient(circle at 50% 20%, rgba(255,255,255,0.8), transparent 30%);
+    }
+
+    .card{
+      background:rgba(255,255,255,0.9);
+      padding:36px 28px;
+      border-radius:16px;
+      box-shadow:0 12px 40px rgba(167,75,111,0.12);
+      text-align:center;
+      max-width:900px;
+      border:1px solid rgba(243,195,212,0.5);
+    }
+
+    .card h1{
+      font-size:36px;
+      margin:0 0 12px;
+      color:#b03664;
+    }
+    .card p{ font-size:20px; margin:0; color:#6e3b46 }
+
+    /* rose petals */
+    .petal{
+      position:absolute;
+      top:-80px;
+      width:36px;
+      height:36px;
+      background-image: radial-gradient(circle at 40% 30%, #ff9fc6, #ff5fa3);
+      border-radius:50% 50% 50% 50%;
+      transform-origin:center;
+      pointer-events:none;
+      opacity:0.95;
+      filter: drop-shadow(0 6px 12px rgba(167,75,111,0.15));
+    }
+
+    /* animation using keyframes */
+    @keyframes fall {
+      0% { transform: translateY(-140px) rotate(0deg) scale(0.8); opacity:0 }
+      10% { opacity:1 }
+      100% { transform: translateY(110vh) rotate(360deg) scale(1); opacity:1 }
+    }
+
+    /* small floating hearts in background */
+    .heart {
+      position:absolute;
+      font-size:18px;
+      opacity:0.06;
+      color:#ff7fb6;
+    }
+
+    /* back button */
+    .back{
+      display:inline-block;
+      margin-top:18px;
+      background:linear-gradient(90deg,#ffd1e6,#ffb7db);
+      padding:10px 16px;
+      border-radius:999px;
+      color:#6e2f45;
+      font-weight:700;
+      text-decoration:none;
+      border:1px solid rgba(255,255,255,0.6);
+      box-shadow:0 6px 20px rgba(167,75,111,0.08);
+    }
+
+    /* responsive tweaks */
+    @media(max-width:520px){
+      .card h1{ font-size:26px }
+      .card p{ font-size:16px }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="stage" id="stage">
+    <div class="card" role="main" aria-label="Motivasyon Mesajı">
+      <h1>Seni çok seviyorum</h1>
+      <p>Ve her daim yanındayım 💖</p>
+      <a class="back" href="index.html">← Rehbere geri dön</a>
+    </div>
+  </div>
+
+  <script>
+    // Create falling petals (roses) - lightweight
+    const stage = document.getElementById('stage');
+
+    function rand(min,max){ return Math.random()*(max-min)+min }
+
+    // create many petals with randomized animation timing
+    const PETAL_COUNT = 26;
+    for(let i=0;i<PETAL_COUNT;i++){
+      const petal = document.createElement('div');
+      petal.className = 'petal';
+      // randomize size
+      const size = Math.floor(rand(26,46));
+      petal.style.width = size + 'px';
+      petal.style.height = size + 'px';
+      // start position (horizontal)
+      petal.style.left = (rand(2,98)) + 'vw';
+      // animation duration and delay
+      const dur = rand(6,14).toFixed(2) + 's';
+      const delay = rand(0,4).toFixed(2) + 's';
+      petal.style.animation = `fall ${dur} linear ${delay} forwards`;
+      // slight horizontal drift using transform + translateX keyframes via CSS not possible per element,
+      // so we use small random rotation via CSS transform
+      petal.style.transform = `rotate(${rand(0,180)}deg)`;
+      // append
+      stage.appendChild(petal);
+    }
+
+    // add some floating hearts in background for ambience
+    const HEARTS = 10;
+    for(let i=0;i<HEARTS;i++){
+      const span = document.createElement('div');
+      span.className='heart';
+      span.style.left = (rand(2,92))+'vw';
+      span.style.top = (rand(6,60))+'vh';
+      span.style.fontSize = rand(12,34)+'px';
+      span.style.opacity = rand(0.03,0.12);
+      span.innerText = '❤';
+      stage.appendChild(span);
+    }
+
+    // Optional: after a while (e.g., 12s) keep a few petals falling continuously
+    setInterval(()=>{
+      const petal = document.createElement('div');
+      petal.className='petal';
+      const size = Math.floor(rand(28,44));
+      petal.style.width = size + 'px';
+      petal.style.height = size + 'px';
+      petal.style.left = (rand(2,98)) + 'vw';
+      const dur = rand(7,12).toFixed(2) + 's';
+      petal.style.animation = `fall ${dur} linear 0s forwards`;
+      petal.style.transform = `rotate(${rand(0,360)}deg)`;
+      stage.appendChild(petal);
+      // clean up after animation (dur + 0.5s)
+      setTimeout(()=>{ petal.remove() }, (parseFloat(dur)+0.6)*1000);
+    }, 1800);
+  </script>
+
+</body>
+</html>
