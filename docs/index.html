@@ -1,142 +1,82 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>💍 Çok Mutlu Oldum 💍</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      text-align: center;
-      background-color: #fce4ec;
-      font-family: Arial, sans-serif;
-      overflow: hidden;
-      height: 100vh;
-    }
-    h1 {
-      margin-top: 50px;
-      font-size: 2.5em;
-      color: #ad1457;
-    }
-    button {
-      padding: 15px 30px;
-      font-size: 1.5em;
-      margin: 20px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: transform 0.3s ease, font-size 0.3s ease;
-      position: absolute;
-    }
-    #yesBtn {
-      background-color: #4caf50;
-      color: white;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(1);
-      z-index: 2;
-    }
-    #noBtn {
-      background-color: #e91e63;
-      color: white;
-      top: 65%;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    .falling {
-      position: absolute;
-      top: -50px;
-      animation: fall linear forwards;
-    }
-    @keyframes fall {
-      to {
-        transform: translateY(100vh);
-        opacity: 0;
-      }
-    }
-    #loveMessage {
-      display: none;
-      font-size: 2.5em;
-      color: #1565c0;
-      margin-top: 15%;
-    }
-    #anniversary {
-      display: none;
-      font-size: 2em;
-      color: #d81b60;
-      margin-top: 20px;
-    }
-    #futureMessage {
-      display: none;
-      font-size: 2em;
-      color: #6a1b9a;
-      margin-top: 20px;
-    }
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Esmanur'un PCOS Yaşam Rehberi 🌸</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Benimle evlenir misin?</h1>
-  <button id="yesBtn">Evet 💙</button>
-  <button id="noBtn">Hayır ❌</button>
-  <div id="loveMessage">💙 Seni çooook seviyorum 💙</div>
-  <div id="anniversary">🌸 6. Ayımız Kutlu Olsun AŞKIM 💙</div>
-  <div id="futureMessage">✨ Senle nice aylara, yıllara Hatunum 💜</div>
 
-  <script>
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const loveMessage = document.getElementById("loveMessage");
-    const anniversary = document.getElementById("anniversary");
-    const futureMessage = document.getElementById("futureMessage");
+  <header class="header">
+    <h1>🌸 Esmanur’un PCOS Yaşam Rehberi</h1>
+    <p class="small-muted">Sevgiyle hazırlanmış, kapsamlı ve okunması kolay dijital rehber</p>
+  </header>
 
-    function createFalling() {
-      const el = document.createElement("div");
-      el.classList.add("falling");
+  <div class="container">
 
-      // %50 ihtimal çiçek, %50 ihtimal kalp
-      if (Math.random() > 0.5) {
-        el.textContent = "🌼"; // papatya
-      } else {
-        el.textContent = "💙"; // mavi kalp
-      }
+    <!-- LEFT: Table of contents -->
+    <aside class="toc card" aria-label="İçindekiler">
+      <h3>İÇİNDEKİLER</h3>
+      <nav>
+        <a href="#bolum1">1. PCOS'u Anlamak</a>
+        <a href="#bolum2">2. Süper Gıdalar</a>
+        <a href="#bolum2-1">2.1 Karbonhidratlar</a>
+        <a href="#bolum2-2">2.2 Yağlar & Proteinler</a>
+        <a href="#bolum2-3">2.3 Bağırsak Destekçileri</a>
+        <a href="#bolum3">3. Kaçınılması Gerekenler</a>
+        <a href="#bolum4">4. Pratik Stratejiler</a>
+        <a href="#bolum5">5. Tıbbi Takip & Testler</a>
+        <a href="#bolum6">6. Su & İçecek Rehberi</a>
+        <a href="#bolum7">7. Günlük Rutin & Menü</a>
+        <a href="#sonuc">Sonuç & Destek Söz</a>
+      </nav>
 
-      el.style.left = Math.random() * 100 + "vw";
-      el.style.animationDuration = (2 + Math.random() * 2) + "s";
-      el.style.fontSize = (20 + Math.random() * 30) + "px";
-      document.body.appendChild(el);
+      <div style="margin-top:12px;">
+        <a class="motiv-btn" href="motivasyon.html" role="button">💗 Motivasyon ister misin?</a>
+      </div>
+    </aside>
 
-      setTimeout(() => {
-        el.remove();
-      }, 4000);
-    }
+    <!-- MAIN: content -->
+    <main class="main">
+      <!-- Section 1 -->
+      <article id="bolum1" class="card">
+        <div class="section-title"><span class="icon">🌿</span><h2 style="display:inline">BÖLÜM 1 — PCOS’u Anlamak</h2></div>
+        <p class="paragraph">Polikistik Over Sendromu (PCOS), üreme çağındaki kadınlarda yaygın görülen hormonal bir bozukluktur. Bu sendrom; adet düzensizlikleri, androjen (erkeklik hormonu) fazlalığı (tüylenme, akne), yumurtalıklarda kist oluşumu ve metabolik sorunlar ile karakterizedir.</p>
+        <p class="paragraph">PCOS tedavisinin temelini ilaçlar (doğum kontrol hapları, metformin vb.) oluştursa da, beslenme ve yaşam tarzı değişiklikleri, semptomları hafifletmede en güçlü ve doğal silahtır.</p>
 
-    yesBtn.addEventListener("click", () => {
-      const interval = setInterval(createFalling, 100); // daha sık yağış
-      document.querySelector("h1").style.display = "none";
-      yesBtn.style.display = "none";
-      noBtn.style.display = "none";
+        <h3>Temel Metabolik Tetikleyiciler</h3>
+        <table class="table" aria-label="Tetikleyiciler">
+          <tr><th>Tetikleyici</th><th>Açıklama</th><th>Beslenme Hedefi</th></tr>
+          <tr>
+            <td><b>İnsülin Direnci</b></td>
+            <td>PCOS’lu kadınların %70-90’ında görülür. Vücut hücreleri insüline yeterince yanıt veremediği için pankreas daha fazla insülin üretir. Yüksek insülin, yumurtalıkları daha fazla androjen üretmeye teşvik eder.</td>
+            <td>Kan şekerinde ani dalgalanmaları önlemek, insülin duyarlılığını artırmak.</td>
+          </tr>
+          <tr>
+            <td><b>Kronik Düşük Dereceli İltihaplanma</b></td>
+            <td>Vücutta sürekli devam eden bir "alarm" durumu vardır. Bu durum, insülin direncini ve testosteron üretimini doğrudan tetikler.</td>
+            <td>İltihap karşıtı (anti-inflamatuar) besinleri artırmak, iltihabı artıran gıdaları çıkarmak.</td>
+          </tr>
+          <tr>
+            <td><b>Bağırsak Mikrobiyotası Dengesizliği</b></td>
+            <td>Bağırsak florasındaki denge bozulursa hormon metabolizması etkilenir (Estrobolom etkisi).</td>
+            <td>Probiyotik ve prebiyotik (lifli) gıdalarla bağırsak sağlığını desteklemek.</td>
+          </tr>
+        </table>
+      </article>
 
-      loveMessage.style.display = "block";
-      setTimeout(() => {
-        anniversary.style.display = "block";
-      }, 1500);
-      setTimeout(() => {
-        futureMessage.style.display = "block";
-      }, 3000);
+      <!-- Section 2 -->
+      <article id="bolum2" class="card">
+        <div class="section-title"><span class="icon">🍓</span><h2 style="display:inline">BÖLÜM 2 — Yenilmesi Gereken Süper Gıdalar</h2></div>
+        <p class="paragraph">PCOS diyetinde temel prensip, anti-inflamatuar, düşük glisemik indeksli ve lif açısından zengin beslenmedir.</p>
 
-      setTimeout(() => clearInterval(interval), 7000);
-    });
+        <h3 id="bolum2-1">2.1 İnsülin Direncini Kırmaya Yardımcı Karbonhidratlar</h3>
+        <div class="highlight"><b>Örnekler:</b> Baklagiller (mercimek, nohut), tam tahıllar (kinoa, bulgur), nişastasız sebzeler (ıspanak, brokoli), düşük GI meyveler (yaban mersini, elma).</div>
+        <p class="paragraph">Neden: Bu gıdalar lif ve kompleks karbonhidrat içerikleri sayesinde kan şekerinin düzenlenmesine yardımcı olur; tok tutar ve insülin dalgalanmalarını kontrol eder.</p>
 
-    // Hayır tuşu kaçma olayı
-    noBtn.addEventListener("click", moveNoButton);
-    noBtn.addEventListener("touchstart", moveNoButton);
-
-    function moveNoButton() {
-      const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-      const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
-    }
-  </script>
-</body>
-</html>
+        <h3 id="bolum2-2">2.2 Hormon Dengeleyici ve İltihap Karşıtı Yağlar/Proteinler</h3>
+        <ul>
+          <li><b>Omega-3</b>: Somon, sardalya (haftada 2-3 kez). EPA/DHA anti-inflamatuar etki sağlar.</li>
+          <li><b>Sağlıklı Yağlar</b>: Sızma zeytinyağı, avokado, ceviz, badem, keten tohumu (lignanlar hormon metabolizmasını destekler).</li>
+          <li><b>Yağsız Protein</b>: Yumurta, tavuk göğsü, baklagiller — her öğünde protein bulundurmak glikoz yanıtını dengeler.</li>
