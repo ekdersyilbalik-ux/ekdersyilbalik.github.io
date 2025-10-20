@@ -1,0 +1,189 @@
+/* style.css - Pastel pembe tema, ortak stiller */
+:root{
+  --bg-1: #fff6f9;
+  --accent: #f7d9e3;
+  --accent-2: #f3c3d4;
+  --text: #3d2b30;
+  --muted: #7a5960;
+  --card: #ffffff;
+  --pink-strong: #a74b6f;
+  --glass: rgba(255,255,255,0.6);
+  --shadow: 0 6px 20px rgba(163,95,119,0.08);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family: "Inter", "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg,var(--bg-1), #fffefc);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.55;
+}
+
+/* Header */
+.header{
+  background: linear-gradient(90deg,var(--accent), #fff0f5);
+  padding:28px 20px;
+  text-align:center;
+  border-bottom: 1px solid var(--accent-2);
+  position:sticky;
+  top:0;
+  z-index:60;
+}
+.header h1{
+  margin:0;
+  font-size:28px;
+  color:var(--pink-strong);
+  letter-spacing:0.2px;
+}
+.header p{ margin:6px 0 0; color:var(--muted) }
+
+/* Container */
+.container{
+  display:flex;
+  gap:24px;
+  max-width:1200px;
+  margin:28px auto;
+  padding:0 20px 60px;
+}
+
+/* Left: Table of contents (book style) */
+.toc{
+  width:300px;
+  flex:0 0 300px;
+  position:sticky;
+  top:88px;
+  align-self:flex-start;
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.45));
+  border-radius:12px;
+  padding:16px;
+  box-shadow:var(--shadow);
+  border:1px solid rgba(243,195,212,0.6);
+}
+.toc h3{ margin:0 0 10px; color:var(--pink-strong) }
+.toc nav a{
+  display:block;
+  padding:8px 10px;
+  color:var(--text);
+  text-decoration:none;
+  border-radius:8px;
+  margin-bottom:6px;
+  font-weight:600;
+}
+.toc nav a:hover{ background:#fff0f6; color:var(--pink-strong) }
+
+/* Main content / pages */
+.main{
+  flex:1 1 auto;
+  min-width:0;
+}
+.card{
+  background:var(--card);
+  border-radius:12px;
+  padding:22px;
+  margin-bottom:18px;
+  box-shadow: 0 6px 24px rgba(163,95,119,0.04);
+  border:1px solid rgba(243,195,212,0.35);
+}
+
+/* Section heading */
+.section-title{
+  color:var(--pink-strong);
+  margin:0 0 10px;
+  font-size:20px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+/* Small icon */
+.icon{
+  font-size:18px;
+  opacity:0.95;
+}
+
+/* Tables */
+.table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:12px;
+}
+.table th, .table td{
+  border:1px solid rgba(243,195,212,0.3);
+  padding:10px;
+  text-align:left;
+  vertical-align:top;
+}
+.table th{ background:var(--accent); color:var(--pink-strong) }
+
+/* Highlights */
+.highlight{
+  background: linear-gradient(90deg, rgba(255,234,242,0.9), rgba(255,244,246,0.9));
+  border-left:4px solid #f07ca6;
+  padding:12px;
+  margin:12px 0;
+  border-radius:8px;
+}
+
+/* Lists */
+ul{ padding-left:18px; margin:8px 0 }
+
+/* Motivasyon button */
+.motiv-btn{
+  display:inline-block;
+  margin-top:14px;
+  background: linear-gradient(90deg,#ffb3d1,#ff9fc6);
+  color:white;
+  padding:12px 18px;
+  border-radius:999px;
+  text-decoration:none;
+  font-weight:700;
+  box-shadow: 0 8px 30px rgba(167,75,111,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  transition: transform .14s ease;
+}
+.motiv-btn:hover{ transform: translateY(-3px) }
+
+/* Footer */
+footer{
+  text-align:center;
+  padding:26px 16px;
+  color:var(--muted);
+  margin-top:32px;
+  font-size:14px;
+}
+
+/* Responsive */
+@media (max-width:980px){
+  .container{ flex-direction:column; padding-bottom:40px }
+  .toc{ position:relative; width:100%; top:auto; order:2 }
+  .main{ order:1 }
+}
+
+/* Small decorative */
+.small-muted{ color:var(--muted); font-size:13px }
+
+/* Quote box */
+.quote{
+  background: linear-gradient(180deg,#fff7fb,#fff0f6);
+  border-radius:10px;
+  padding:14px;
+  text-align:center;
+  border:1px solid rgba(240,188,210,0.5);
+  margin-top:14px;
+  font-style:italic;
+  color:var(--pink-strong);
+}
+
+/* For print-like spacing in long paragraphs */
+.paragraph{ margin:10px 0 }
+
+/* Link style inside content */
+a.inline-link{ color:var(--pink-strong); text-decoration:underline; font-weight:600 }
+
+/* small table responsiveness */
+@media (max-width:600px){
+  .table th, .table td{ padding:8px; font-size:14px }
+}
