@@ -3,363 +3,421 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kasımpatı Animasyonu</title>
+    <title>Seni Seviyorum Esmam</title>
     <style>
-        * {
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Pinyon+Script&display=swap');
+
+        body, html {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 50%, #e0c3fc 100%);
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
-        }
-
-        .message {
-            font-size: 2.8em;
-            color: #5a4a6a;
-            text-align: center;
-            margin-bottom: 60px;
-            text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.8);
-            animation: fadeInDown 1.2s ease-out;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .container {
-            position: relative;
-            width: 400px;
-            height: 400px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .flower {
-            position: relative;
-            width: 200px;
-            height: 200px;
-        }
-
-        .center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            width: 70px;
-            height: 70px;
-            background: radial-gradient(circle, #FFE082 0%, #FFB74D 50%, #FF9800 100%);
-            border-radius: 50%;
-            z-index: 10;
-            box-shadow: 0 0 30px rgba(255, 184, 77, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.3);
-            animation: centerAppear 0.8s ease-out 0.5s forwards, pulse 3s ease-in-out 1.3s infinite;
-        }
-
-        @keyframes centerAppear {
-            to {
-                transform: translate(-50%, -50%) scale(1);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: translate(-50%, -50%) scale(1);
-                box-shadow: 0 0 30px rgba(255, 184, 77, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.3);
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.08);
-                box-shadow: 0 0 40px rgba(255, 184, 77, 1), inset 0 0 25px rgba(255, 255, 255, 0.4);
-            }
-        }
-
-        .petal {
-            position: absolute;
-            width: 45px;
-            height: 90px;
-            background: linear-gradient(135deg, #FFF9E6 0%, #FFE5B4 30%, #FFD89B 70%, #FFC97E 100%);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            top: 50%;
-            left: 50%;
-            transform-origin: 50% 0;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.15), inset 0 -2px 5px rgba(255, 255, 255, 0.5);
-            opacity: 0;
-            transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(-60px) scale(0);
-            animation: petalAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, float 4s ease-in-out infinite;
-        }
-
-        .petal::before {
-            content: '';
-            position: absolute;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 245, 220, 0.8) 50%, rgba(255, 230, 180, 0.6) 100%);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            opacity: 0.8;
+            overflow: hidden;
+            background-color: #0f050a; /* Çok koyu mor/siyah */
+            background: radial-gradient(circle at 50% 30%, #2a0e1e 0%, #0f050a 100%);
         }
 
-        .petal::after {
-            content: '';
+        #canvas-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        /* Yazı Tasarımı - Sinematik ve Zarif */
+        #ui-layer {
             position: absolute;
-            width: 60%;
-            height: 30%;
-            top: 10%;
-            left: 20%;
-            background: radial-gradient(ellipse, rgba(255, 200, 120, 0.4) 0%, transparent 70%);
-            border-radius: 50%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Dikey ortalama yerine görsel denge */
+            align-items: center;
+            padding-top: 5vh; 
+            z-index: 10;
         }
 
-        .petal:nth-child(1) {
-            --rot: 0deg;
-            animation: petalAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.8s forwards, float 4s ease-in-out 1.4s infinite;
-        }
-
-        .petal:nth-child(2) {
-            --rot: 20deg;
-            animation: petalAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.9s forwards, float 4s ease-in-out 1.5s infinite;
-        }
-
-        .petal:nth-child(3) {
-            --rot: 40deg;
-            animation: petalAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1s forwards, float 4s ease-in-out 1.6s infinite;
-        }
-
-        .petal:nth-child(4) {
-            --rot: 60deg;
-            animation: petalAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.1s forwards, float 4s ease-in-out 1.7s infinite;
-        }
-
-        .petal:nth-child(5) {
-            --rot: 80deg;
-            animation: petalAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.2s forwards, float 4s ease-in-out 1.8s infinite;
-        }
-
-        .petal:nth-child(6) {
-            --rot: 100deg;
-            animation: petalAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.3s forwards, float 4s ease-in-out 1.9s infinite;
-        }
-
-        .petal:nth-child(7) {
-            --rot: 120deg;
-            animation: petalAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.4s forwards, float 4s ease-in-out 2s infinite;
-        }
-
-        .petal:nth-child(8) {
-            --rot: 140deg;
-            animation: petalAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.5s forwards, float 4s ease-in-out 2.1s infinite;
-        }
-
-        .petal:nth-child(9) {
-            --rot: 160deg;
-            animation: petalAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.6s forwards, float 4s ease-in-out 2.2s infinite;
-        }
-
-        .petal:nth-child(10) {
-            --rot: 180deg;
-            animation: petalAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.7s forwards, float 4s ease-in-out 2.3s infinite;
-        }
-
-        .petal:nth-child(11) {
-            --rot: 200deg;
-            animation: petalAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.8s forwards, float 4s ease-in-out 2.4s infinite;
-        }
-
-        .petal:nth-child(12) {
-            --rot: 220deg;
-            animation: petalAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.9s forwards, float 4s ease-in-out 2.5s infinite;
-        }
-
-        .petal:nth-child(13) {
-            --rot: 240deg;
-            animation: petalAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 2s forwards, float 4s ease-in-out 2.6s infinite;
-        }
-
-        .petal:nth-child(14) {
-            --rot: 260deg;
-            animation: petalAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 2.1s forwards, float 4s ease-in-out 2.7s infinite;
-        }
-
-        .petal:nth-child(15) {
-            --rot: 280deg;
-            animation: petalAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 2.2s forwards, float 4s ease-in-out 2.8s infinite;
-        }
-
-        .petal:nth-child(16) {
-            --rot: 300deg;
-            animation: petalAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 2.3s forwards, float 4s ease-in-out 2.9s infinite;
-        }
-
-        .petal:nth-child(17) {
-            --rot: 320deg;
-            animation: petalAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 2.4s forwards, float 4s ease-in-out 3s infinite;
-        }
-
-        .petal:nth-child(18) {
-            --rot: 340deg;
-            animation: petalAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 2.5s forwards, float 4s ease-in-out 3.1s infinite;
-        }
-
-        @keyframes petalAppear {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(-60px) scale(0) rotateZ(-90deg);
-            }
-            100% {
-                opacity: 1;
-                transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(-60px) scale(1) rotateZ(0deg);
-            }
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(-60px) scale(1) rotateZ(0deg);
-            }
-            25% {
-                transform: translate(-50%, -50%) rotate(calc(var(--rot, 0deg) + 2deg)) translateY(-65px) scale(1.02) rotateZ(1deg);
-            }
-            50% {
-                transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(-70px) scale(1.05) rotateZ(0deg);
-            }
-            75% {
-                transform: translate(-50%, -50%) rotate(calc(var(--rot, 0deg) - 2deg)) translateY(-65px) scale(1.02) rotateZ(-1deg);
-            }
-        }
-
-        .leaf {
-            position: absolute;
-            width: 35px;
-            height: 60px;
-            background: linear-gradient(135deg, #81C784 0%, #66BB6A 50%, #4CAF50 100%);
-            border-radius: 0 100% 0 100%;
-            top: 50%;
-            left: 50%;
-            transform-origin: 50% 0;
+        .main-title {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 5rem;
+            color: #ffb7d5;
+            text-shadow: 0 0 10px rgba(255, 183, 213, 0.6), 0 0 20px rgba(255, 183, 213, 0.4);
             opacity: 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 -2px 5px rgba(76, 175, 80, 0.3);
-            animation: leafAppear 0.8s ease-out 2.8s forwards, leafSway 3s ease-in-out 3.6s infinite;
+            transform: translateY(20px);
+            animation: fadeInMove 2s ease-out forwards;
+            animation-delay: 3s; /* Çiçek büyümeye başlayınca gelsin */
+            margin: 0;
         }
 
-        .leaf:nth-child(19) {
-            --leaf-rot: 45deg;
-            --leaf-x: -30px;
-            transform: translate(-50%, -50%) rotate(45deg) translateY(100px) translateX(-30px) scale(0);
-        }
-
-        .leaf:nth-child(20) {
-            --leaf-rot: -45deg;
-            --leaf-x: 30px;
-            transform: translate(-50%, -50%) rotate(-45deg) translateY(100px) translateX(30px) scale(0);
-        }
-
-        @keyframes leafAppear {
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%) rotate(var(--leaf-rot, 45deg)) translateY(100px) translateX(var(--leaf-x, -30px)) scale(1);
-            }
-        }
-
-        @keyframes leafSway {
-            0%, 100% {
-                transform: translate(-50%, -50%) rotate(var(--leaf-rot, 45deg)) translateY(100px) translateX(var(--leaf-x, -30px)) scale(1) rotateZ(0deg);
-            }
-            50% {
-                transform: translate(-50%, -50%) rotate(calc(var(--leaf-rot, 45deg) + 3deg)) translateY(100px) translateX(var(--leaf-x, -30px)) scale(1) rotateZ(2deg);
-            }
-        }
-
-        .sparkle {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            background: radial-gradient(circle, #FFE082 0%, #FFB74D 100%);
-            border-radius: 50%;
+        .name-title {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem;
+            letter-spacing: 15px;
+            color: #ffffff;
+            font-weight: 700;
+            background: linear-gradient(to bottom, #fff, #d4a0b5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
             opacity: 0;
-            box-shadow: 0 0 10px rgba(255, 184, 77, 0.8);
-            animation: sparkle 3s ease-in-out infinite;
-        }
-
-        .sparkle:nth-child(21) {
-            top: 20%;
-            left: 30%;
-            animation-delay: 3s;
-        }
-
-        .sparkle:nth-child(22) {
-            top: 30%;
-            right: 25%;
-            animation-delay: 3.5s;
-        }
-
-        .sparkle:nth-child(23) {
-            bottom: 25%;
-            left: 20%;
-            animation-delay: 4s;
-        }
-
-        .sparkle:nth-child(24) {
-            bottom: 30%;
-            right: 30%;
+            transform: scale(0.9);
+            animation: fadeInScale 2s ease-out forwards;
             animation-delay: 4.5s;
+            margin-top: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 10px;
         }
 
-        @keyframes sparkle {
-            0%, 100% {
-                opacity: 0;
-                transform: scale(0) rotate(0deg);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.5) rotate(180deg);
-            }
+        @keyframes fadeInMove {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInScale {
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Mobil Ayarlar */
+        @media (max-width: 768px) {
+            .main-title { font-size: 3rem; }
+            .name-title { font-size: 2rem; letter-spacing: 8px; }
+            #ui-layer { padding-top: 10vh; justify-content: flex-start; }
         }
     </style>
 </head>
 <body>
-    <div class="message">Seni çok seviyorum Esmam</div>
-    <div class="container">
-        <div class="flower">
-            <div class="center"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="leaf"></div>
-            <div class="leaf"></div>
-            <div class="sparkle"></div>
-            <div class="sparkle"></div>
-            <div class="sparkle"></div>
-            <div class="sparkle"></div>
+
+    <div id="canvas-container">
+        <canvas id="mainCanvas"></canvas>
+        <div id="ui-layer">
+            <h1 class="main-title">Seni Çok Seviyorum</h1>
+            <h2 class="name-title">ESMAM</h2>
         </div>
     </div>
+
+    <script>
+        const canvas = document.getElementById('mainCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let w, h;
+        // Konfigürasyon
+        const flowerColor = { h: 330, s: 80, l: 45 }; // Kasımpatı pembesi
+        const stemColor = { h: 90, s: 30, l: 25 };   // Koyu doğal yeşil
+
+        function resize() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        // --- YARDIMCI FONKSİYONLAR ---
+        const rand = (min, max) => Math.random() * (max - min) + min;
+        
+        // --- ÇİZİM SINIFI ---
+        class ChrysanthemumSystem {
+            constructor() {
+                this.stemPoints = [];
+                this.flowerX = w / 2;
+                this.flowerY = h * 0.55; // Çiçeğin konumu
+                this.growth = 0; // 0 -> 1 (Büyüme evresi)
+                this.state = 'stem'; // stem, leaves, bloom, finished
+                this.leaves = [];
+                this.petals = [];
+                
+                // Sap yolu hesapla (Bezier curve noktaları)
+                this.calculateStem();
+                // Yaprak konumlarını hazırla
+                this.calculateLeaves();
+                // Çiçek yapraklarını hazırla
+                this.calculatePetals();
+            }
+
+            calculateStem() {
+                // Ekranın altından çiçeğin merkezine doğru kıvrımlı bir yol
+                let startX = w / 2 + rand(-20, 20);
+                let startY = h + 20;
+                
+                // Kontrol noktaları (hafif 'S' çizmesi için)
+                let cp1x = w / 2 - rand(50, 100);
+                let cp1y = h * 0.8;
+                let cp2x = w / 2 + rand(50, 100);
+                let cp2y = h * 0.7;
+
+                // Bu eğri boyunca nokta örnekleyerek sapı oluşturacağız
+                for(let t = 0; t <= 1; t += 0.005) {
+                    let x = this.cubicBezier(t, startX, cp1x, cp2x, this.flowerX);
+                    let y = this.cubicBezier(t, startY, h*0.9, h*0.7, this.flowerY);
+                    // Kalınlık aşağıda fazla, yukarıda az
+                    let thickness = (1 - t) * 8 + 3; 
+                    this.stemPoints.push({x, y, thickness, t});
+                }
+            }
+
+            cubicBezier(t, p0, p1, p2, p3) {
+                let cX = 3 * (p1 - p0),
+                    bX = 3 * (p2 - p1) - cX,
+                    aX = p3 - p0 - cX - bX;
+                return (aX * Math.pow(t, 3)) + (bX * Math.pow(t, 2)) + (cX * t) + p0;
+            }
+
+            calculateLeaves() {
+                // Sapın belirli noktalarına yaprak ekle
+                // Sağlı sollu 3-4 yaprak
+                const leafpositions = [0.3, 0.5, 0.7];
+                leafpositions.forEach((tPos, i) => {
+                    let index = Math.floor(tPos * this.stemPoints.length);
+                    let point = this.stemPoints[index];
+                    let dir = (i % 2 === 0) ? 1 : -1; // Bir sağa bir sola
+                    
+                    this.leaves.push({
+                        startX: point.x,
+                        startY: point.y,
+                        direction: dir,
+                        size: rand(60, 90),
+                        angle: rand(0, 0.3) * dir - (0.5 * dir), // Hafif yukarı
+                        growProgress: 0,
+                        delay: tPos * 100 // Sap oraya gelince büyüsün
+                    });
+                });
+            }
+
+            calculatePetals() {
+                // Fibonacci spirali ile gerçekçi dizilim
+                const totalPetals = 400;
+                const goldenAngle = Math.PI * (3 - Math.sqrt(5)); // ~137.5 derece
+                
+                for(let i = 0; i < totalPetals; i++) {
+                    let r = 5 * Math.sqrt(i); // Yarıçap
+                    let theta = i * goldenAngle; // Açı
+                    
+                    let x = r * Math.cos(theta);
+                    let y = r * Math.sin(theta);
+                    
+                    // Merkezdeki yapraklar küçük ve kapalı, dıştakiler uzun ve açık
+                    let ratio = i / totalPetals;
+                    let length = 5 + ratio * 60; // Uzunluk artar
+                    let width = 3 + ratio * 15;  // Genişlik artar
+                    
+                    this.petals.push({
+                        dx: x, dy: y,
+                        angle: theta,
+                        len: length,
+                        wid: width,
+                        ratio: ratio,
+                        colorOffset: rand(-10, 10),
+                        growP: 0
+                    });
+                }
+                // Dıştan içe çizmek için ters çevir (veya tam tersi, ressam algoritması)
+                this.petals.reverse(); 
+            }
+
+            drawStem(ctx) {
+                if (this.stemPoints.length < 2) return;
+                
+                // Sapı büyüme oranına göre çiz
+                let maxIndex = Math.floor(this.stemPoints.length * Math.min(1, this.growth * 2));
+                
+                ctx.beginPath();
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                
+                // Çizgi çizgi çizerek doku verelim
+                for (let i = 0; i < maxIndex - 1; i++) {
+                    let p1 = this.stemPoints[i];
+                    let p2 = this.stemPoints[i+1];
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(p1.x, p1.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.lineWidth = p1.thickness;
+                    // Sap rengi gradienti
+                    ctx.strokeStyle = `hsl(${stemColor.h}, ${stemColor.s}%, ${stemColor.l + (i/20)}%)`;
+                    ctx.stroke();
+                    
+                    // Hafif gölge/doku çizgisi
+                    ctx.beginPath();
+                    ctx.moveTo(p1.x - p1.thickness*0.3, p1.y);
+                    ctx.lineTo(p2.x - p2.thickness*0.3, p2.y);
+                    ctx.lineWidth = 1;
+                    ctx.strokeStyle = `rgba(0,0,0,0.2)`;
+                    ctx.stroke();
+                }
+            }
+
+            drawSingleLeaf(ctx, leaf) {
+                if (this.growth * 100 < leaf.delay) return; // Henüz sırası gelmedi
+                
+                // Yaprak büyümesi
+                if (leaf.growProgress < 1) leaf.growProgress += 0.02;
+                let s = leaf.size * leaf.growProgress;
+                
+                ctx.save();
+                ctx.translate(leaf.startX, leaf.startY);
+                ctx.rotate(leaf.angle);
+                
+                // Kasımpatı yaprağı formu (Girintili)
+                ctx.beginPath();
+                ctx.fillStyle = `hsl(${stemColor.h}, ${stemColor.s + 10}%, ${stemColor.l + 5}%)`;
+                
+                let dir = leaf.direction;
+                
+                ctx.moveTo(0, 0);
+                // Yaprak ana hattı (Bezier ile tırtıklı yapı)
+                ctx.bezierCurveTo(20*dir*leaf.growProgress, -10, 40*dir*leaf.growProgress, -20, s*dir, 0);
+                ctx.bezierCurveTo(40*dir*leaf.growProgress, 20, 20*dir*leaf.growProgress, 10, 0, 0);
+                
+                ctx.fill();
+                
+                // Damar
+                ctx.beginPath();
+                ctx.strokeStyle = "rgba(255,255,255,0.1)";
+                ctx.lineWidth = 1;
+                ctx.moveTo(0,0);
+                ctx.quadraticCurveTo(s*0.5*dir, -5, s*0.9*dir, 0);
+                ctx.stroke();
+
+                ctx.restore();
+            }
+
+            drawBloom(ctx) {
+                if (this.growth < 0.5) return; // Sap yarıyı geçince çiçek başlasın
+                
+                let bloomLocalGrowth = (this.growth - 0.5) * 2; // 0 -> 1 arası
+                if (bloomLocalGrowth > 1) bloomLocalGrowth = 1;
+
+                ctx.save();
+                ctx.translate(this.flowerX, this.flowerY);
+
+                // Çanak (Çiçeğin altındaki yeşil kısım)
+                if (bloomLocalGrowth > 0) {
+                    ctx.beginPath();
+                    ctx.fillStyle = '#1a330a';
+                    ctx.arc(0, 10, 10 * bloomLocalGrowth, 0, Math.PI*2);
+                    ctx.fill();
+                }
+
+                // Yapraklar
+                // Kasımpatı yaprakları çok katmanlıdır.
+                this.petals.forEach((p, i) => {
+                    // Her yaprak sırayla açılsın
+                    let activationThreshold = (1 - p.ratio); // İçtekiler en son
+                    if (bloomLocalGrowth < activationThreshold * 0.5) return;
+                    
+                    if (p.growP < 1) p.growP += 0.05;
+
+                    ctx.save();
+                    // Hafif kıvrım açısı
+                    ctx.rotate(p.angle);
+                    
+                    // Renk - Merkez koyu, dışlar açık
+                    let h = flowerColor.h + p.colorOffset;
+                    let l = flowerColor.l + (p.ratio * 20); // Dışarısı parlak
+                    let s = flowerColor.s;
+                    
+                    // Şeffaflık ile ipeksi doku
+                    ctx.fillStyle = `hsla(${h}, ${s}%, ${l}%, 0.9)`;
+                    
+                    // Yaprak çizimi
+                    let currentLen = p.len * p.growP * bloomLocalGrowth;
+                    let currentWid = p.wid * p.growP;
+
+                    ctx.beginPath();
+                    // Yaprak şekli: Ucu sivri, ortası geniş oval
+                    ctx.moveTo(0, 0);
+                    ctx.quadraticCurveTo(currentWid/2, currentLen/2, 0, currentLen);
+                    ctx.quadraticCurveTo(-currentWid/2, currentLen/2, 0, 0);
+                    
+                    // Hafif gölgelendirme (yaprağın yarısına)
+                    ctx.fill();
+                    
+                    // Yaprak ortasına ince çizgi (derinlik)
+                    ctx.strokeStyle = `hsla(${h}, ${s}%, ${l-10}%, 0.5)`;
+                    ctx.lineWidth = 0.5;
+                    ctx.stroke();
+
+                    ctx.restore();
+                });
+
+                ctx.restore();
+            }
+
+            update() {
+                if (this.growth < 1.5) { // 1.0'ı geçmesine izin ver, bekleme payı
+                    this.growth += 0.003; 
+                }
+            }
+
+            draw(ctx) {
+                this.drawStem(ctx);
+                this.leaves.forEach(leaf => this.drawSingleLeaf(ctx, leaf));
+                this.drawBloom(ctx);
+            }
+        }
+
+        // --- PARTİKÜL SİSTEMİ (Atmosfer için) ---
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = rand(0, w);
+                this.y = rand(0, h);
+                this.vx = rand(-0.5, 0.5);
+                this.vy = rand(-0.5, -0.1); // Hafif yukarı
+                this.size = rand(0.5, 2);
+                this.alpha = rand(0, 1);
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= 0.005;
+                if(this.alpha <= 0 || this.y < 0) this.reset();
+            }
+            draw(ctx) {
+                ctx.fillStyle = `rgba(255, 200, 220, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+                ctx.fill();
+            }
+        }
+
+        // --- ANA DÖNGÜ ---
+        const plant = new ChrysanthemumSystem();
+        const particles = Array.from({ length: 50 }, () => new Particle());
+
+        function animate() {
+            // Hafif iz bırakarak silme (Motion blur etkisi yaratmaz ama yumuşatır)
+            // Ama temiz bir görünüm istiyoruz, o yüzden tam temizle:
+            ctx.clearRect(0, 0, w, h);
+
+            // Arkaplan ışığı (Vignette)
+            let grad = ctx.createRadialGradient(w/2, h/2, 0, w/2, h/2, h);
+            grad.addColorStop(0, "rgba(40, 10, 30, 0.2)");
+            grad.addColorStop(1, "rgba(0, 0, 0, 0.8)");
+            ctx.fillStyle = grad;
+            ctx.fillRect(0,0,w,h);
+
+            // Partikülleri çiz
+            particles.forEach(p => {
+                p.update();
+                p.draw(ctx);
+            });
+
+            // Bitkiyi güncelle ve çiz
+            plant.update();
+            plant.draw(ctx);
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+    </script>
 </body>
 </html>
