@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seni Seviyorum Esmam</title>
+    <title>Esmam İçin Buket</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Pinyon+Script&display=swap');
 
@@ -13,8 +13,9 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: #0f050a; /* Çok koyu mor/siyah */
-            background: radial-gradient(circle at 50% 30%, #2a0e1e 0%, #0f050a 100%);
+            background-color: #050203;
+            /* Gece atmosferi */
+            background: radial-gradient(circle at 50% 40%, #1f0b16 0%, #000000 100%);
         }
 
         #canvas-container {
@@ -27,7 +28,7 @@
             display: block;
         }
 
-        /* Yazı Tasarımı - Sinematik ve Zarif */
+        /* Yazı Katmanı */
         #ui-layer {
             position: absolute;
             top: 0;
@@ -37,41 +38,42 @@
             pointer-events: none;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Dikey ortalama yerine görsel denge */
+            justify-content: flex-start; /* Yazıyı biraz yukarı alalım */
             align-items: center;
-            padding-top: 5vh; 
-            z-index: 10;
+            padding-top: 8vh;
+            z-index: 20; /* Çiçeklerin önünde olsun */
+            /* Hafif bir gölge efekti ki çiçeklerin üstünde okunabilsin */
+            text-shadow: 0 4px 10px rgba(0,0,0,0.8);
         }
 
         .main-title {
             font-family: 'Pinyon Script', cursive;
-            font-size: 5rem;
-            color: #ffb7d5;
-            text-shadow: 0 0 10px rgba(255, 183, 213, 0.6), 0 0 20px rgba(255, 183, 213, 0.4);
+            font-size: 4.5rem;
+            color: #ffe6f2; /* Çok açık pembe */
+            text-shadow: 0 0 10px rgba(255, 183, 213, 0.4);
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInMove 2s ease-out forwards;
-            animation-delay: 3s; /* Çiçek büyümeye başlayınca gelsin */
+            animation-delay: 4s; /* Çiçekler biraz büyüyünce gelsin */
             margin: 0;
         }
 
         .name-title {
             font-family: 'Cinzel', serif;
-            font-size: 3.5rem;
-            letter-spacing: 15px;
-            color: #ffffff;
+            font-size: 3rem;
+            letter-spacing: 12px;
             font-weight: 700;
-            background: linear-gradient(to bottom, #fff, #d4a0b5);
+            /* Altın/Rose Gold geçişi */
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
             opacity: 0;
             transform: scale(0.9);
             animation: fadeInScale 2s ease-out forwards;
-            animation-delay: 4.5s;
-            margin-top: 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
+            animation-delay: 5.5s;
+            margin-top: 15px;
             padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
         }
 
         @keyframes fadeInMove {
@@ -81,11 +83,9 @@
             to { opacity: 1; transform: scale(1); }
         }
 
-        /* Mobil Ayarlar */
         @media (max-width: 768px) {
             .main-title { font-size: 3rem; }
-            .name-title { font-size: 2rem; letter-spacing: 8px; }
-            #ui-layer { padding-top: 10vh; justify-content: flex-start; }
+            .name-title { font-size: 2rem; letter-spacing: 5px; }
         }
     </style>
 </head>
@@ -104,9 +104,18 @@
         const ctx = canvas.getContext('2d');
 
         let w, h;
-        // Konfigürasyon
-        const flowerColor = { h: 330, s: 80, l: 45 }; // Kasımpatı pembesi
-        const stemColor = { h: 90, s: 30, l: 25 };   // Koyu doğal yeşil
+        
+        // --- Renk Paleti (Kasımpatı Tonları) ---
+        const palettes = [
+            { h: 340, s: 80, l: 50, name: "Derin Pembe" },
+            { h: 30, s: 100, l: 93, name: "Beyaz" }, // Beyaz/Krem
+            { h: 45, s: 90, l: 55, name: "Altın Sarısı" },
+            { h: 260, s: 60, l: 50, name: "Mor" },
+            { h: 355, s: 85, l: 45, name: "Kırmızı" },
+            { h: 320, s: 70, l: 60, name: "Açık Pembe" }
+        ];
+
+        const stemColor = { h: 100, s: 35, l: 25 };
 
         function resize() {
             w = canvas.width = window.innerWidth;
@@ -115,45 +124,48 @@
         resize();
         window.addEventListener('resize', resize);
 
-        // --- YARDIMCI FONKSİYONLAR ---
         const rand = (min, max) => Math.random() * (max - min) + min;
-        
-        // --- ÇİZİM SINIFI ---
-        class ChrysanthemumSystem {
-            constructor() {
+
+        // --- Çiçek Sınıfı ---
+        class Chrysanthemum {
+            constructor(targetX, targetY, colorObj, delay, scale = 1) {
+                this.targetX = targetX;
+                this.targetY = targetY;
+                this.color = colorObj;
+                this.delay = delay;
+                this.scaleFactor = scale; // Bazıları daha küçük/büyük olsun
+                
                 this.stemPoints = [];
-                this.flowerX = w / 2;
-                this.flowerY = h * 0.55; // Çiçeğin konumu
-                this.growth = 0; // 0 -> 1 (Büyüme evresi)
-                this.state = 'stem'; // stem, leaves, bloom, finished
+                this.growth = 0; 
                 this.leaves = [];
                 this.petals = [];
                 
-                // Sap yolu hesapla (Bezier curve noktaları)
+                this.started = false; // Gecikme kontrolü için
+
                 this.calculateStem();
-                // Yaprak konumlarını hazırla
                 this.calculateLeaves();
-                // Çiçek yapraklarını hazırla
                 this.calculatePetals();
             }
 
             calculateStem() {
-                // Ekranın altından çiçeğin merkezine doğru kıvrımlı bir yol
-                let startX = w / 2 + rand(-20, 20);
-                let startY = h + 20;
-                
-                // Kontrol noktaları (hafif 'S' çizmesi için)
-                let cp1x = w / 2 - rand(50, 100);
-                let cp1y = h * 0.8;
-                let cp2x = w / 2 + rand(50, 100);
-                let cp2y = h * 0.7;
+                // Hepsi aşağıda ortadan (buket gibi) çıksın
+                // Ama tam tek noktadan değil, hafif dağınık
+                let startX = w / 2 + rand(-30, 30);
+                let startY = h + 100;
 
-                // Bu eğri boyunca nokta örnekleyerek sapı oluşturacağız
-                for(let t = 0; t <= 1; t += 0.005) {
-                    let x = this.cubicBezier(t, startX, cp1x, cp2x, this.flowerX);
-                    let y = this.cubicBezier(t, startY, h*0.9, h*0.7, this.flowerY);
-                    // Kalınlık aşağıda fazla, yukarıda az
-                    let thickness = (1 - t) * 8 + 3; 
+                // Kontrol noktalarıyla eğri çiz
+                // CP1 ve CP2 sapın nasıl büküleceğini belirler
+                let cp1x = w / 2 + (this.targetX - w/2) * 0.2; // Hafif çıkış
+                let cp1y = h * 0.9;
+                let cp2x = this.targetX; 
+                let cp2y = this.targetY + 150; // Çiçeğin altına doğru dikleş
+
+                for(let t = 0; t <= 1; t += 0.01) {
+                    let x = this.cubicBezier(t, startX, cp1x, cp2x, this.targetX);
+                    let y = this.cubicBezier(t, startY, h*0.95, cp2y, this.targetY);
+                    
+                    // Kalınlık
+                    let thickness = ((1 - t) * 6 + 2) * this.scaleFactor;
                     this.stemPoints.push({x, y, thickness, t});
                 }
             }
@@ -166,42 +178,44 @@
             }
 
             calculateLeaves() {
-                // Sapın belirli noktalarına yaprak ekle
-                // Sağlı sollu 3-4 yaprak
-                const leafpositions = [0.3, 0.5, 0.7];
-                leafpositions.forEach((tPos, i) => {
+                // Sap üzerinde rastgele yapraklar
+                let numLeaves = Math.floor(rand(2, 5));
+                for(let i=0; i<numLeaves; i++) {
+                    let tPos = rand(0.3, 0.8); // Sapın %30'u ile %80'i arasında
                     let index = Math.floor(tPos * this.stemPoints.length);
+                    // Dizi sınırlarını kontrol et
+                    if(!this.stemPoints[index]) continue;
+                    
                     let point = this.stemPoints[index];
-                    let dir = (i % 2 === 0) ? 1 : -1; // Bir sağa bir sola
+                    let dir = (rand(0, 1) > 0.5) ? 1 : -1;
                     
                     this.leaves.push({
-                        startX: point.x,
-                        startY: point.y,
-                        direction: dir,
-                        size: rand(60, 90),
-                        angle: rand(0, 0.3) * dir - (0.5 * dir), // Hafif yukarı
-                        growProgress: 0,
-                        delay: tPos * 100 // Sap oraya gelince büyüsün
+                        x: point.x,
+                        y: point.y,
+                        dir: dir,
+                        size: rand(40, 70) * this.scaleFactor,
+                        angle: rand(-0.2, 0.4),
+                        growP: 0,
+                        triggerT: tPos
                     });
-                });
+                }
             }
 
             calculatePetals() {
-                // Fibonacci spirali ile gerçekçi dizilim
-                const totalPetals = 400;
-                const goldenAngle = Math.PI * (3 - Math.sqrt(5)); // ~137.5 derece
+                const totalPetals = 350; 
+                const goldenAngle = Math.PI * (3 - Math.sqrt(5));
                 
                 for(let i = 0; i < totalPetals; i++) {
-                    let r = 5 * Math.sqrt(i); // Yarıçap
-                    let theta = i * goldenAngle; // Açı
+                    let r = 4 * Math.sqrt(i) * this.scaleFactor;
+                    let theta = i * goldenAngle;
                     
                     let x = r * Math.cos(theta);
                     let y = r * Math.sin(theta);
                     
-                    // Merkezdeki yapraklar küçük ve kapalı, dıştakiler uzun ve açık
                     let ratio = i / totalPetals;
-                    let length = 5 + ratio * 60; // Uzunluk artar
-                    let width = 3 + ratio * 15;  // Genişlik artar
+                    // Dıştaki yapraklar uzun, içtekiler kısa
+                    let length = (5 + ratio * 50) * this.scaleFactor;
+                    let width = (3 + ratio * 12) * this.scaleFactor;
                     
                     this.petals.push({
                         dx: x, dy: y,
@@ -209,209 +223,231 @@
                         len: length,
                         wid: width,
                         ratio: ratio,
-                        colorOffset: rand(-10, 10),
+                        colorVar: rand(-15, 15), // Hafif ton farkı
                         growP: 0
                     });
                 }
-                // Dıştan içe çizmek için ters çevir (veya tam tersi, ressam algoritması)
-                this.petals.reverse(); 
+                this.petals.reverse();
             }
 
-            drawStem(ctx) {
-                if (this.stemPoints.length < 2) return;
-                
-                // Sapı büyüme oranına göre çiz
-                let maxIndex = Math.floor(this.stemPoints.length * Math.min(1, this.growth * 2));
-                
-                ctx.beginPath();
-                ctx.lineCap = 'round';
-                ctx.lineJoin = 'round';
-                
-                // Çizgi çizgi çizerek doku verelim
-                for (let i = 0; i < maxIndex - 1; i++) {
-                    let p1 = this.stemPoints[i];
-                    let p2 = this.stemPoints[i+1];
-                    
-                    ctx.beginPath();
-                    ctx.moveTo(p1.x, p1.y);
-                    ctx.lineTo(p2.x, p2.y);
-                    ctx.lineWidth = p1.thickness;
-                    // Sap rengi gradienti
-                    ctx.strokeStyle = `hsl(${stemColor.h}, ${stemColor.s}%, ${stemColor.l + (i/20)}%)`;
-                    ctx.stroke();
-                    
-                    // Hafif gölge/doku çizgisi
-                    ctx.beginPath();
-                    ctx.moveTo(p1.x - p1.thickness*0.3, p1.y);
-                    ctx.lineTo(p2.x - p2.thickness*0.3, p2.y);
-                    ctx.lineWidth = 1;
-                    ctx.strokeStyle = `rgba(0,0,0,0.2)`;
-                    ctx.stroke();
+            update(globalTime) {
+                // Zamanlama kontrolü
+                if (globalTime < this.delay) return;
+                this.started = true;
+
+                if (this.growth < 1.3) {
+                    this.growth += 0.004; // Büyüme hızı
                 }
             }
 
-            drawSingleLeaf(ctx, leaf) {
-                if (this.growth * 100 < leaf.delay) return; // Henüz sırası gelmedi
-                
-                // Yaprak büyümesi
-                if (leaf.growProgress < 1) leaf.growProgress += 0.02;
-                let s = leaf.size * leaf.growProgress;
-                
-                ctx.save();
-                ctx.translate(leaf.startX, leaf.startY);
-                ctx.rotate(leaf.angle);
-                
-                // Kasımpatı yaprağı formu (Girintili)
-                ctx.beginPath();
-                ctx.fillStyle = `hsl(${stemColor.h}, ${stemColor.s + 10}%, ${stemColor.l + 5}%)`;
-                
-                let dir = leaf.direction;
-                
-                ctx.moveTo(0, 0);
-                // Yaprak ana hattı (Bezier ile tırtıklı yapı)
-                ctx.bezierCurveTo(20*dir*leaf.growProgress, -10, 40*dir*leaf.growProgress, -20, s*dir, 0);
-                ctx.bezierCurveTo(40*dir*leaf.growProgress, 20, 20*dir*leaf.growProgress, 10, 0, 0);
-                
-                ctx.fill();
-                
-                // Damar
-                ctx.beginPath();
-                ctx.strokeStyle = "rgba(255,255,255,0.1)";
-                ctx.lineWidth = 1;
-                ctx.moveTo(0,0);
-                ctx.quadraticCurveTo(s*0.5*dir, -5, s*0.9*dir, 0);
-                ctx.stroke();
+            draw(ctx) {
+                if (!this.started) return;
 
-                ctx.restore();
-            }
-
-            drawBloom(ctx) {
-                if (this.growth < 0.5) return; // Sap yarıyı geçince çiçek başlasın
+                // 1. Sapı Çiz
+                // Sapın ne kadarı çizilecek?
+                let visibleStemIndex = Math.floor(this.stemPoints.length * Math.min(1, this.growth * 1.5));
                 
-                let bloomLocalGrowth = (this.growth - 0.5) * 2; // 0 -> 1 arası
-                if (bloomLocalGrowth > 1) bloomLocalGrowth = 1;
-
-                ctx.save();
-                ctx.translate(this.flowerX, this.flowerY);
-
-                // Çanak (Çiçeğin altındaki yeşil kısım)
-                if (bloomLocalGrowth > 0) {
+                if (visibleStemIndex > 1) {
                     ctx.beginPath();
-                    ctx.fillStyle = '#1a330a';
-                    ctx.arc(0, 10, 10 * bloomLocalGrowth, 0, Math.PI*2);
-                    ctx.fill();
+                    ctx.lineCap = 'round';
+                    ctx.lineJoin = 'round';
+                    
+                    for (let i = 0; i < visibleStemIndex - 1; i++) {
+                        let p1 = this.stemPoints[i];
+                        let p2 = this.stemPoints[i+1];
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.lineWidth = p1.thickness;
+                        
+                        // Derinlik için renk ayarı (uzaktakiler biraz daha koyu)
+                        let l = stemColor.l; // Basit tutalım
+                        ctx.strokeStyle = `hsl(${stemColor.h}, ${stemColor.s}%, ${l}%)`;
+                        ctx.stroke();
+                    }
                 }
 
-                // Yapraklar
-                // Kasımpatı yaprakları çok katmanlıdır.
-                this.petals.forEach((p, i) => {
-                    // Her yaprak sırayla açılsın
-                    let activationThreshold = (1 - p.ratio); // İçtekiler en son
-                    if (bloomLocalGrowth < activationThreshold * 0.5) return;
-                    
-                    if (p.growP < 1) p.growP += 0.05;
-
-                    ctx.save();
-                    // Hafif kıvrım açısı
-                    ctx.rotate(p.angle);
-                    
-                    // Renk - Merkez koyu, dışlar açık
-                    let h = flowerColor.h + p.colorOffset;
-                    let l = flowerColor.l + (p.ratio * 20); // Dışarısı parlak
-                    let s = flowerColor.s;
-                    
-                    // Şeffaflık ile ipeksi doku
-                    ctx.fillStyle = `hsla(${h}, ${s}%, ${l}%, 0.9)`;
-                    
-                    // Yaprak çizimi
-                    let currentLen = p.len * p.growP * bloomLocalGrowth;
-                    let currentWid = p.wid * p.growP;
-
-                    ctx.beginPath();
-                    // Yaprak şekli: Ucu sivri, ortası geniş oval
-                    ctx.moveTo(0, 0);
-                    ctx.quadraticCurveTo(currentWid/2, currentLen/2, 0, currentLen);
-                    ctx.quadraticCurveTo(-currentWid/2, currentLen/2, 0, 0);
-                    
-                    // Hafif gölgelendirme (yaprağın yarısına)
-                    ctx.fill();
-                    
-                    // Yaprak ortasına ince çizgi (derinlik)
-                    ctx.strokeStyle = `hsla(${h}, ${s}%, ${l-10}%, 0.5)`;
-                    ctx.lineWidth = 0.5;
-                    ctx.stroke();
-
-                    ctx.restore();
+                // 2. Yaprakları Çiz
+                this.leaves.forEach(leaf => {
+                    // Sapın o noktası çizildi mi? (growth > triggerT)
+                    if (this.growth * 1.5 > leaf.triggerT) {
+                        if(leaf.growP < 1) leaf.growP += 0.03;
+                        
+                        ctx.save();
+                        ctx.translate(leaf.x, leaf.y);
+                        ctx.scale(leaf.growP, leaf.growP);
+                        ctx.rotate(leaf.angle);
+                        
+                        ctx.beginPath();
+                        ctx.fillStyle = `hsl(${stemColor.h}, ${stemColor.s}%, ${stemColor.l+5}%)`;
+                        
+                        let d = leaf.dir;
+                        let s = leaf.size;
+                        ctx.moveTo(0,0);
+                        ctx.bezierCurveTo(s*0.3*d, -s*0.2, s*0.7*d, -s*0.3, s*d, 0);
+                        ctx.bezierCurveTo(s*0.7*d, s*0.3, s*0.3*d, s*0.2, 0, 0);
+                        ctx.fill();
+                        ctx.restore();
+                    }
                 });
 
-                ctx.restore();
-            }
+                // 3. Çiçeği Çiz
+                // Sap bittikten sonra (growth > 0.6 gibi) çiçek açsın
+                if (this.growth > 0.6) {
+                    let bloomP = (this.growth - 0.6) * 2.5;
+                    if (bloomP > 1) bloomP = 1;
 
-            update() {
-                if (this.growth < 1.5) { // 1.0'ı geçmesine izin ver, bekleme payı
-                    this.growth += 0.003; 
+                    ctx.save();
+                    ctx.translate(this.targetX, this.targetY);
+                    
+                    // Rüzgar etkisi gibi hafif bir salınım
+                    let sway = Math.sin(Date.now() * 0.001 + this.targetX) * 0.05;
+                    ctx.rotate(sway);
+
+                    // Çanak
+                    if(bloomP > 0.1) {
+                        ctx.beginPath();
+                        ctx.fillStyle = '#1a330a';
+                        ctx.arc(0, 5, 8 * bloomP, 0, Math.PI*2);
+                        ctx.fill();
+                    }
+
+                    // Petals
+                    this.petals.forEach(p => {
+                        let openThreshold = 1 - p.ratio;
+                        if (bloomP < openThreshold * 0.3) return;
+
+                        if (p.growP < 1) p.growP += 0.1; // Hızlı açılma
+
+                        let currentLen = p.len * p.growP * bloomP;
+                        let currentWid = p.wid * p.growP;
+
+                        ctx.save();
+                        ctx.rotate(p.angle);
+
+                        let h = this.color.h + p.colorVar;
+                        let s = this.color.s;
+                        let l = this.color.l + (p.ratio * 25); // Uçlar parlak
+
+                        ctx.fillStyle = `hsla(${h}, ${s}%, ${l}%, 0.9)`;
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(0,0);
+                        ctx.quadraticCurveTo(currentWid/2, currentLen/2, 0, currentLen);
+                        ctx.quadraticCurveTo(-currentWid/2, currentLen/2, 0, 0);
+                        ctx.fill();
+
+                        // İnce detay çizgisi
+                        ctx.strokeStyle = `hsla(${h}, ${s}%, ${l-15}%, 0.3)`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+
+                        ctx.restore();
+                    });
+                    ctx.restore();
                 }
             }
-
-            draw(ctx) {
-                this.drawStem(ctx);
-                this.leaves.forEach(leaf => this.drawSingleLeaf(ctx, leaf));
-                this.drawBloom(ctx);
-            }
         }
 
-        // --- PARTİKÜL SİSTEMİ (Atmosfer için) ---
-        class Particle {
-            constructor() {
-                this.reset();
-            }
-            reset() {
-                this.x = rand(0, w);
-                this.y = rand(0, h);
-                this.vx = rand(-0.5, 0.5);
-                this.vy = rand(-0.5, -0.1); // Hafif yukarı
-                this.size = rand(0.5, 2);
-                this.alpha = rand(0, 1);
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                this.alpha -= 0.005;
-                if(this.alpha <= 0 || this.y < 0) this.reset();
-            }
-            draw(ctx) {
-                ctx.fillStyle = `rgba(255, 200, 220, ${this.alpha})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
-                ctx.fill();
-            }
+        // --- Ana Yönetim ---
+        let bouquet = [];
+        let startTime = Date.now();
+
+        function createBouquet() {
+            bouquet = [];
+            
+            // Buket Tasarımı: Merkezde uzunlar, kenarlarda kısalar
+            // 9 adet çiçek oluşturalım
+            const positions = [
+                { xRatio: 0.5, yRatio: 0.45, scale: 1.2 }, // Merkez (En üst)
+                { xRatio: 0.4, yRatio: 0.55, scale: 1.0 },
+                { xRatio: 0.6, yRatio: 0.55, scale: 1.0 },
+                { xRatio: 0.3, yRatio: 0.65, scale: 0.9 },
+                { xRatio: 0.7, yRatio: 0.65, scale: 0.9 },
+                { xRatio: 0.2, yRatio: 0.75, scale: 0.8 }, // En kenar
+                { xRatio: 0.8, yRatio: 0.75, scale: 0.8 },
+                { xRatio: 0.45, yRatio: 0.70, scale: 0.85 }, // Ara dolgu
+                { xRatio: 0.55, yRatio: 0.70, scale: 0.85 }
+            ];
+
+            // Rastgele renk dağıtımı ama dengeli
+            positions.forEach((pos, i) => {
+                let color = palettes[Math.floor(Math.random() * palettes.length)];
+                
+                // Merkezdeki çiçek özel bir renk olsun (örneğin Pembe veya Kırmızı)
+                if (i === 0) color = palettes[0]; 
+
+                // Gecikme: İçten dışa veya rastgele
+                let delay = i * 400 + rand(0, 500);
+
+                bouquet.push(new Chrysanthemum(
+                    w * pos.xRatio, 
+                    h * pos.yRatio, 
+                    color, 
+                    delay,
+                    pos.scale
+                ));
+            });
+            
+            // Çiçekleri Y koordinatına göre sırala ki arkadakiler önce çizilsin
+            // Y değeri büyük olan (aşağıda olan) önde olmalı.
+            // Ancak bizim durumumuzda "arkadakiler" (Y küçük olanlar) önce çizilmeli.
+            bouquet.sort((a, b) => a.targetY - b.targetY); // Y'si küçük olan (yukarıda) önce çizilsin?
+            // Bukette arkada kalanlar genelde daha yukarıda olur, öndekiler aşağıda.
+            // O yüzden Y'si küçükten büyüğe sıralarsak (Arka -> Ön) doğru olur.
         }
 
-        // --- ANA DÖNGÜ ---
-        const plant = new ChrysanthemumSystem();
-        const particles = Array.from({ length: 50 }, () => new Particle());
+        createBouquet();
+
+        // --- Partikül Efekti (Ateşböcekleri/Polenler) ---
+        let particles = [];
+        for(let i=0; i<60; i++) {
+            particles.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                vx: (Math.random()-0.5) * 0.5,
+                vy: (Math.random()-0.5) * 0.5,
+                size: Math.random() * 2,
+                alpha: Math.random()
+            });
+        }
 
         function animate() {
-            // Hafif iz bırakarak silme (Motion blur etkisi yaratmaz ama yumuşatır)
-            // Ama temiz bir görünüm istiyoruz, o yüzden tam temizle:
+            let now = Date.now();
+            let elapsed = now - startTime;
+
             ctx.clearRect(0, 0, w, h);
 
-            // Arkaplan ışığı (Vignette)
-            let grad = ctx.createRadialGradient(w/2, h/2, 0, w/2, h/2, h);
-            grad.addColorStop(0, "rgba(40, 10, 30, 0.2)");
-            grad.addColorStop(1, "rgba(0, 0, 0, 0.8)");
+            // Arkaplan atmosfer
+            let grad = ctx.createLinearGradient(0, 0, 0, h);
+            grad.addColorStop(0, "#0d0208");
+            grad.addColorStop(1, "#1a0510");
             ctx.fillStyle = grad;
             ctx.fillRect(0,0,w,h);
 
             // Partikülleri çiz
+            ctx.fillStyle = "white";
             particles.forEach(p => {
-                p.update();
-                p.draw(ctx);
+                p.x += p.vx;
+                p.y += p.vy;
+                if(p.x < 0) p.x = w;
+                if(p.x > w) p.x = 0;
+                if(p.y < 0) p.y = h;
+                if(p.y > h) p.y = 0;
+                
+                ctx.globalAlpha = p.alpha * 0.5;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+                ctx.fill();
             });
+            ctx.globalAlpha = 1;
 
-            // Bitkiyi güncelle ve çiz
-            plant.update();
-            plant.draw(ctx);
+            // Çiçekleri çiz
+            bouquet.forEach(flower => {
+                flower.update(elapsed);
+                flower.draw(ctx);
+            });
 
             requestAnimationFrame(animate);
         }
