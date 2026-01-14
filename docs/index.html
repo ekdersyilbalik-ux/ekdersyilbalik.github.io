@@ -3,457 +3,339 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Esmam İçin Buket</title>
+    <title>Abdulkadir v4.0 - Sürüm Güncellemesi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Pinyon+Script&display=swap');
+        /* Genel Ayarlar */
+        :root {
+            --primary-color: #ff4d6d;
+            --bg-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+        }
 
-        body, html {
+        body {
             margin: 0;
             padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #050203;
-            /* Gece atmosferi */
-            background: radial-gradient(circle at 50% 40%, #1f0b16 0%, #000000 100%);
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            color: #333;
         }
 
-        #canvas-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-
-        canvas {
-            display: block;
-        }
-
-        /* Yazı Katmanı */
-        #ui-layer {
-            position: absolute;
+        /* Arka Plan Hareketli Kalpler */
+        .bg-hearts {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-hearts span {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            animation: animate 25s linear infinite;
+            bottom: -150px;
+            clip-path: path('M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z');
+        }
+
+        @keyframes animate {
+            0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 1; }
+            100% { transform: translateY(-1000px) rotate(720deg) scale(1.2); opacity: 0; }
+        }
+
+        /* Ana Kart Tasarımı (Glassmorphism) */
+        .container {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            margin: 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        /* Liste Tasarımı */
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features-list li {
+            margin-bottom: 15px;
             display: flex;
-            flex-direction: column;
-            justify-content: flex-start; /* Yazıyı biraz yukarı alalım */
+            align-items: flex-start;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 10px;
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+
+        .features-list li:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .features-list i {
+            color: var(--primary-color);
+            margin-right: 15px;
+            font-size: 1.2rem;
+            margin-top: 3px;
+        }
+
+        .highlight {
+            font-weight: 600;
+            color: #d6336c;
+        }
+
+        /* Kod Bloğu Tarzı */
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #d6336c;
+            font-size: 0.9em;
+        }
+
+        /* Butonlar */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-accept {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+        }
+
+        .btn-accept:hover {
+            transform: scale(1.05);
+            background: #ff2a50;
+        }
+
+        .btn-reject {
+            background: #e0e0e0;
+            color: #666;
+            position: relative; /* Kaçma efekti için gerekli */
+        }
+
+        /* Modal (Pop-up) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 100;
+            justify-content: center;
             align-items: center;
-            padding-top: 8vh;
-            z-index: 20; /* Çiçeklerin önünde olsun */
-            /* Hafif bir gölge efekti ki çiçeklerin üstünde okunabilsin */
-            text-shadow: 0 4px 10px rgba(0,0,0,0.8);
         }
 
-        .main-title {
-            font-family: 'Pinyon Script', cursive;
-            font-size: 4.5rem;
-            color: #ffe6f2; /* Çok açık pembe */
-            text-shadow: 0 0 10px rgba(255, 183, 213, 0.4);
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInMove 2s ease-out forwards;
-            animation-delay: 4s; /* Çiçekler biraz büyüyünce gelsin */
-            margin: 0;
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            animation: popup 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-width: 80%;
         }
 
-        .name-title {
-            font-family: 'Cinzel', serif;
-            font-size: 3rem;
-            letter-spacing: 12px;
-            font-weight: 700;
-            /* Altın/Rose Gold geçişi */
-            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            opacity: 0;
-            transform: scale(0.9);
-            animation: fadeInScale 2s ease-out forwards;
-            animation-delay: 5.5s;
-            margin-top: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+        .modal h2 {
+            color: var(--primary-color);
+            margin-top: 0;
         }
 
-        @keyframes fadeInMove {
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInScale {
-            to { opacity: 1; transform: scale(1); }
+        .modal img {
+            width: 150px;
+            margin-bottom: 20px;
         }
 
-        @media (max-width: 768px) {
-            .main-title { font-size: 3rem; }
-            .name-title { font-size: 2rem; letter-spacing: 5px; }
+        @keyframes popup {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Easter Egg */
+        .easter-egg {
+            display: none;
         }
     </style>
 </head>
 <body>
 
-    <div id="canvas-container">
-        <canvas id="mainCanvas"></canvas>
-        <div id="ui-layer">
-            <h1 class="main-title">Seni Çok Seviyorum</h1>
-            <h2 class="name-title">ESMAM</h2>
+    <div class="bg-hearts" id="heartsContainer">
+        </div>
+
+    <div class="container">
+        <h1>Abdulkadir v4.0 <br> Yama Notları & Sözleşme</h1>
+        <p class="subtitle">Lisans Sahibi: <strong>Esma Hanım</strong></p>
+        
+        <p style="text-align: center; margin-bottom: 20px;">
+            Aşağıdaki güncelleme paketinin yüklenmesi ve ilişkinin <strong>sonsuz döngüye</strong> alınması için onayı gerekmektedir.
+        </p>
+
+        <ul class="features-list">
+            <li>
+                <i class="fas fa-exclamation-triangle"></i>
+                <span><strong>Uyarı (Esma Modülü):</strong> Kullanıcı açken veya uykusuzken sistem kararsızlaşabilir. Çözüm: "Sakin Kal" ve "Yemek Ver" komutlarını uygula.</span>
+            </li>
+            <li>
+                <i class="fas fa-temperature-high"></i>
+                <span><strong>Sıcaklık Gereksinimi:</strong> Regl dönemlerinde sistem kritik hata verebilir. Acil durum protokolü: <code>çikolata.exe</code> çalıştır ve sıcak davran.</span>
+            </li>
+            <li>
+                <i class="fas fa-cat"></i>
+                <span><strong>Ponçik Entegrasyonu:</strong> Esma'ya sevgi gösterildiğinde otomatik olarak "Ponçik Modu" devreye girer ve keyifle karşılık verir.</span>
+            </li>
+            <li>
+                <i class="fas fa-first-aid"></i>
+                <span><strong>Bakım Modu (Abdulkadir):</strong> Geliştirici hastalandığında aşırı şefkat talep eder. İlaç niyetine ilgi gösterilmelidir.</span>
+            </li>
+            <li>
+                <i class="fas fa-battery-charging"></i>
+                <span><strong>Şarj İstasyonu:</strong> Abdulkadir cihazı sadece <span class="highlight">Esma'nın Göğsünde</span> şarj olmaktadır. Başka adaptörler uyumsuzdur.</span>
+            </li>
+            <li>
+                <i class="fas fa-infinity"></i>
+                <span><strong>Sonsuz Döngü:</strong> Öpme fonksiyonu <code>while(true)</code> döngüsüne girmiştir. Durdurulamaz, iptal edilemez.</span>
+            </li>
+        </ul>
+
+        <div class="buttons">
+            <button class="btn btn-accept" onclick="kabulEt()">Ömür Boyu Kabul Ediyorum ❤️</button>
+            <button class="btn btn-reject" id="noBtn" onmouseover="kac(this)">Hayır, İstemem</button>
+        </div>
+    </div>
+
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <i class="fas fa-heart" style="font-size: 50px; color: #ff4d6d; margin-bottom: 20px;"></i>
+            <h2>Anlaşma Sağlandı!</h2>
+            <p>Abdulkadir v4.0 sürümü başarıyla Esma'ya lisanslandı.</p>
+            <p>İade kabul edilmez, değişim yoktur! 😎</p>
+            <p style="font-size: 0.8rem; color: #888; margin-top: 15px;">Kurulum tamamlanıyor...</p>
         </div>
     </div>
 
     <script>
-        const canvas = document.getElementById('mainCanvas');
-        const ctx = canvas.getContext('2d');
-
-        let w, h;
-        
-        // --- Renk Paleti (Kasımpatı Tonları) ---
-        const palettes = [
-            { h: 340, s: 80, l: 50, name: "Derin Pembe" },
-            { h: 30, s: 100, l: 93, name: "Beyaz" }, // Beyaz/Krem
-            { h: 45, s: 90, l: 55, name: "Altın Sarısı" },
-            { h: 260, s: 60, l: 50, name: "Mor" },
-            { h: 355, s: 85, l: 45, name: "Kırmızı" },
-            { h: 320, s: 70, l: 60, name: "Açık Pembe" }
-        ];
-
-        const stemColor = { h: 100, s: 35, l: 25 };
-
-        function resize() {
-            w = canvas.width = window.innerWidth;
-            h = canvas.height = window.innerHeight;
-        }
-        resize();
-        window.addEventListener('resize', resize);
-
-        const rand = (min, max) => Math.random() * (max - min) + min;
-
-        // --- Çiçek Sınıfı ---
-        class Chrysanthemum {
-            constructor(targetX, targetY, colorObj, delay, scale = 1) {
-                this.targetX = targetX;
-                this.targetY = targetY;
-                this.color = colorObj;
-                this.delay = delay;
-                this.scaleFactor = scale; // Bazıları daha küçük/büyük olsun
-                
-                this.stemPoints = [];
-                this.growth = 0; 
-                this.leaves = [];
-                this.petals = [];
-                
-                this.started = false; // Gecikme kontrolü için
-
-                this.calculateStem();
-                this.calculateLeaves();
-                this.calculatePetals();
-            }
-
-            calculateStem() {
-                // Hepsi aşağıda ortadan (buket gibi) çıksın
-                // Ama tam tek noktadan değil, hafif dağınık
-                let startX = w / 2 + rand(-30, 30);
-                let startY = h + 100;
-
-                // Kontrol noktalarıyla eğri çiz
-                // CP1 ve CP2 sapın nasıl büküleceğini belirler
-                let cp1x = w / 2 + (this.targetX - w/2) * 0.2; // Hafif çıkış
-                let cp1y = h * 0.9;
-                let cp2x = this.targetX; 
-                let cp2y = this.targetY + 150; // Çiçeğin altına doğru dikleş
-
-                for(let t = 0; t <= 1; t += 0.01) {
-                    let x = this.cubicBezier(t, startX, cp1x, cp2x, this.targetX);
-                    let y = this.cubicBezier(t, startY, h*0.95, cp2y, this.targetY);
-                    
-                    // Kalınlık
-                    let thickness = ((1 - t) * 6 + 2) * this.scaleFactor;
-                    this.stemPoints.push({x, y, thickness, t});
-                }
-            }
-
-            cubicBezier(t, p0, p1, p2, p3) {
-                let cX = 3 * (p1 - p0),
-                    bX = 3 * (p2 - p1) - cX,
-                    aX = p3 - p0 - cX - bX;
-                return (aX * Math.pow(t, 3)) + (bX * Math.pow(t, 2)) + (cX * t) + p0;
-            }
-
-            calculateLeaves() {
-                // Sap üzerinde rastgele yapraklar
-                let numLeaves = Math.floor(rand(2, 5));
-                for(let i=0; i<numLeaves; i++) {
-                    let tPos = rand(0.3, 0.8); // Sapın %30'u ile %80'i arasında
-                    let index = Math.floor(tPos * this.stemPoints.length);
-                    // Dizi sınırlarını kontrol et
-                    if(!this.stemPoints[index]) continue;
-                    
-                    let point = this.stemPoints[index];
-                    let dir = (rand(0, 1) > 0.5) ? 1 : -1;
-                    
-                    this.leaves.push({
-                        x: point.x,
-                        y: point.y,
-                        dir: dir,
-                        size: rand(40, 70) * this.scaleFactor,
-                        angle: rand(-0.2, 0.4),
-                        growP: 0,
-                        triggerT: tPos
-                    });
-                }
-            }
-
-            calculatePetals() {
-                const totalPetals = 350; 
-                const goldenAngle = Math.PI * (3 - Math.sqrt(5));
-                
-                for(let i = 0; i < totalPetals; i++) {
-                    let r = 4 * Math.sqrt(i) * this.scaleFactor;
-                    let theta = i * goldenAngle;
-                    
-                    let x = r * Math.cos(theta);
-                    let y = r * Math.sin(theta);
-                    
-                    let ratio = i / totalPetals;
-                    // Dıştaki yapraklar uzun, içtekiler kısa
-                    let length = (5 + ratio * 50) * this.scaleFactor;
-                    let width = (3 + ratio * 12) * this.scaleFactor;
-                    
-                    this.petals.push({
-                        dx: x, dy: y,
-                        angle: theta,
-                        len: length,
-                        wid: width,
-                        ratio: ratio,
-                        colorVar: rand(-15, 15), // Hafif ton farkı
-                        growP: 0
-                    });
-                }
-                this.petals.reverse();
-            }
-
-            update(globalTime) {
-                // Zamanlama kontrolü
-                if (globalTime < this.delay) return;
-                this.started = true;
-
-                if (this.growth < 1.3) {
-                    this.growth += 0.004; // Büyüme hızı
-                }
-            }
-
-            draw(ctx) {
-                if (!this.started) return;
-
-                // 1. Sapı Çiz
-                // Sapın ne kadarı çizilecek?
-                let visibleStemIndex = Math.floor(this.stemPoints.length * Math.min(1, this.growth * 1.5));
-                
-                if (visibleStemIndex > 1) {
-                    ctx.beginPath();
-                    ctx.lineCap = 'round';
-                    ctx.lineJoin = 'round';
-                    
-                    for (let i = 0; i < visibleStemIndex - 1; i++) {
-                        let p1 = this.stemPoints[i];
-                        let p2 = this.stemPoints[i+1];
-                        
-                        ctx.beginPath();
-                        ctx.moveTo(p1.x, p1.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.lineWidth = p1.thickness;
-                        
-                        // Derinlik için renk ayarı (uzaktakiler biraz daha koyu)
-                        let l = stemColor.l; // Basit tutalım
-                        ctx.strokeStyle = `hsl(${stemColor.h}, ${stemColor.s}%, ${l}%)`;
-                        ctx.stroke();
-                    }
-                }
-
-                // 2. Yaprakları Çiz
-                this.leaves.forEach(leaf => {
-                    // Sapın o noktası çizildi mi? (growth > triggerT)
-                    if (this.growth * 1.5 > leaf.triggerT) {
-                        if(leaf.growP < 1) leaf.growP += 0.03;
-                        
-                        ctx.save();
-                        ctx.translate(leaf.x, leaf.y);
-                        ctx.scale(leaf.growP, leaf.growP);
-                        ctx.rotate(leaf.angle);
-                        
-                        ctx.beginPath();
-                        ctx.fillStyle = `hsl(${stemColor.h}, ${stemColor.s}%, ${stemColor.l+5}%)`;
-                        
-                        let d = leaf.dir;
-                        let s = leaf.size;
-                        ctx.moveTo(0,0);
-                        ctx.bezierCurveTo(s*0.3*d, -s*0.2, s*0.7*d, -s*0.3, s*d, 0);
-                        ctx.bezierCurveTo(s*0.7*d, s*0.3, s*0.3*d, s*0.2, 0, 0);
-                        ctx.fill();
-                        ctx.restore();
-                    }
-                });
-
-                // 3. Çiçeği Çiz
-                // Sap bittikten sonra (growth > 0.6 gibi) çiçek açsın
-                if (this.growth > 0.6) {
-                    let bloomP = (this.growth - 0.6) * 2.5;
-                    if (bloomP > 1) bloomP = 1;
-
-                    ctx.save();
-                    ctx.translate(this.targetX, this.targetY);
-                    
-                    // Rüzgar etkisi gibi hafif bir salınım
-                    let sway = Math.sin(Date.now() * 0.001 + this.targetX) * 0.05;
-                    ctx.rotate(sway);
-
-                    // Çanak
-                    if(bloomP > 0.1) {
-                        ctx.beginPath();
-                        ctx.fillStyle = '#1a330a';
-                        ctx.arc(0, 5, 8 * bloomP, 0, Math.PI*2);
-                        ctx.fill();
-                    }
-
-                    // Petals
-                    this.petals.forEach(p => {
-                        let openThreshold = 1 - p.ratio;
-                        if (bloomP < openThreshold * 0.3) return;
-
-                        if (p.growP < 1) p.growP += 0.1; // Hızlı açılma
-
-                        let currentLen = p.len * p.growP * bloomP;
-                        let currentWid = p.wid * p.growP;
-
-                        ctx.save();
-                        ctx.rotate(p.angle);
-
-                        let h = this.color.h + p.colorVar;
-                        let s = this.color.s;
-                        let l = this.color.l + (p.ratio * 25); // Uçlar parlak
-
-                        ctx.fillStyle = `hsla(${h}, ${s}%, ${l}%, 0.9)`;
-                        
-                        ctx.beginPath();
-                        ctx.moveTo(0,0);
-                        ctx.quadraticCurveTo(currentWid/2, currentLen/2, 0, currentLen);
-                        ctx.quadraticCurveTo(-currentWid/2, currentLen/2, 0, 0);
-                        ctx.fill();
-
-                        // İnce detay çizgisi
-                        ctx.strokeStyle = `hsla(${h}, ${s}%, ${l-15}%, 0.3)`;
-                        ctx.lineWidth = 0.5;
-                        ctx.stroke();
-
-                        ctx.restore();
-                    });
-                    ctx.restore();
-                }
-            }
+        // Arka plan kalpleri oluşturma
+        const heartsContainer = document.getElementById('heartsContainer');
+        for (let i = 0; i < 15; i++) {
+            let span = document.createElement('span');
+            span.style.left = Math.random() * 100 + '%';
+            span.style.width = Math.random() * 20 + 10 + 'px';
+            span.style.height = span.style.width;
+            span.style.animationDelay = Math.random() * 5 + 's';
+            span.style.animationDuration = Math.random() * 10 + 15 + 's';
+            heartsContainer.appendChild(span);
         }
 
-        // --- Ana Yönetim ---
-        let bouquet = [];
-        let startTime = Date.now();
-
-        function createBouquet() {
-            bouquet = [];
+        // Kaçan Buton Fonksiyonu
+        function kac(btn) {
+            // Mobilde de çalışması için basit mantık
+            const i = Math.floor(Math.random() * (window.innerWidth - 150));
+            const j = Math.floor(Math.random() * (window.innerHeight - 100));
             
-            // Buket Tasarımı: Merkezde uzunlar, kenarlarda kısalar
-            // 9 adet çiçek oluşturalım
-            const positions = [
-                { xRatio: 0.5, yRatio: 0.45, scale: 1.2 }, // Merkez (En üst)
-                { xRatio: 0.4, yRatio: 0.55, scale: 1.0 },
-                { xRatio: 0.6, yRatio: 0.55, scale: 1.0 },
-                { xRatio: 0.3, yRatio: 0.65, scale: 0.9 },
-                { xRatio: 0.7, yRatio: 0.65, scale: 0.9 },
-                { xRatio: 0.2, yRatio: 0.75, scale: 0.8 }, // En kenar
-                { xRatio: 0.8, yRatio: 0.75, scale: 0.8 },
-                { xRatio: 0.45, yRatio: 0.70, scale: 0.85 }, // Ara dolgu
-                { xRatio: 0.55, yRatio: 0.70, scale: 0.85 }
-            ];
+            btn.style.position = 'fixed';
+            btn.style.left = i + 'px';
+            btn.style.top = j + 'px';
+        }
 
-            // Rastgele renk dağıtımı ama dengeli
-            positions.forEach((pos, i) => {
-                let color = palettes[Math.floor(Math.random() * palettes.length)];
-                
-                // Merkezdeki çiçek özel bir renk olsun (örneğin Pembe veya Kırmızı)
-                if (i === 0) color = palettes[0]; 
-
-                // Gecikme: İçten dışa veya rastgele
-                let delay = i * 400 + rand(0, 500);
-
-                bouquet.push(new Chrysanthemum(
-                    w * pos.xRatio, 
-                    h * pos.yRatio, 
-                    color, 
-                    delay,
-                    pos.scale
-                ));
-            });
+        // Kabul Et Butonu
+        function kabulEt() {
+            // Konfeti efekti
+            konfetiPatlat();
             
-            // Çiçekleri Y koordinatına göre sırala ki arkadakiler önce çizilsin
-            // Y değeri büyük olan (aşağıda olan) önde olmalı.
-            // Ancak bizim durumumuzda "arkadakiler" (Y küçük olanlar) önce çizilmeli.
-            bouquet.sort((a, b) => a.targetY - b.targetY); // Y'si küçük olan (yukarıda) önce çizilsin?
-            // Bukette arkada kalanlar genelde daha yukarıda olur, öndekiler aşağıda.
-            // O yüzden Y'si küçükten büyüğe sıralarsak (Arka -> Ön) doğru olur.
+            // Modalı göster
+            document.getElementById('successModal').style.display = 'flex';
         }
 
-        createBouquet();
+        // Basit Konfeti Yapısı
+        function konfetiPatlat() {
+            const count = 200;
+            const defaults = {
+                origin: { y: 0.7 }
+            };
 
-        // --- Partikül Efekti (Ateşböcekleri/Polenler) ---
-        let particles = [];
-        for(let i=0; i<60; i++) {
-            particles.push({
-                x: Math.random() * w,
-                y: Math.random() * h,
-                vx: (Math.random()-0.5) * 0.5,
-                vy: (Math.random()-0.5) * 0.5,
-                size: Math.random() * 2,
-                alpha: Math.random()
-            });
+            // Basit CSS/JS konfeti simülasyonu
+            for(let i=0; i<50; i++) {
+                createConfetti();
+            }
         }
 
-        function animate() {
-            let now = Date.now();
-            let elapsed = now - startTime;
+        function createConfetti() {
+            const colors = ['#ff4d6d', '#ff9a9e', '#fecfef', '#ffffff'];
+            const confetti = document.createElement('div');
+            confetti.style.position = 'fixed';
+            confetti.style.width = '10px';
+            confetti.style.height = '10px';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.top = '-10px';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.zIndex = '1000';
+            confetti.style.pointerEvents = 'none';
+            document.body.appendChild(confetti);
 
-            ctx.clearRect(0, 0, w, h);
-
-            // Arkaplan atmosfer
-            let grad = ctx.createLinearGradient(0, 0, 0, h);
-            grad.addColorStop(0, "#0d0208");
-            grad.addColorStop(1, "#1a0510");
-            ctx.fillStyle = grad;
-            ctx.fillRect(0,0,w,h);
-
-            // Partikülleri çiz
-            ctx.fillStyle = "white";
-            particles.forEach(p => {
-                p.x += p.vx;
-                p.y += p.vy;
-                if(p.x < 0) p.x = w;
-                if(p.x > w) p.x = 0;
-                if(p.y < 0) p.y = h;
-                if(p.y > h) p.y = 0;
-                
-                ctx.globalAlpha = p.alpha * 0.5;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
-                ctx.fill();
-            });
-            ctx.globalAlpha = 1;
-
-            // Çiçekleri çiz
-            bouquet.forEach(flower => {
-                flower.update(elapsed);
-                flower.draw(ctx);
+            const animation = confetti.animate([
+                { transform: 'translateY(0) rotate(0)', opacity: 1 },
+                { transform: `translateY(100vh) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+            ], {
+                duration: Math.random() * 2000 + 1500,
+                easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
             });
 
-            requestAnimationFrame(animate);
+            animation.onfinish = () => confetti.remove();
         }
-
-        animate();
-
     </script>
 </body>
 </html>
