@@ -3,242 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seni Ne Kadar Seviyorum?</title>
+    <title>Bizim Yolculuğumuz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap');
-
         body {
             margin: 0;
             padding: 0;
-            background-color: #ffe6ea; /* Tatlı bir pembe */
-            font-family: 'Poppins', sans-serif;
-            color: #d6336c;
-            text-align: center;
+            background-color: #0f0f0f;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
             overflow-x: hidden;
         }
 
-        /* Başlangıç Ekranı */
-        .intro-screen {
-            height: 100vh;
+        .container {
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            background: linear-gradient(180deg, #ff9a9e 0%, #fecfef 100%);
+            justify-content: center;
+            padding: 50px 20px;
         }
 
         h1 {
-            font-family: 'Pacifico', cursive;
-            font-size: 2.5rem;
-            color: #fff;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-            margin: 0 20px;
-        }
-
-        .scroll-hint {
-            margin-top: 30px;
-            color: #fff;
-            font-size: 1rem;
-            animation: bounce 2s infinite;
-        }
-
-        .arrow {
-            font-size: 2rem;
-            display: block;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-10px);}
-            60% {transform: translateY(-5px);}
-        }
-
-        /* İçerik Kutuları */
-        .love-container {
-            padding: 20px;
-            padding-bottom: 100px;
-        }
-
-        .message-block {
-            margin: 50px auto;
-            max-width: 80%;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(214, 51, 108, 0.15);
-            font-size: 1.2rem;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.5s ease;
-        }
-
-        .message-block.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .message-block span {
-            display: block;
-            font-size: 2rem;
-            margin-top: 10px;
-        }
-
-        /* Çökme Ekranı */
-        .crash-screen {
-            display: none;
-            background-color: #222;
-            color: #0f0; /* Hacker yeşili */
-            font-family: 'Courier New', Courier, monospace;
-            padding: 40px 20px;
-            text-align: left;
-            min-height: 50vh;
-        }
-
-        .crash-title {
-            color: red;
-            font-size: 2rem;
-            font-weight: bold;
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            margin-bottom: 50px;
             text-align: center;
-            margin-bottom: 20px;
+            opacity: 0; /* JS ile açılacak */
         }
 
-        .restart-btn {
-            background: #fff;
-            color: #222;
-            border: none;
-            padding: 10px 20px;
-            margin-top: 20px;
+        .section-title {
+            font-size: 1.2rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: #888;
+            margin: 40px 0 20px 0;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        /* Grid Layouts */
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 800px;
+            margin-bottom: 60px;
+        }
+
+        /* GİTTİĞİNİZ YERLER STİLİ (Solid, Gold, Kalıcı) */
+        .card-visited {
+            background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
+            padding: 15px 30px;
+            border-radius: 8px;
+            border-left: 4px solid #ffd700; /* Altın Sarısı */
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            opacity: 0; /* Animasyon için gizli */
+            transform: translateY(20px);
+        }
+
+        /* GİDECEĞİNİZ YERLER STİLİ (Neon, Hareketli, Rüya) */
+        .card-future {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #00d2ff; /* Neon Mavi */
+            text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+            font-weight: 300;
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            position: relative;
+        }
+        
+        .card-future:hover {
+            background: rgba(0, 210, 255, 0.1);
             cursor: pointer;
-            font-weight: bold;
-            display: block;
-            width: 100%;
+            transform: scale(1.1);
+            transition: transform 0.3s ease;
+        }
+
+        .footer-note {
+            margin-top: 50px;
+            font-size: 0.9rem;
+            color: #555;
+            opacity: 0;
         }
 
     </style>
 </head>
 <body>
 
-    <div class="intro-screen">
-        <h1>Seni Ne Kadar Mı Seviyorum?</h1>
-        <p style="color:white; font-size:1.1rem; padding:0 20px;">Cevabı görmek için aşağı kaydır...</p>
-        <div class="scroll-hint">
-            Başla bakalım!
-            <span class="arrow">⬇️</span>
-        </div>
-    </div>
+    <div class="container">
+        <h1 id="mainTitle">Seninle Her Yer Güzel...</h1>
 
-    <div class="love-container" id="container">
-        </div>
+        <div class="section-title">Birlikte Yazdığımız Hikaye</div>
+        <div class="grid" id="visitedContainer">
+            </div>
 
-    <div class="crash-screen" id="crashScreen">
-        <div class="crash-title">⚠️ SYSTEM ERROR ⚠️</div>
-        <p>> Love_Capacity_Overload detected.</p>
-        <p>> Abdulkadir_Server status: CRASHED.</p>
-        <p>> Hata Raporu: Esma'ya olan sevgi miktarı RAM belleğini aştı.</p>
-        <br>
-        <p style="color:white; text-align:center; font-family:'Poppins', sans-serif;">
-            "Tamam şimdilik bu kadar, sunucularımı yaktın! 🔥<br>
-            Seni Dünyalar Kadar Çok Seviyorum ❤️"
-        </p>
-        <button class="restart-btn" onclick="window.scrollTo(0,0); location.reload();">Başa Dön 🔄</button>
+        <div class="section-title">Birlikte Kurduğumuz Hayaller</div>
+        <div class="grid" id="futureContainer">
+            </div>
+
+        <div class="footer-note">Ve liste uzayıp gidecek...</div>
     </div>
 
     <script>
-        const container = document.getElementById('container');
-        const crashScreen = document.getElementById('crashScreen');
-        
-        // Esma için özel mesaj havuzu
-        const messages = [
-            "Çok seviyorum! ❤️",
-            "Hala bitmedi...",
-            "Daha yeni başladık 🚀",
-            "Kocaman seviyorum! 🌍",
-            "Yorulmadın mı? Ben sevmekten yorulmam.",
-            "Sayfalar yetmez...",
-            "Bayağı çok seviyorum 😍",
-            "Acıktın mı? (Şaka şaka devam et)",
-            "Esmaaa! ❤️",
-            "Parmaklarına kuvvet 💪",
-            "Sonsuza kadar... ♾️",
-            "Evren kadar 🌌",
-            "Pıt pıt atıyor kalbim 💓",
-            "Daha dur, bitmez bu sevgi.",
-            "Aşağıda sürpriz yok, sadece sevgi var.",
-            "Benim ponçik sevgilim 🧸",
-            "En çok ben seviyorum!",
-            "Kaydır kaydır bitmez...",
-            "Abdulkadir ❤️ Esma",
-            "Gözlerini kapatma, devam et 👀"
-        ];
+        // Veriler
+        const visitedCities = ["İzmir", "Kırşehir", "Nevşehir", "Akyaka", "Şaphane", "Manisa"];
+        const futureCities = ["İtalya", "Eskişehir", "İstanbul", "Uludağ", "Çanakkale", "Moskova", "Prag"];
 
-        let count = 0;
-        const maxCount = 50; // Kaç tane mesajdan sonra çöksün? (50 iyi bir rakam)
-        let isCrashed = false;
+        const visitedContainer = document.getElementById('visitedContainer');
+        const futureContainer = document.getElementById('futureContainer');
 
-        // Rastgele mesaj getirme fonksiyonu
-        function getRandomMessage() {
-            return messages[Math.floor(Math.random() * messages.length)];
-        }
-
-        // Yeni blok ekleme fonksiyonu
-        function addBlock() {
-            if (isCrashed) return;
-
-            const div = document.createElement('div');
-            div.classList.add('message-block');
-            
-            // İçerik: Mesaj + Rastgele bir emoji boyutu
-            div.innerHTML = `
-                ${getRandomMessage()}
-                <span style="font-size:${Math.random() * 2 + 1}rem">
-                    ${Math.random() > 0.5 ? '❤️' : '💖'}
-                </span>
-            `;
-            
-            container.appendChild(div);
-
-            // Animasyon için minik bir gecikme
-            setTimeout(() => {
-                div.classList.add('visible');
-            }, 100);
-
-            count++;
-        }
-
-        // Başlangıç için 3-4 tane ekleyelim
-        for(let i=0; i<4; i++) addBlock();
-
-        // Scroll Olayı
-        window.addEventListener('scroll', () => {
-            if (isCrashed) return;
-
-            // Sayfanın altına yaklaştık mı?
-            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 300) {
-                
-                // Limit kontrolü
-                if (count >= maxCount) {
-                    triggerCrash();
-                } else {
-                    addBlock(); // Yeni mesaj ekle
-                }
-            }
+        // Gidilenleri DOM'a ekle
+        visitedCities.forEach(city => {
+            const el = document.createElement('div');
+            el.classList.add('card-visited');
+            el.innerText = city;
+            visitedContainer.appendChild(el);
         });
 
-        // Çökme Fonksiyonu
-        function triggerCrash() {
-            isCrashed = true;
-            
-            // Kullanıcı en alta geldiğinde biraz bekletip gümletelim
-            setTimeout(() => {
-                document.body.style.backgroundColor = "#000"; // Arka planı karart
-                container.style.display = 'none'; // Mesajları gizle
-                document.querySelector('.intro-screen').style.display = 'none';
-                crashScreen.style.display = 'block'; // Hata ekranını aç
-                window.scrollTo(0, document.body.scrollHeight); // En alta odakla
-            }, 800);
-        }
+        // Gidecekleri DOM'a ekle
+        futureCities.forEach(city => {
+            const el = document.createElement('div');
+            el.classList.add('card-future');
+            el.innerText = city;
+            futureContainer.appendChild(el);
+        });
+
+        // --- ANİMASYON SENARYOSU (GSAP Timeline) ---
+        const tl = gsap.timeline();
+
+        // 1. Başlık yavaşça belirsin
+        tl.to("#mainTitle", { duration: 1.5, opacity: 1, y: 0, ease: "power2.out" });
+
+        // 2. Gidilen Şehirler: Sert ve net vuruşlarla gelsin (Stagger efekti)
+        tl.to(".card-visited", { 
+            duration: 0.8, 
+            opacity: 1, 
+            y: 0, 
+            stagger: 0.2, // Sırayla gelme süresi
+            ease: "back.out(1.7)" // Hafif yaylanma efekti
+        }, "-=0.5");
+
+        // 3. Gelecek Şehirler: Uçuşarak ve parlayarak gelsin
+        tl.to(".card-future", { 
+            duration: 1.2, 
+            opacity: 1, 
+            scale: 1, 
+            stagger: 0.15, 
+            ease: "elastic.out(1, 0.5)",
+            rotation: 0 
+        }, "+=0.2");
+
+        // 4. Gelecek şehirler için sürekli bir "süzülme" (floating) animasyonu ekle
+        gsap.to(".card-future", {
+            y: 10,
+            duration: 2,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+            stagger: {
+                each: 0.2,
+                from: "random"
+            }
+        });
+        
+        // 5. Footer notu
+        tl.to(".footer-note", { duration: 1, opacity: 1 }, "+=0.5");
 
     </script>
-
 </body>
 </html>
