@@ -3,180 +3,251 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bizim Yolculuğumuz</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <title>Esma & Kadir - 9. Ayımız Kutlu Olsun</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #0f0f0f;
-            color: #fff;
-            font-family: 'Montserrat', sans-serif;
-            overflow-x: hidden;
-        }
+        :root { --primary: #ff4d6d; --bg: #0b0c15; --text: #fff; }
+        body { margin: 0; background: var(--bg); font-family: 'Quicksand', sans-serif; color: var(--text); overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Dancing Script', cursive; }
 
-        .container {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 50px 20px;
-        }
+        /* GİRİŞ EKRANI */
+        #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 1s; }
+        #login-overlay input { padding: 10px; font-size: 18px; text-align: center; margin-top: 15px; border-radius: 5px; border: none; }
+        #login-overlay button { margin-top: 10px; padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 5px; cursor: pointer; }
 
-        h1 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 3rem;
-            margin-bottom: 50px;
-            text-align: center;
-            opacity: 0; /* JS ile açılacak */
-        }
+        /* YILDIZLAR */
+        #sky-section { position: relative; height: 100vh; background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; overflow: hidden; }
+        .star { position: absolute; background: white; border-radius: 50%; cursor: pointer; transition: 0.3s; box-shadow: 0 0 5px #fff; }
+        .star:hover { transform: scale(1.5); background: var(--primary); box-shadow: 0 0 20px var(--primary); }
+        .main-title { font-size: 3.5rem; text-shadow: 0 0 10px var(--primary); z-index: 10; margin: 0; }
+        .subtitle { font-size: 1.2rem; opacity: 0.8; z-index: 10; margin-top: 10px; }
+        .scroll-down { position: absolute; bottom: 30px; font-size: 2rem; animation: bounce 2s infinite; z-index: 10; }
 
-        .section-title {
-            font-size: 1.2rem;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            color: #888;
-            margin: 40px 0 20px 0;
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
-        }
+        /* MODAL (SEBEPLER) */
+        #reason-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); background: rgba(255,255,255,0.95); color: #333; padding: 30px; border-radius: 15px; width: 80%; max-width: 400px; text-align: center; z-index: 100; transition: 0.3s; }
+        #reason-modal.active { transform: translate(-50%, -50%) scale(1); }
+        .close-modal { margin-top: 20px; background: var(--primary); color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer; }
 
-        /* Grid Layouts */
-        .grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            max-width: 800px;
-            margin-bottom: 60px;
-        }
+        /* ZAMAN TÜNELİ */
+        #timeline-section { padding: 50px 10px; background: #111; position: relative; }
+        .timeline { position: relative; max-width: 800px; margin: 0 auto; }
+        .timeline::after { content: ''; position: absolute; width: 4px; background: var(--primary); top: 0; bottom: 0; left: 50%; margin-left: -2px; }
+        .container { padding: 10px 40px; position: relative; width: 50%; box-sizing: border-box; }
+        .left { left: 0; } .right { left: 50%; }
+        .container::after { content: ''; position: absolute; width: 20px; height: 20px; right: -10px; background: #fff; border: 4px solid var(--primary); top: 20px; border-radius: 50%; z-index: 1; }
+        .right::after { left: -10px; }
+        .content { padding: 20px; background: #1e1e2f; border-radius: 6px; border-left: 3px solid var(--primary); position: relative; transition: 0.3s; }
+        .content:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3); }
+        .content img { width: 100%; border-radius: 5px; margin-bottom: 10px; }
+        .date-badge { position: absolute; top: -10px; right: -10px; background: var(--primary); color: white; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; }
 
-        /* GİTTİĞİNİZ YERLER STİLİ (Solid, Gold, Kalıcı) */
-        .card-visited {
-            background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
-            padding: 15px 30px;
-            border-radius: 8px;
-            border-left: 4px solid #ffd700; /* Altın Sarısı */
-            font-weight: 700;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            opacity: 0; /* Animasyon için gizli */
-            transform: translateY(20px);
-        }
+        /* FINAL */
+        #letter-section { padding: 80px 20px; background: linear-gradient(to top, #000, #111); text-align: center; display: flex; justify-content: center; }
+        .letter-card { background: #fff; color: #333; max-width: 600px; padding: 40px; border-radius: 10px; transform: rotate(-1deg); position: relative; }
+        .final-photo { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 5px solid var(--primary); margin-bottom: 20px; }
 
-        /* GİDECEĞİNİZ YERLER STİLİ (Neon, Hareketli, Rüya) */
-        .card-future {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 15px 30px;
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #00d2ff; /* Neon Mavi */
-            text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
-            font-weight: 300;
-            backdrop-filter: blur(5px);
-            opacity: 0;
-            position: relative;
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
+        @media screen and (max-width: 600px) {
+            .timeline::after { left: 31px; }
+            .container { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .left::after, .right::after { left: 21px; }
+            .right { left: 0%; }
+            .main-title { font-size: 2.5rem; }
         }
-        
-        .card-future:hover {
-            background: rgba(0, 210, 255, 0.1);
-            cursor: pointer;
-            transform: scale(1.1);
-            transition: transform 0.3s ease;
-        }
-
-        .footer-note {
-            margin-top: 50px;
-            font-size: 0.9rem;
-            color: #555;
-            opacity: 0;
-        }
-
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1 id="mainTitle">Seninle Her Yer Güzel...</h1>
-
-        <div class="section-title">Birlikte Yazdığımız Hikaye</div>
-        <div class="grid" id="visitedContainer">
-            </div>
-
-        <div class="section-title">Birlikte Kurduğumuz Hayaller</div>
-        <div class="grid" id="futureContainer">
-            </div>
-
-        <div class="footer-note">Ve liste uzayıp gidecek...</div>
+    <div id="login-overlay">
+        <h2 style="color: white;">Esma & Kadir</h2>
+        <p style="color: #aaa;">Giriş Şifresi (Tanışma Zamanımız):</p>
+        <input type="password" id="passwordInput" placeholder="****">
+        <button onclick="checkPassword()">Giriş Yap</button>
+        <p id="error-msg" style="color: red; display: none; margin-top:10px;">Yanlış şifre birtanem :)</p>
     </div>
 
+    <section id="sky-section">
+        <h1 class="main-title">9. Ayımız Kutlu Olsun</h1>
+        <p class="subtitle">Ekranda 30 tane yıldız var. Hepsinde seni sevme sebebim saklı...</p>
+        <div class="scroll-down"><i class="fas fa-chevron-down"></i></div>
+    </section>
+
+    <div id="reason-modal">
+        <h3 style="color: #ff4d6d;">Seni Seviyorum Çünkü...</h3>
+        <p id="reason-text" style="font-size: 1.2rem; font-weight: 500;">...</p>
+        <button class="close-modal" onclick="closeModal()">Kapat</button>
+    </div>
+
+    <section id="timeline-section">
+        <h2 style="text-align: center; margin-bottom: 40px; font-size: 2.5rem;">Bizim 9 Ayımız</h2>
+        <div class="timeline">
+
+            <div class="container left">
+                <div class="content">
+                    <span class="date-badge">1. Ay</span>
+                    <h2>Başlangıç</h2>
+                    <img src="./img/ay1.jpg" alt="1. Ay">
+                    <p>Aşkım bir nisan akşamı bir rastlantı üzerine denk geldik. Benim hayatımda bu denk geliş kadar mutlu olduğum bir an olmamıştı. O gün senden öylesine etkilendim öylesine gelecek hayalleri kurdum ki. O gün senle hatırlarsın şiirden edebiyattan konuşmuştuk mesela ilk defa o bilgilerin işe yaradığını görmüştüm. İyi ki hayatımın bir noktasında bunları öğrendim ve seni etkileyebildim bu şekilde. Seninle tanıştığımız güne şükürler olsun.  SENİ ÇOK SEVİYORUM. </p> </div>
+            </div>
+
+            <div class="container right">
+                <div class="content">
+                    <span class="date-badge">2. Ay</span>
+                    <h2>İlk Heyecanlar</h2>
+                    <img src="./img/ay2.jpg" alt="2. Ay">
+                    <p>Sonra sevgili olduk. Birbirimize alışmaya başladık hatırlarsan haber etmeyi unutuyordun felan. Alışkanlıkla beraber mutluluk da gelmişti gönüllerimize. Senle o zamanlar alışırken ve senin huylarını öğrenirken çok zevkliydi. Biliyorum bazen zorlandın bazen zorlandım ama bu aşkın herşeye değeceğini düşündün her seferinde. Bayraklı götürmüştün beni belki ömrümüz boyunca gideceğimiz yerd burası.  SENİ ÇOK SEVİYORUM. </p> </div>
+            </div>
+
+            <div class="container left">
+                <div class="content">
+                    <span class="date-badge">3. Ay</span>
+                    <h2>Alışıyoruz</h2>
+                    <img src="./img/ay3.jpg" alt="3. Ay">
+                    <p>Artık 3. ayımıza doğru gidiyorduk. Bu gidişten de o kadar mutlu oluyordum ki Doğru kişiyi bulmanın gururunu yaşıyordum. Sen öylesine güzel hissettiriyordun ki bana. Seni öğrenmiştim senin kim olduğunu çözümlemiştim artık. Artık PROF.ESMANNUR AKBALIK olmuştum seni öğrenmiştim. Sen benim dünyamsın bebeğim seninle beraber hayaller kuruyorduk ve sabırsızlanıyordum bunlar içim. SENİ ÇOK SEVİYORUM.</p> </div>
+            </div>
+
+            <div class="container right">
+                <div class="content">
+                    <span class="date-badge">4. Ay</span>
+                    <h2>Güzel Bir Anı</h2>
+                    <img src="./img/ay4.jpg" alt="4. Ay">
+                    <p>Bak aşkım 4. ayımıza gelmiştik ve neredeyiz aşkımmm bayraklııııı. Bayraklının her yerindeyiz. Seninle her gün geçerken sana şükrediyordum. Çünkü o kadar huzurlu ve keyifliydi ki senle vakit geçirmek. O kadar gülüyordum ki senleyken keyfe keyif katıyorduk. Aşkım be sen iyi ki varsın senle beraber bir ömür istiyorum. Evet evlilik meraklısıyım ama seninle evlilik. Dünyalar düzeli sevgilim benimm be ama İzmir çok sıcak aşkımmm beee sen sıcakken rahatsız oluyorsun ama olsun serinletirim seni. SENİ ÇOK SEVİYORUM. </p> </div>
+            </div>
+
+            <div class="container left">
+                <div class="content">
+                    <span class="date-badge">5. Ay</span>
+                    <h2>Birlikte Büyüyoruz</h2>
+                    <img src="./img/ay5.jpg" alt="5. Ay">
+                    <p>Bak beraber ilk ev ziyaretimizi yapmıştık. Evli gibi hissetmiştik. Sevgili olarak ailenin evine gitmek çok güzel bir deneyimdii aşkımm. Beraber köfte yuvarlamıştık hatırlar mısın aşkımm çok keyifliydi. Seninle birşeyler yapmak çok huzurluydu ortam olay farketmeksizin. SENİ ÇOK SEVİYORUM.</p> </div>
+            </div>
+
+            <div class="container right">
+                <div class="content">
+                    <span class="date-badge">6. Ay</span>
+                    <h2>Yarım Yıl Oldu</h2>
+                    <img src="./img/ay6.jpg" alt="6. Ay">
+                    <p>6 Ay oldu aşkım bak nasıl geçti anlamadık da. Zaman su gibi akıyor ve su gibi iyi geliyordu bize. Sen turgutluya geliyordun gidiyordunn ben de izmire aşkım. Çok mutlu ediyordun beni glutensiz diyetine başlamadığın zamanlardı aşk. Diyet dedim sandın demii şaka şaka hayat biçimi. Seninle gurur duyuyorum bu konuda ve her şeyde çok özverilisin. Senin her daim yanındayım. SENİ ÇOK SEVİYORUM</p> </div>
+            </div>
+
+            <div class="container left">
+                <div class="content">
+                    <span class="date-badge">7. Ay</span>
+                    <h2>Seninle Her Şey Güzel</h2>
+                    <img src="./img/ay7.jpg" alt="7. Ay">
+                    <p>Hastaneye geliyordum senle. Böyle bir ömür koşucam her işine aşkım. Çünkü sen benim için her seysin destekçin olmam lazım. Hastaneye gitmiştik o gün aşk senin doğduğun hastaneyee askımm. Anan iyi ki doğurmuş seni Allah iyi ki bana nasip etmiş. SENİ ÇOK SEVİYORUM.</p> </div>
+            </div>
+
+            <div class="container right">
+                <div class="content">
+                    <span class="date-badge">8. Ay</span>
+                    <h2>Maceralarımız</h2>
+                    <img src="./img/ay8.jpg" alt="8. Ay">
+                    <p>Aylar geçiyordu bizim mutluluğumuz arıtyordu aşkımm. Huzur da yanındaydı tabii ki. Birbirimize iyice alışmıştık ve anlıyorduk sıkıntılarımız azalmıştı baya. Bu aylarda ben doğmuştum beraber kutlamıştık. Sen bana hayatımın en güzel doğum gününü yaşatmıştın. Hem de en güzeli. Aldığın hediyeden yaptığın pastaya kadar çok keyifliydi be aşkım. Beraber artık uzun ilişki yoluna girmiştik. Her zaman sana şükrediyordum. Ama staj bulamamıştım ve senden uzaklaşacağım diye çok korkuyordum. Sen de korkuyor ve istemiyordun ama asla belli etmiyordun bunu. Bana destek oluyordun sadece ne iyi sevgilisin be. SENİ ÇOK SEVİYORUM.</p> </div>
+            </div>
+
+            <div class="container left">
+                <div class="content">
+                    <span class="date-badge">9. Ay</span>
+                    <h2>Ve Bugün...</h2>
+                    <img src="./img/ay9.jpg" alt="9. Ay">
+                    <p>Geldik son ayımıza bu ay çok eğlenceli geçti. İlk şehir dışı tatilimizi planlıyorduk. Nereye gitsek nasıl bir yer tutsak sorularıyla uğraşıyorduk. Ama ayarladık sonunda AKYAKA MEVSİM OTEL bir ömür unutmayacağımız ilk tatilimiz. Bu kadar huzurlu olacağımızı tahmin ederdik belki ama bunu hissetmek ne güzeldi be. Senle uyumanın verdiği huzura erişmek mesela nasıl bir duygu. Nasıl bunun yokluğunu bunca yıl anlamamışız. Çünkü öylesine bir güzellik ki sabah zinde ve enerjik uyanıyor insan. İyi ki varsın be. SENİ ÇOK SEVİYORUM.</p> </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="letter-section">
+        <div class="letter-card">
+            <img src="./img/final.jpg" class="final-photo" alt="Biz">
+            <h2>HATUNUM,</h2>
+            <p>
+                Şimdi ise yeni bir ayı daha doldurduk. 1. yılımıza 3 ay kaldı artık. Bu aylarda nice hayaller inşaa ettik ve nicelerini gerçekleştirdik. Seninle çok mutluyum ve bu ömür senle geçsin diye herşeyi yaparım. Sen hayatıma geldiğinden beri o kadar büyük mutluluklar yaşadık ki. Yani hayal etsem nasıl bir ilişki istediğimi bu denli güzelliği hayal edemezdim. Ben sana aşığım hayatım. Bu hayatta seninle çocuklarımız olsun istiyorum evliliğimiz olsun istiyorum. Sen bu hayattaki ruh eşim sensin. Seninle nice aylarımız yıllarımız olsun aşkım. SENİ ÇOK SEVİYORUM HAYATIM. İYİ Kİ VARSIN.
+            </p> <p style="margin-top:20px; font-family:'Dancing Script'; font-size:1.5rem;">- Kadir</p>
+        </div>
+    </section>
+
     <script>
-        // Veriler
-        const visitedCities = ["İzmir", "Kırşehir", "Nevşehir", "Akyaka", "Şaphane", "Manisa"];
-        const futureCities = ["İtalya", "Eskişehir", "İstanbul", "Uludağ", "Çanakkale", "Moskova", "Prag"];
-
-        const visitedContainer = document.getElementById('visitedContainer');
-        const futureContainer = document.getElementById('futureContainer');
-
-        // Gidilenleri DOM'a ekle
-        visitedCities.forEach(city => {
-            const el = document.createElement('div');
-            el.classList.add('card-visited');
-            el.innerText = city;
-            visitedContainer.appendChild(el);
-        });
-
-        // Gidecekleri DOM'a ekle
-        futureCities.forEach(city => {
-            const el = document.createElement('div');
-            el.classList.add('card-future');
-            el.innerText = city;
-            futureContainer.appendChild(el);
-        });
-
-        // --- ANİMASYON SENARYOSU (GSAP Timeline) ---
-        const tl = gsap.timeline();
-
-        // 1. Başlık yavaşça belirsin
-        tl.to("#mainTitle", { duration: 1.5, opacity: 1, y: 0, ease: "power2.out" });
-
-        // 2. Gidilen Şehirler: Sert ve net vuruşlarla gelsin (Stagger efekti)
-        tl.to(".card-visited", { 
-            duration: 0.8, 
-            opacity: 1, 
-            y: 0, 
-            stagger: 0.2, // Sırayla gelme süresi
-            ease: "back.out(1.7)" // Hafif yaylanma efekti
-        }, "-=0.5");
-
-        // 3. Gelecek Şehirler: Uçuşarak ve parlayarak gelsin
-        tl.to(".card-future", { 
-            duration: 1.2, 
-            opacity: 1, 
-            scale: 1, 
-            stagger: 0.15, 
-            ease: "elastic.out(1, 0.5)",
-            rotation: 0 
-        }, "+=0.2");
-
-        // 4. Gelecek şehirler için sürekli bir "süzülme" (floating) animasyonu ekle
-        gsap.to(".card-future", {
-            y: 10,
-            duration: 2,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut",
-            stagger: {
-                each: 0.2,
-                from: "random"
+        // ŞİFRE AYARI (Burayı değiştir)
+        function checkPassword() {
+            const input = document.getElementById('passwordInput').value;
+            if (input === "2304") { // ŞİFREYİ BURAYA YAZ
+                document.getElementById('login-overlay').style.opacity = '0';
+                setTimeout(() => { document.getElementById('login-overlay').style.display = 'none'; }, 1000);
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
             }
-        });
-        
-        // 5. Footer notu
-        tl.to(".footer-note", { duration: 1, opacity: 1 }, "+=0.5");
+        }
 
+        // 30 ADET SEBEP LİSTESİ
+        // Tırnak içindeki yazıları kendi cümlelerinle değiştir.
+        const reasons = [
+            "Gülüşünle dünyamı aydınlatıyorsun.",
+            "Sen benim neşe kaynağımsın.",
+            "Sesini duymak huzur veriyor bana.",
+            "Zekana ve başarına hayranım. Seninle gurur duyuyorum",
+            "Seninle saçma sapan hareketler yapmak çok keyifli.",
+            "Gözlerinin içine bakınca huzur buluyorum.",
+            "Bana tatlı, yemek ne yaparsan dünyanın en lezzetli şeyi oluyor.",
+            "Seninle beraber uyumak çok güzel aşkım",
+            "Hayaller kurmak ve bunları gerçekleştirmek çok güzel",
+            "Bu dünyada senden güzeli yok sana bayılıyorum.",
+            "Sana olan aşkımı hiç itiraf etmiş miydim ?",
+            "Kokunu içime çekince sanki içimde çiçekler filizleniyor.",
+            "Birlikteyken zamanın nasıl geçtiğini anlamıyorum.",
+            "Benim en iyi arkadaşımsın.",
+            "Kalbinin güzelliği yüzüne yansıyor parıldıyorsun.",
+            "Dudaklarından yanaklarını öpmek çok EĞLENCELİ",
+            "Sen nasıl iyi bir sevgilisin bir bilsen keşkeeee",
+            "Güneş nedir bilmem ama sen benim içimi sıcacık yapıyorsun.",
+            "Evren kaç bucak bilmem ama ben bu evrendeki bütün güzel duyguları yaşattın",
+            "Boyun posun endamın fiziğin çok güzelll",
+            "Yanaklarından şap şap öpmek çok keyiflii",
+            "Şaçların çok güzel uzadıkça ve gün geçtikçe daha da güzelleşiyor.",
+            "Seni prensesim gibi seviyorum",
+            "Sen şekerparemsin benimm",
+            "Bu dünyada senden güzel bir sanat eserine rastlamadım",
+            "SENİ ÇOK SEVİYORUMMM",
+            "sen benim herşeyimsinnn",
+            "Boncuk gözlü sevgilim gözlerinden öpsem de dudaklarım filizlense",
+            "E K Muhteşem ikili değil miii",
+            "Seni 'Sen' olduğun için seviyorum."
+        ];
+
+        // YILDIZLARI OLUŞTURMA
+        const sky = document.getElementById('sky-section');
+        const modal = document.getElementById('reason-modal');
+        const reasonText = document.getElementById('reason-text');
+
+        // Tam 30 yıldız oluşturuyoruz
+        reasons.forEach((reason, index) => {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            const x = Math.random() * 90 + 5; 
+            const y = Math.random() * 80 + 10;
+            const size = Math.random() * 4 + 2; 
+            const duration = Math.random() * 3 + 2;
+
+            star.style.left = x + '%';
+            star.style.top = y + '%';
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.animation = `twinkle ${duration}s infinite`;
+
+            star.addEventListener('click', () => {
+                reasonText.innerText = reason;
+                modal.classList.add('active');
+            });
+            sky.appendChild(star);
+        });
+
+        function closeModal() { modal.classList.remove('active'); }
+
+        const styleSheet = document.createElement("style");
+        styleSheet.innerText = `@keyframes twinkle { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }`;
+        document.head.appendChild(styleSheet);
     </script>
 </body>
 </html>
