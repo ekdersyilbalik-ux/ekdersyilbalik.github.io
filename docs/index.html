@@ -1,253 +1,748 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Esma & Kadir - 9. Ayımız Kutlu Olsun</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <style>
-        :root { --primary: #ff4d6d; --bg: #0b0c15; --text: #fff; }
-        body { margin: 0; background: var(--bg); font-family: 'Quicksand', sans-serif; color: var(--text); overflow-x: hidden; }
-        h1, h2, h3 { font-family: 'Dancing Script', cursive; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Esma & Kadir - 14. Ayımız</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #120713;
+      --bg-soft: #241025;
+      --pink: #ff5f9e;
+      --pink-light: #ffc1d9;
+      --purple: #8b5cf6;
+      --cream: #fff7fb;
+      --text: #fff8fc;
+      --muted: rgba(255, 248, 252, 0.72);
+      --card: rgba(255, 255, 255, 0.1);
+      --border: rgba(255, 255, 255, 0.16);
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+    }
 
-        /* GİRİŞ EKRANI */
-        #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 1s; }
-        #login-overlay input { padding: 10px; font-size: 18px; text-align: center; margin-top: 15px; border-radius: 5px; border: none; }
-        #login-overlay button { margin-top: 10px; padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 5px; cursor: pointer; }
+    * {
+      box-sizing: border-box;
+    }
 
-        /* YILDIZLAR */
-        #sky-section { position: relative; height: 100vh; background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; overflow: hidden; }
-        .star { position: absolute; background: white; border-radius: 50%; cursor: pointer; transition: 0.3s; box-shadow: 0 0 5px #fff; }
-        .star:hover { transform: scale(1.5); background: var(--primary); box-shadow: 0 0 20px var(--primary); }
-        .main-title { font-size: 3.5rem; text-shadow: 0 0 10px var(--primary); z-index: 10; margin: 0; }
-        .subtitle { font-size: 1.2rem; opacity: 0.8; z-index: 10; margin-top: 10px; }
-        .scroll-down { position: absolute; bottom: 30px; font-size: 2rem; animation: bounce 2s infinite; z-index: 10; }
+    html {
+      scroll-behavior: smooth;
+    }
 
-        /* MODAL (SEBEPLER) */
-        #reason-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); background: rgba(255,255,255,0.95); color: #333; padding: 30px; border-radius: 15px; width: 80%; max-width: 400px; text-align: center; z-index: 100; transition: 0.3s; }
-        #reason-modal.active { transform: translate(-50%, -50%) scale(1); }
-        .close-modal { margin-top: 20px; background: var(--primary); color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255, 95, 158, 0.32), transparent 32rem),
+        radial-gradient(circle at 80% 12%, rgba(139, 92, 246, 0.28), transparent 28rem),
+        linear-gradient(135deg, #120713 0%, #231026 52%, #0b0610 100%);
+      overflow-x: hidden;
+    }
 
-        /* ZAMAN TÜNELİ */
-        #timeline-section { padding: 50px 10px; background: #111; position: relative; }
-        .timeline { position: relative; max-width: 800px; margin: 0 auto; }
-        .timeline::after { content: ''; position: absolute; width: 4px; background: var(--primary); top: 0; bottom: 0; left: 50%; margin-left: -2px; }
-        .container { padding: 10px 40px; position: relative; width: 50%; box-sizing: border-box; }
-        .left { left: 0; } .right { left: 50%; }
-        .container::after { content: ''; position: absolute; width: 20px; height: 20px; right: -10px; background: #fff; border: 4px solid var(--primary); top: 20px; border-radius: 50%; z-index: 1; }
-        .right::after { left: -10px; }
-        .content { padding: 20px; background: #1e1e2f; border-radius: 6px; border-left: 3px solid var(--primary); position: relative; transition: 0.3s; }
-        .content:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3); }
-        .content img { width: 100%; border-radius: 5px; margin-bottom: 10px; }
-        .date-badge { position: absolute; top: -10px; right: -10px; background: var(--primary); color: white; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black, transparent 80%);
+    }
 
-        /* FINAL */
-        #letter-section { padding: 80px 20px; background: linear-gradient(to top, #000, #111); text-align: center; display: flex; justify-content: center; }
-        .letter-card { background: #fff; color: #333; max-width: 600px; padding: 40px; border-radius: 10px; transform: rotate(-1deg); position: relative; }
-        .final-photo { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 5px solid var(--primary); margin-bottom: 20px; }
+    .login-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at 50% 10%, rgba(255, 95, 158, 0.38), transparent 30rem),
+        linear-gradient(145deg, #180916, #050205);
+      transition: opacity 0.7s ease, visibility 0.7s ease;
+    }
 
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
-        @media screen and (max-width: 600px) {
-            .timeline::after { left: 31px; }
-            .container { width: 100%; padding-left: 70px; padding-right: 25px; }
-            .left::after, .right::after { left: 21px; }
-            .right { left: 0%; }
-            .main-title { font-size: 2.5rem; }
-        }
-    </style>
+    .login-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .login-card {
+      width: min(460px, 100%);
+      padding: 34px;
+      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
+    }
+
+    .login-card .mini {
+      margin: 0 0 10px;
+      color: var(--pink-light);
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+    }
+
+    h1,
+    h2,
+    .script {
+      font-family: "Dancing Script", cursive;
+    }
+
+    .login-card h1 {
+      margin: 0;
+      font-size: clamp(2.4rem, 8vw, 4rem);
+    }
+
+    .login-card p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .date-input {
+      width: 100%;
+      margin-top: 14px;
+      padding: 16px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 18px;
+      outline: none;
+      background: rgba(255, 255, 255, 0.92);
+      color: #2f1228;
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+    }
+
+    .login-button,
+    .hero-link {
+      border: 0;
+      cursor: pointer;
+      margin-top: 16px;
+      padding: 14px 22px;
+      border-radius: 999px;
+      color: white;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      box-shadow: 0 14px 34px rgba(255, 95, 158, 0.25);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .login-button:hover,
+    .hero-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 44px rgba(255, 95, 158, 0.34);
+    }
+
+    .error {
+      display: none;
+      color: #ffd0dc;
+      font-weight: 700;
+    }
+
+    .error.visible {
+      display: block;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 90px 22px 70px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      filter: blur(12px);
+      opacity: 0.35;
+      animation: float 8s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    .hero::before {
+      top: 12%;
+      left: 8%;
+      background: var(--pink);
+    }
+
+    .hero::after {
+      right: 6%;
+      bottom: 12%;
+      background: var(--purple);
+      animation-delay: -3s;
+    }
+
+    .hero-inner {
+      width: min(980px, 100%);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding: 9px 15px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--pink-light);
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(3.3rem, 12vw, 7.8rem);
+      line-height: 0.92;
+      text-shadow: 0 18px 54px rgba(255, 95, 158, 0.35);
+    }
+
+    .hero-text {
+      width: min(780px, 100%);
+      margin: 24px auto 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2.6vw, 1.3rem);
+      line-height: 1.8;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      width: min(760px, 100%);
+      margin: 34px auto 0;
+    }
+
+    .stat {
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      color: var(--pink-light);
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    section {
+      padding: 74px 22px;
+    }
+
+    .section-inner {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+    }
+
+    .section-heading {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(2.4rem, 7vw, 4.5rem);
+    }
+
+    .section-heading p {
+      width: min(720px, 100%);
+      margin: 12px auto 0;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-auto-rows: 150px;
+      gap: 16px;
+    }
+
+    .photo-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: var(--card);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.24);
+    }
+
+    .photo-card:nth-child(1) {
+      grid-column: span 3;
+      grid-row: span 2;
+    }
+
+    .photo-card:nth-child(2) {
+      grid-column: span 3;
+    }
+
+    .photo-card:nth-child(3) {
+      grid-column: span 3;
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.03);
+      transition: transform 0.45s ease, filter 0.45s ease;
+    }
+
+    .photo-card:hover img {
+      transform: scale(1.1);
+      filter: saturate(1.12) brightness(1.08);
+    }
+
+    .photo-card::after {
+      content: "Esma & Kadir";
+      position: absolute;
+      right: 16px;
+      bottom: 14px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.38);
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 800;
+      backdrop-filter: blur(10px);
+    }
+
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .reason-card {
+      min-height: 190px;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background:
+        linear-gradient(150deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.06)),
+        radial-gradient(circle at top right, rgba(255, 95, 158, 0.22), transparent 10rem);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .reason-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255, 193, 217, 0.55);
+    }
+
+    .reason-number {
+      display: inline-grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 16px;
+      border-radius: 50%;
+      color: white;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+    }
+
+    .reason-card p {
+      margin: 0;
+      color: var(--cream);
+      line-height: 1.65;
+      font-weight: 600;
+    }
+
+    .letter-wrap {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .letter-photo,
+    .letter-card {
+      border: 1px solid var(--border);
+      border-radius: 34px;
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .letter-photo {
+      min-height: 460px;
+      position: relative;
+    }
+
+    .letter-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .letter-photo::after {
+      content: "14 ay, sayısız güzel anı";
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      bottom: 22px;
+      padding: 16px;
+      border-radius: 22px;
+      background: rgba(18, 7, 19, 0.58);
+      color: white;
+      font-weight: 800;
+      backdrop-filter: blur(14px);
+    }
+
+    .letter-card {
+      padding: clamp(26px, 5vw, 46px);
+      background:
+        linear-gradient(160deg, rgba(255, 247, 251, 0.96), rgba(255, 228, 240, 0.93)),
+        white;
+      color: #341729;
+    }
+
+    .letter-card h2 {
+      margin: 0 0 16px;
+      color: #b62268;
+      font-size: clamp(2.4rem, 7vw, 4.4rem);
+    }
+
+    .letter-card p {
+      margin: 0;
+      color: #4b2439;
+      font-size: 1.05rem;
+      line-height: 1.95;
+      font-weight: 500;
+    }
+
+    .signature {
+      margin-top: 24px;
+      color: #b62268;
+      font-size: 2rem;
+      text-align: right;
+    }
+
+    footer {
+      padding: 42px 22px 54px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .floating-heart {
+      position: fixed;
+      bottom: -30px;
+      left: var(--left);
+      z-index: 0;
+      color: rgba(255, 193, 217, 0.2);
+      font-size: var(--size);
+      animation: rise var(--duration) linear infinite;
+      animation-delay: var(--delay);
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0%,
+      100% {
+        transform: translate3d(0, 0, 0);
+      }
+      50% {
+        transform: translate3d(0, -26px, 0);
+      }
+    }
+
+    @keyframes rise {
+      from {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+      15% {
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-115vh) rotate(24deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .stats,
+      .letter-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 320px;
+      }
+
+      .photo-card:nth-child(n) {
+        grid-column: auto;
+        grid-row: auto;
+      }
+
+      .reasons-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .login-card {
+        padding: 26px 20px;
+      }
+
+      .stats,
+      .reasons-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery {
+        grid-auto-rows: 240px;
+      }
+
+      .letter-photo {
+        min-height: 340px;
+      }
+    }
+  </style>
 </head>
 <body>
-
-    <div id="login-overlay">
-        <h2 style="color: white;">Esma & Kadir</h2>
-        <p style="color: #aaa;">Giriş Şifresi (Tanışma Zamanımız):</p>
-        <input type="password" id="passwordInput" placeholder="****">
-        <button onclick="checkPassword()">Giriş Yap</button>
-        <p id="error-msg" style="color: red; display: none; margin-top:10px;">Yanlış şifre birtanem :)</p>
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-card">
+      <p class="mini">Esma & Kadir</p>
+      <h1>Kapıyı Anılar Açsın</h1>
+      <p>Ne zaman sevgili olduk?</p>
+      <p>Gün-ay-yıl şeklinde yazın</p>
+      <input
+        class="date-input"
+        id="dateInput"
+        inputmode="numeric"
+        maxlength="10"
+        placeholder="gg.aa.yyyy"
+        autocomplete="off"
+      />
+      <button class="login-button" id="loginButton" type="button">Giriş Yap</button>
+      <p class="error" id="errorMessage">Tarih doğru değil birtanem :)</p>
     </div>
+  </div>
 
-    <section id="sky-section">
-        <h1 class="main-title">9. Ayımız Kutlu Olsun</h1>
-        <p class="subtitle">Ekranda 30 tane yıldız var. Hepsinde seni sevme sebebim saklı...</p>
-        <div class="scroll-down"><i class="fas fa-chevron-down"></i></div>
-    </section>
-
-    <div id="reason-modal">
-        <h3 style="color: #ff4d6d;">Seni Seviyorum Çünkü...</h3>
-        <p id="reason-text" style="font-size: 1.2rem; font-weight: 500;">...</p>
-        <button class="close-modal" onclick="closeModal()">Kapat</button>
-    </div>
-
-    <section id="timeline-section">
-        <h2 style="text-align: center; margin-bottom: 40px; font-size: 2.5rem;">Bizim 9 Ayımız</h2>
-        <div class="timeline">
-
-            <div class="container left">
-                <div class="content">
-                    <span class="date-badge">1. Ay</span>
-                    <h2>Başlangıç</h2>
-                    <img src="./img/ay1.jpeg" alt="1. Ay">
-                    <p>Aşkım bir nisan akşamı bir rastlantı üzerine denk geldik. Benim hayatımda bu denk geliş kadar mutlu olduğum bir an olmamıştı. O gün senden öylesine etkilendim öylesine gelecek hayalleri kurdum ki. O gün senle hatırlarsın şiirden edebiyattan konuşmuştuk mesela ilk defa o bilgilerin işe yaradığını görmüştüm. İyi ki hayatımın bir noktasında bunları öğrendim ve seni etkileyebildim bu şekilde. Seninle tanıştığımız güne şükürler olsun.  SENİ ÇOK SEVİYORUM. </p> </div>
-            </div>
-
-            <div class="container right">
-                <div class="content">
-                    <span class="date-badge">2. Ay</span>
-                    <h2>İlk Heyecanlar</h2>
-                    <img src="./img/ay2.jpeg" alt="2. Ay">
-                    <p>Sonra sevgili olduk. Birbirimize alışmaya başladık hatırlarsan haber etmeyi unutuyordun felan. Alışkanlıkla beraber mutluluk da gelmişti gönüllerimize. Senle o zamanlar alışırken ve senin huylarını öğrenirken çok zevkliydi. Biliyorum bazen zorlandın bazen zorlandım ama bu aşkın herşeye değeceğini düşündün her seferinde. Bayraklı götürmüştün beni belki ömrümüz boyunca gideceğimiz yerd burası.  SENİ ÇOK SEVİYORUM. </p> </div>
-            </div>
-
-            <div class="container left">
-                <div class="content">
-                    <span class="date-badge">3. Ay</span>
-                    <h2>Alışıyoruz</h2>
-                    <img src="./img/ay3.jpeg" alt="3. Ay">
-                    <p>Artık 3. ayımıza doğru gidiyorduk. Bu gidişten de o kadar mutlu oluyordum ki Doğru kişiyi bulmanın gururunu yaşıyordum. Sen öylesine güzel hissettiriyordun ki bana. Seni öğrenmiştim senin kim olduğunu çözümlemiştim artık. Artık PROF.ESMANNUR AKBALIK olmuştum seni öğrenmiştim. Sen benim dünyamsın bebeğim seninle beraber hayaller kuruyorduk ve sabırsızlanıyordum bunlar içim. SENİ ÇOK SEVİYORUM.</p> </div>
-            </div>
-
-            <div class="container right">
-                <div class="content">
-                    <span class="date-badge">4. Ay</span>
-                    <h2>Güzel Bir Anı</h2>
-                    <img src="./img/ay4.jpeg" alt="4. Ay">
-                    <p>Bak aşkım 4. ayımıza gelmiştik ve neredeyiz aşkımmm bayraklııııı. Bayraklının her yerindeyiz. Seninle her gün geçerken sana şükrediyordum. Çünkü o kadar huzurlu ve keyifliydi ki senle vakit geçirmek. O kadar gülüyordum ki senleyken keyfe keyif katıyorduk. Aşkım be sen iyi ki varsın senle beraber bir ömür istiyorum. Evet evlilik meraklısıyım ama seninle evlilik. Dünyalar düzeli sevgilim benimm be ama İzmir çok sıcak aşkımmm beee sen sıcakken rahatsız oluyorsun ama olsun serinletirim seni. SENİ ÇOK SEVİYORUM. </p> </div>
-            </div>
-
-            <div class="container left">
-                <div class="content">
-                    <span class="date-badge">5. Ay</span>
-                    <h2>Birlikte Büyüyoruz</h2>
-                    <img src="./img/ay5.jpeg" alt="5. Ay">
-                    <p>Bak beraber ilk ev ziyaretimizi yapmıştık. Evli gibi hissetmiştik. Sevgili olarak ailenin evine gitmek çok güzel bir deneyimdii aşkımm. Beraber köfte yuvarlamıştık hatırlar mısın aşkımm çok keyifliydi. Seninle birşeyler yapmak çok huzurluydu ortam olay farketmeksizin. SENİ ÇOK SEVİYORUM.</p> </div>
-            </div>
-
-            <div class="container right">
-                <div class="content">
-                    <span class="date-badge">6. Ay</span>
-                    <h2>Yarım Yıl Oldu</h2>
-                    <img src="./img/ay6.jpeg" alt="6. Ay">
-                    <p>6 Ay oldu aşkım bak nasıl geçti anlamadık da. Zaman su gibi akıyor ve su gibi iyi geliyordu bize. Sen turgutluya geliyordun gidiyordunn ben de izmire aşkım. Çok mutlu ediyordun beni glutensiz diyetine başlamadığın zamanlardı aşk. Diyet dedim sandın demii şaka şaka hayat biçimi. Seninle gurur duyuyorum bu konuda ve her şeyde çok özverilisin. Senin her daim yanındayım. SENİ ÇOK SEVİYORUM</p> </div>
-            </div>
-
-            <div class="container left">
-                <div class="content">
-                    <span class="date-badge">7. Ay</span>
-                    <h2>Seninle Her Şey Güzel</h2>
-                    <img src="./img/ay7.jpeg" alt="7. Ay">
-                    <p>Hastaneye geliyordum senle. Böyle bir ömür koşucam her işine aşkım. Çünkü sen benim için her seysin destekçin olmam lazım. Hastaneye gitmiştik o gün aşk senin doğduğun hastaneyee askımm. Anan iyi ki doğurmuş seni Allah iyi ki bana nasip etmiş. SENİ ÇOK SEVİYORUM.</p> </div>
-            </div>
-
-            <div class="container right">
-                <div class="content">
-                    <span class="date-badge">8. Ay</span>
-                    <h2>Maceralarımız</h2>
-                    <img src="./img/ay8.jpeg" alt="8. Ay">
-                    <p>Aylar geçiyordu bizim mutluluğumuz arıtyordu aşkımm. Huzur da yanındaydı tabii ki. Birbirimize iyice alışmıştık ve anlıyorduk sıkıntılarımız azalmıştı baya. Bu aylarda ben doğmuştum beraber kutlamıştık. Sen bana hayatımın en güzel doğum gününü yaşatmıştın. Hem de en güzeli. Aldığın hediyeden yaptığın pastaya kadar çok keyifliydi be aşkım. Beraber artık uzun ilişki yoluna girmiştik. Her zaman sana şükrediyordum. Ama staj bulamamıştım ve senden uzaklaşacağım diye çok korkuyordum. Sen de korkuyor ve istemiyordun ama asla belli etmiyordun bunu. Bana destek oluyordun sadece ne iyi sevgilisin be. SENİ ÇOK SEVİYORUM.</p> </div>
-            </div>
-
-            <div class="container left">
-                <div class="content">
-                    <span class="date-badge">9. Ay</span>
-                    <h2>Ve Bugün...</h2>
-                    <img src="./img/ay9.jpeg" alt="9. Ay">
-                    <p>Geldik son ayımıza bu ay çok eğlenceli geçti. İlk şehir dışı tatilimizi planlıyorduk. Nereye gitsek nasıl bir yer tutsak sorularıyla uğraşıyorduk. Ama ayarladık sonunda AKYAKA MEVSİM OTEL bir ömür unutmayacağımız ilk tatilimiz. Bu kadar huzurlu olacağımızı tahmin ederdik belki ama bunu hissetmek ne güzeldi be. Senle uyumanın verdiği huzura erişmek mesela nasıl bir duygu. Nasıl bunun yokluğunu bunca yıl anlamamışız. Çünkü öylesine bir güzellik ki sabah zinde ve enerjik uyanıyor insan. İyi ki varsın be. SENİ ÇOK SEVİYORUM.</p> </div>
-            </div>
-
+  <main class="page">
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="badge">23.04.2025'ten beri aynı hikayenin içindeyiz</div>
+        <h1>14. Ayımız Kutlu Olsun Sevgilim</h1>
+        <p class="hero-text">
+          Bu sayfada bizim güzel anılarımız, fotoğraflarımız ve sana söylemek istediklerim var.
+          Yıl geçti sevdamızdan ama hiç azalmıyor aşkım sana.
+        </p>
+        <div class="stats" aria-label="İlişki özeti">
+          <div class="stat">
+            <strong>14</strong>
+            <span>güzel ay</span>
+          </div>
+          <div class="stat">
+            <strong>426</strong>
+            <span>günden fazla sevda</span>
+          </div>
+          <div class="stat">
+            <strong>∞</strong>
+            <span>devam edecek hayal</span>
+          </div>
         </div>
+        <a class="hero-link" href="#gallery">Anılarımıza Bak</a>
+      </div>
     </section>
 
-    <section id="letter-section">
-        <div class="letter-card">
-            <img src="./img/final.jpeg" class="final-photo" alt="Biz">
-            <h2>HATUNUM,</h2>
-            <p>
-                Şimdi ise yeni bir ayı daha doldurduk. 1. yılımıza 3 ay kaldı artık. Bu aylarda nice hayaller inşaa ettik ve nicelerini gerçekleştirdik. Seninle çok mutluyum ve bu ömür senle geçsin diye herşeyi yaparım. Sen hayatıma geldiğinden beri o kadar büyük mutluluklar yaşadık ki. Yani hayal etsem nasıl bir ilişki istediğimi bu denli güzelliği hayal edemezdim. Ben sana aşığım hayatım. Bu hayatta seninle çocuklarımız olsun istiyorum evliliğimiz olsun istiyorum. Sen bu hayattaki ruh eşim sensin. Seninle nice aylarımız yıllarımız olsun aşkım. SENİ ÇOK SEVİYORUM HAYATIM. İYİ Kİ VARSIN.
-            </p> <p style="margin-top:20px; font-family:'Dancing Script'; font-size:1.5rem;">- Kadir</p>
+    <section id="gallery">
+      <div class="section-inner">
+        <div class="section-heading">
+          <h2>Seninle keyifli zamanlarımızdan parçalar</h2>
+          <p>Her fotoğrafta başka bir mutluluğumuz, başka bir gülüşümüz saklı.</p>
         </div>
+        <div class="gallery" id="photoGallery" aria-label="Fotoğraf galerisi"></div>
+      </div>
     </section>
 
-    <script>
-        // ŞİFRE AYARI (Burayı değiştir)
-        function checkPassword() {
-            const input = document.getElementById('passwordInput').value;
-            if (input === "2304") { // ŞİFREYİ BURAYA YAZ
-                document.getElementById('login-overlay').style.opacity = '0';
-                setTimeout(() => { document.getElementById('login-overlay').style.display = 'none'; }, 1000);
-            } else {
-                document.getElementById('error-msg').style.display = 'block';
-            }
-        }
+    <section>
+      <div class="section-inner">
+        <div class="section-heading">
+          <h2>14. Ayımıza Özel 14 Sebep</h2>
+          <p>Her biri içimden gelen küçük ama çok gerçek bir sevme sebebi.</p>
+        </div>
+        <div class="reasons-grid" id="reasonsGrid"></div>
+      </div>
+    </section>
 
-        // 30 ADET SEBEP LİSTESİ
-        // Tırnak içindeki yazıları kendi cümlelerinle değiştir.
-        const reasons = [
-            "Gülüşünle dünyamı aydınlatıyorsun.",
-            "Sen benim neşe kaynağımsın.",
-            "Sesini duymak huzur veriyor bana.",
-            "Zekana ve başarına hayranım. Seninle gurur duyuyorum",
-            "Seninle saçma sapan hareketler yapmak çok keyifli.",
-            "Gözlerinin içine bakınca huzur buluyorum.",
-            "Bana tatlı, yemek ne yaparsan dünyanın en lezzetli şeyi oluyor.",
-            "Seninle beraber uyumak çok güzel aşkım",
-            "Hayaller kurmak ve bunları gerçekleştirmek çok güzel",
-            "Bu dünyada senden güzeli yok sana bayılıyorum.",
-            "Sana olan aşkımı hiç itiraf etmiş miydim ?",
-            "Kokunu içime çekince sanki içimde çiçekler filizleniyor.",
-            "Birlikteyken zamanın nasıl geçtiğini anlamıyorum.",
-            "Benim en iyi arkadaşımsın.",
-            "Kalbinin güzelliği yüzüne yansıyor parıldıyorsun.",
-            "Dudaklarından yanaklarını öpmek çok EĞLENCELİ",
-            "Sen nasıl iyi bir sevgilisin bir bilsen keşkeeee",
-            "Güneş nedir bilmem ama sen benim içimi sıcacık yapıyorsun.",
-            "Evren kaç bucak bilmem ama ben bu evrendeki bütün güzel duyguları yaşattın",
-            "Boyun posun endamın fiziğin çok güzelll",
-            "Yanaklarından şap şap öpmek çok keyiflii",
-            "Şaçların çok güzel uzadıkça ve gün geçtikçe daha da güzelleşiyor.",
-            "Seni prensesim gibi seviyorum",
-            "Sen şekerparemsin benimm",
-            "Bu dünyada senden güzel bir sanat eserine rastlamadım",
-            "SENİ ÇOK SEVİYORUMMM",
-            "sen benim herşeyimsinnn",
-            "Boncuk gözlü sevgilim gözlerinden öpsem de dudaklarım filizlense",
-            "E K Muhteşem ikili değil miii",
-            "Seni 'Sen' olduğun için seviyorum."
-        ];
+    <section>
+      <div class="section-inner letter-wrap">
+        <div class="letter-photo">
+          <img id="letterImage" src="./img/WhatsApp Image 2026-06-22 at 23.50.14.jpeg" alt="Bizden bir fotoğraf">
+        </div>
+        <article class="letter-card">
+          <h2>HATUNUM,</h2>
+          <p>
+            Sevgilim seninle 14 ayı geride bıraktık. Bu ayların hepsinde birçok güzel anımız kaldı.
+            Seninle her geçen gün her geçen an öylesine büyüleyici ki arkamı dönüp bakınca yüzümde
+            gülümsemeden başka birşey bırakmıyor. Ben seninle çok mutluyum tartışsak da üzülsek de
+            ne olursa olsun seninle çok mutluyum aşkım. Sen benim herşeyimsin. Seninle evlenmek
+            mutlu bir yuva kurmak istiyorum birtanem. Bu yuvada ne pahalı eşyalar ne de kocaman
+            odalar olmasına gerek yok bir sen varsan dünyada benden zengini yoktur. Seni çok
+            seviyorum. iyi ki varsın Aşkım. 14. AYIMIZ KUTLU OLSUN.
+          </p>
+          <div class="signature script">- Kadir</div>
+        </article>
+      </div>
+    </section>
+  </main>
 
-        // YILDIZLARI OLUŞTURMA
-        const sky = document.getElementById('sky-section');
-        const modal = document.getElementById('reason-modal');
-        const reasonText = document.getElementById('reason-text');
+  <footer>
+    Esma & Kadir için, 14. ay hatırası.
+  </footer>
 
-        // Tam 30 yıldız oluşturuyoruz
-        reasons.forEach((reason, index) => {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            const x = Math.random() * 90 + 5; 
-            const y = Math.random() * 80 + 10;
-            const size = Math.random() * 4 + 2; 
-            const duration = Math.random() * 3 + 2;
+  <script>
+    const correctDate = "23.04.2025";
+    const dateInput = document.getElementById("dateInput");
+    const loginButton = document.getElementById("loginButton");
+    const loginOverlay = document.getElementById("loginOverlay");
+    const errorMessage = document.getElementById("errorMessage");
 
-            star.style.left = x + '%';
-            star.style.top = y + '%';
-            star.style.width = size + 'px';
-            star.style.height = size + 'px';
-            star.style.animation = `twinkle ${duration}s infinite`;
+    function formatDate(value) {
+      const digits = value.replace(/\D/g, "").slice(0, 8);
+      const parts = [];
 
-            star.addEventListener('click', () => {
-                reasonText.innerText = reason;
-                modal.classList.add('active');
-            });
-            sky.appendChild(star);
-        });
+      if (digits.length > 0) parts.push(digits.slice(0, 2));
+      if (digits.length > 2) parts.push(digits.slice(2, 4));
+      if (digits.length > 4) parts.push(digits.slice(4, 8));
 
-        function closeModal() { modal.classList.remove('active'); }
+      return parts.filter(Boolean).join(".");
+    }
 
-        const styleSheet = document.createElement("style");
-        styleSheet.innerText = `@keyframes twinkle { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }`;
-        document.head.appendChild(styleSheet);
-    </script>
+    function checkDate() {
+      if (dateInput.value === correctDate) {
+        errorMessage.classList.remove("visible");
+        loginOverlay.classList.add("hidden");
+        return;
+      }
+
+      errorMessage.classList.add("visible");
+      dateInput.focus();
+    }
+
+    dateInput.addEventListener("input", () => {
+      dateInput.value = formatDate(dateInput.value);
+      errorMessage.classList.remove("visible");
+    });
+
+    dateInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") checkDate();
+    });
+
+    loginButton.addEventListener("click", checkDate);
+
+    const photos = [
+      "./img/ay1.jpeg",
+      "./img/ay2.jpeg",
+      "./img/ay3.jpeg",
+      "./img/ay4.jpeg",
+      "./img/ay5.jpeg",
+      "./img/ay6.jpeg",
+      "./img/ay7.jpeg",
+      "./img/ay8.jpeg",
+      "./img/ay9.jpeg",
+      "./img/final.jpeg",
+      "./img/WhatsApp Image 2026-06-22 at 23.50.14.jpeg",
+      "./img/WhatsApp Image 2026-06-22 at 23.50.1555.jpeg",
+      "./img/WhatsApp Image 2026-06-22 at 23.50.1455.jpeg"
+    ];
+
+    const reasons = [
+      "Tek gülüşünle en kötü günüm bile güzelleşiyor.",
+      "O kadar güzelsin ki güneş kremi sürmeden yanına gelmemek lazım.",
+      "Seni o kadar seviyorum ki her an yanında olmak istiyorum.",
+      "Seninle sohbet etmek çok keyifli sevgilim",
+      "Sen bu dünyadaki en zeki insansın",
+      "Tadın meyveye benziyor",
+      "Saçların çok güzel keşke her dakika bakabilsem onlara",
+      "Gözlerine bakmak bile dünyayı keşfetmeme yetiyor",
+      "Senin yanaklarından öpmek insani rahatlatıyor",
+      "Sen çokk güzel gülüyorsun bebeğim",
+      "Benim herşeyim sensin yol göstericimsin",
+      "Seninle her şeyi yapabilirim",
+      "Sana sarılmak her derde devadır",
+      "Seni çok seviyorum nedensiz"
+    ];
+
+    function shuffled(items) {
+      return [...items].sort(() => Math.random() - 0.5);
+    }
+
+    const photoGallery = document.getElementById("photoGallery");
+    shuffled(photos).forEach((src, index) => {
+      const card = document.createElement("figure");
+      const image = document.createElement("img");
+
+      card.className = "photo-card";
+      image.src = src;
+      image.alt = `Esma ve Kadir anısı ${index + 1}`;
+      image.loading = "lazy";
+
+      card.appendChild(image);
+      photoGallery.appendChild(card);
+    });
+
+    const reasonsGrid = document.getElementById("reasonsGrid");
+    reasons.forEach((reason, index) => {
+      const card = document.createElement("article");
+      card.className = "reason-card";
+      card.innerHTML = `
+        <span class="reason-number">${index + 1}</span>
+        <p>${reason}</p>
+      `;
+      reasonsGrid.appendChild(card);
+    });
+
+    for (let i = 0; i < 18; i++) {
+      const heart = document.createElement("span");
+      heart.className = "floating-heart";
+      heart.textContent = "♥";
+      heart.style.setProperty("--left", `${Math.random() * 100}%`);
+      heart.style.setProperty("--size", `${Math.random() * 20 + 14}px`);
+      heart.style.setProperty("--duration", `${Math.random() * 8 + 10}s`);
+      heart.style.setProperty("--delay", `${Math.random() * -14}s`);
+      document.body.appendChild(heart);
+    }
+  </script>
 </body>
 </html>
