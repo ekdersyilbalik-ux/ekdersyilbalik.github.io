@@ -375,25 +375,66 @@
 
     .reasons-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 14px;
+      align-items: stretch;
     }
 
     .reason-card {
-      min-height: 190px;
-      padding: 22px;
+      position: relative;
+      min-height: 210px;
+      padding: 16px;
       border: 1px solid var(--border);
       border-radius: 28px;
+      appearance: none;
+      color: var(--text);
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+      overflow: hidden;
       background:
-        linear-gradient(150deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.06)),
-        radial-gradient(circle at top right, rgba(255, 95, 158, 0.22), transparent 10rem);
+        linear-gradient(150deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.06)),
+        radial-gradient(circle at top right, rgba(255, 95, 158, 0.26), transparent 9rem),
+        radial-gradient(circle at bottom left, rgba(139, 92, 246, 0.18), transparent 8rem);
       box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
-      transition: transform 0.2s ease, border-color 0.2s ease;
+      transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
     }
 
-    .reason-card:hover {
+    .reason-card::before {
+      content: "♥";
+      position: absolute;
+      right: -18px;
+      top: -28px;
+      color: rgba(255, 193, 217, 0.15);
+      font-size: 6.5rem;
+      line-height: 1;
+      transform: rotate(14deg);
+    }
+
+    .reason-card:hover,
+    .reason-card:focus-visible {
       transform: translateY(-6px);
-      border-color: rgba(255, 193, 217, 0.55);
+      border-color: rgba(255, 193, 217, 0.62);
+      box-shadow: 0 24px 60px rgba(255, 95, 158, 0.16);
+      outline: none;
+    }
+
+    .reason-card.is-open {
+      background:
+        linear-gradient(150deg, rgba(255, 247, 251, 0.97), rgba(255, 221, 237, 0.92)),
+        white;
+      color: #351628;
+      border-color: rgba(255, 193, 217, 0.75);
+    }
+
+    .reason-top {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 18px;
     }
 
     .reason-number {
@@ -401,18 +442,60 @@
       place-items: center;
       width: 42px;
       height: 42px;
-      margin-bottom: 16px;
       border-radius: 50%;
       color: white;
       font-weight: 900;
       background: linear-gradient(135deg, var(--pink), var(--purple));
+      box-shadow: 0 10px 24px rgba(255, 95, 158, 0.24);
     }
 
-    .reason-card p {
+    .reason-lock {
+      color: var(--pink-light);
+      font-size: 0.75rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .reason-card.is-open .reason-lock {
+      color: #b62268;
+    }
+
+    .reason-closed {
+      position: relative;
+      z-index: 1;
       margin: 0;
-      color: var(--cream);
-      line-height: 1.65;
-      font-weight: 600;
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    .reason-text {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      min-height: 96px;
+      place-items: center;
+      margin: 0;
+      color: transparent;
+      font-size: clamp(0.88rem, 1.15vw, 1rem);
+      font-weight: 800;
+      line-height: 1.55;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.24s ease, transform 0.24s ease, color 0.24s ease;
+    }
+
+    .reason-card.is-open .reason-closed {
+      display: none;
+    }
+
+    .reason-card.is-open .reason-text {
+      color: #4b2439;
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .letter-wrap {
@@ -640,8 +723,8 @@
     <section>
       <div class="section-inner">
         <div class="section-heading">
-          <h2>14. Ayımıza Özel 14 Sebep</h2>
-          <p>Her biri içimden gelen küçük ama çok gerçek bir sevme sebebi.</p>
+          <h2>14. Ayımıza Özel 14 İltifat</h2>
+          <p>Kartlara dokun; her birinin içinde sana sakladığım küçük bir iltifat var.</p>
         </div>
         <div class="reasons-grid" id="reasonsGrid"></div>
       </div>
@@ -775,12 +858,23 @@
 
     const reasonsGrid = document.getElementById("reasonsGrid");
     reasons.forEach((reason, index) => {
-      const card = document.createElement("article");
+      const card = document.createElement("button");
       card.className = "reason-card";
+      card.type = "button";
+      card.setAttribute("aria-expanded", "false");
       card.innerHTML = `
-        <span class="reason-number">${index + 1}</span>
-        <p>${reason}</p>
+        <span class="reason-top">
+          <span class="reason-number">${index + 1}</span>
+          <span class="reason-lock">Kapalı</span>
+        </span>
+        <span class="reason-closed">İltifatı açmak için dokun</span>
+        <span class="reason-text">${reason}</span>
       `;
+      card.addEventListener("click", () => {
+        const isOpen = card.classList.toggle("is-open");
+        card.setAttribute("aria-expanded", String(isOpen));
+        card.querySelector(".reason-lock").textContent = isOpen ? "Açık" : "Kapalı";
+      });
       reasonsGrid.appendChild(card);
     });
 
