@@ -9,17 +9,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #120713;
-      --bg-soft: #241025;
-      --pink: #ff5f9e;
-      --pink-light: #ffc1d9;
-      --purple: #8b5cf6;
-      --cream: #fff7fb;
-      --text: #fff8fc;
-      --muted: rgba(255, 248, 252, 0.72);
-      --card: rgba(255, 255, 255, 0.1);
-      --border: rgba(255, 255, 255, 0.16);
-      --shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+      --bg: #100911;
+      --bg-soft: #25121f;
+      --rose: #e94f86;
+      --rose-deep: #9f174d;
+      --blush: #ffd6e4;
+      --champagne: #ffe9bd;
+      --lavender: #b68cff;
+      --cream: #fff9f0;
+      --text: #fffaf4;
+      --muted: rgba(255, 250, 244, 0.74);
+      --card: rgba(255, 255, 255, 0.11);
+      --border: rgba(255, 233, 189, 0.2);
+      --shadow: 0 24px 70px rgba(45, 12, 32, 0.38);
     }
 
     * {
@@ -36,9 +38,10 @@
       color: var(--text);
       font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(255, 95, 158, 0.32), transparent 32rem),
-        radial-gradient(circle at 80% 12%, rgba(139, 92, 246, 0.28), transparent 28rem),
-        linear-gradient(135deg, #120713 0%, #231026 52%, #0b0610 100%);
+        radial-gradient(circle at 12% 8%, rgba(255, 214, 228, 0.22), transparent 30rem),
+        radial-gradient(circle at 82% 12%, rgba(255, 233, 189, 0.16), transparent 28rem),
+        radial-gradient(circle at 50% 78%, rgba(182, 140, 255, 0.16), transparent 34rem),
+        linear-gradient(135deg, #100911 0%, #2a1024 45%, #130918 100%);
       overflow-x: hidden;
     }
 
@@ -62,8 +65,9 @@
       place-items: center;
       padding: 24px;
       background:
-        radial-gradient(circle at 50% 10%, rgba(255, 95, 158, 0.38), transparent 30rem),
-        linear-gradient(145deg, #180916, #050205);
+        radial-gradient(circle at 50% 10%, rgba(255, 214, 228, 0.35), transparent 30rem),
+        radial-gradient(circle at 12% 90%, rgba(255, 233, 189, 0.14), transparent 22rem),
+        linear-gradient(145deg, #1b0b16, #080406);
       transition: opacity 0.7s ease, visibility 0.7s ease;
     }
 
@@ -85,7 +89,7 @@
 
     .login-card .mini {
       margin: 0 0 10px;
-      color: var(--pink-light);
+      color: var(--champagne);
       font-weight: 800;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -132,8 +136,8 @@
       border-radius: 999px;
       color: white;
       font-weight: 800;
-      background: linear-gradient(135deg, var(--pink), var(--purple));
-      box-shadow: 0 14px 34px rgba(255, 95, 158, 0.25);
+      background: linear-gradient(135deg, var(--rose), var(--lavender));
+      box-shadow: 0 14px 34px rgba(233, 79, 134, 0.25);
       text-decoration: none;
       display: inline-flex;
       align-items: center;
@@ -145,7 +149,7 @@
     .login-button:hover,
     .hero-link:hover {
       transform: translateY(-2px);
-      box-shadow: 0 18px 44px rgba(255, 95, 158, 0.34);
+      box-shadow: 0 18px 44px rgba(233, 79, 134, 0.34);
     }
 
     .error {
@@ -188,13 +192,13 @@
     .hero::before {
       top: 12%;
       left: 8%;
-      background: var(--pink);
+      background: var(--rose);
     }
 
     .hero::after {
       right: 6%;
       bottom: 12%;
-      background: var(--purple);
+      background: var(--lavender);
       animation-delay: -3s;
     }
 
@@ -211,7 +215,7 @@
       border: 1px solid var(--border);
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.08);
-      color: var(--pink-light);
+      color: var(--champagne);
       font-size: 0.9rem;
       font-weight: 800;
       letter-spacing: 0.04em;
@@ -251,7 +255,7 @@
     .stat strong {
       display: block;
       font-size: clamp(1.8rem, 5vw, 3rem);
-      color: var(--pink-light);
+      color: var(--champagne);
     }
 
     .stat span {
@@ -445,12 +449,12 @@
       border-radius: 50%;
       color: white;
       font-weight: 900;
-      background: linear-gradient(135deg, var(--pink), var(--purple));
+      background: linear-gradient(135deg, var(--rose), var(--lavender));
       box-shadow: 0 10px 24px rgba(255, 95, 158, 0.24);
     }
 
     .reason-lock {
-      color: var(--pink-light);
+      color: var(--champagne);
       font-size: 0.75rem;
       font-weight: 900;
       letter-spacing: 0.08em;
@@ -569,6 +573,129 @@
       text-align: right;
     }
 
+    .secret-note-section {
+      padding-top: 30px;
+    }
+
+    .envelope-card {
+      width: min(620px, 100%);
+      min-height: 280px;
+      margin: 0 auto;
+      padding: 28px;
+      border: 1px solid rgba(255, 233, 189, 0.28);
+      border-radius: 34px;
+      color: var(--text);
+      font: inherit;
+      text-align: center;
+      cursor: pointer;
+      background:
+        radial-gradient(circle at top, rgba(255, 233, 189, 0.18), transparent 18rem),
+        linear-gradient(150deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.06));
+      box-shadow: var(--shadow);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .envelope-card:hover,
+    .envelope-card:focus-visible {
+      transform: translateY(-6px);
+      border-color: rgba(255, 214, 228, 0.68);
+      box-shadow: 0 30px 80px rgba(233, 79, 134, 0.18);
+      outline: none;
+    }
+
+    .envelope {
+      position: relative;
+      width: 210px;
+      height: 138px;
+      margin: 4px auto 24px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #ffe9bd, #ffd3e0);
+      box-shadow: 0 22px 45px rgba(0, 0, 0, 0.24);
+      overflow: hidden;
+    }
+
+    .envelope::before,
+    .envelope::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+    }
+
+    .envelope::before {
+      clip-path: polygon(0 0, 50% 58%, 100% 0);
+      background: linear-gradient(145deg, #fff1ca, #ffc0d5);
+      transform-origin: top;
+      transition: transform 0.45s ease;
+      z-index: 2;
+    }
+
+    .envelope::after {
+      clip-path: polygon(0 100%, 50% 42%, 100% 100%);
+      background: linear-gradient(145deg, #f8c7d7, #f1a9c1);
+      z-index: 3;
+    }
+
+    .envelope-letter {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      top: 34px;
+      height: 92px;
+      border-radius: 10px;
+      background: #fffaf4;
+      color: #9f174d;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      transform: translateY(46px);
+      transition: transform 0.45s ease;
+      z-index: 1;
+    }
+
+    .envelope-card.is-open .envelope::before {
+      transform: rotateX(180deg);
+    }
+
+    .envelope-card.is-open .envelope-letter {
+      transform: translateY(-24px);
+    }
+
+    .envelope-title {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--champagne);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .envelope-hint {
+      margin: 0;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .envelope-message {
+      display: grid;
+      grid-template-rows: 0fr;
+      opacity: 0;
+      transition: grid-template-rows 0.35s ease, opacity 0.35s ease, margin-top 0.35s ease;
+    }
+
+    .envelope-message span {
+      overflow: hidden;
+      color: var(--cream);
+      font-size: clamp(1.1rem, 2.4vw, 1.45rem);
+      font-weight: 800;
+      line-height: 1.7;
+    }
+
+    .envelope-card.is-open .envelope-message {
+      grid-template-rows: 1fr;
+      margin-top: 22px;
+      opacity: 1;
+    }
+
     footer {
       padding: 42px 22px 54px;
       text-align: center;
@@ -585,6 +712,31 @@
       animation: rise var(--duration) linear infinite;
       animation-delay: var(--delay);
       pointer-events: none;
+    }
+
+    .petal-burst {
+      position: fixed;
+      inset: 0;
+      z-index: 120;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .rose-petal {
+      position: absolute;
+      top: -60px;
+      left: var(--left);
+      width: var(--size);
+      height: calc(var(--size) * 0.72);
+      border-radius: 70% 20% 70% 30%;
+      background:
+        radial-gradient(circle at 30% 25%, #ffd1df 0 18%, transparent 20%),
+        linear-gradient(135deg, #ff8eb5, #d61f62 58%, #8f123e);
+      box-shadow: 0 10px 22px rgba(159, 23, 77, 0.25);
+      opacity: 0;
+      transform: rotate(var(--rotate));
+      animation: petalFall var(--duration) cubic-bezier(0.2, 0.7, 0.25, 1) forwards;
+      animation-delay: var(--delay);
     }
 
     @keyframes float {
@@ -607,6 +759,20 @@
       }
       to {
         transform: translateY(-115vh) rotate(24deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes petalFall {
+      0% {
+        transform: translate3d(0, -80px, 0) rotate(var(--rotate));
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        transform: translate3d(var(--drift), 112vh, 0) rotate(calc(var(--rotate) + 520deg));
         opacity: 0;
       }
     }
@@ -750,6 +916,21 @@
         </article>
       </div>
     </section>
+
+    <section class="secret-note-section">
+      <div class="section-inner">
+        <button class="envelope-card" id="envelopeCard" type="button" aria-expanded="false">
+          <span class="envelope" aria-hidden="true">
+            <span class="envelope-letter">Not</span>
+          </span>
+          <span class="envelope-title">Kapalı Zarf</span>
+          <p class="envelope-hint">Tıklayın, içinde sana küçük bir not var.</p>
+          <span class="envelope-message">
+            <span>Bütlerinde başarılar sevgilim başarıcağına inancım sonsuz. Seni çok seviyorum</span>
+          </span>
+        </button>
+      </div>
+    </section>
   </main>
 
   <footer>
@@ -762,6 +943,7 @@
     const loginButton = document.getElementById("loginButton");
     const loginOverlay = document.getElementById("loginOverlay");
     const errorMessage = document.getElementById("errorMessage");
+    const envelopeCard = document.getElementById("envelopeCard");
 
     function formatDate(value) {
       const digits = value.replace(/\D/g, "").slice(0, 8);
@@ -778,11 +960,34 @@
       if (dateInput.value === correctDate) {
         errorMessage.classList.remove("visible");
         loginOverlay.classList.add("hidden");
+        createPetalBurst();
         return;
       }
 
       errorMessage.classList.add("visible");
       dateInput.focus();
+    }
+
+    function createPetalBurst() {
+      const burst = document.createElement("div");
+      burst.className = "petal-burst";
+      document.body.appendChild(burst);
+
+      for (let i = 0; i < 54; i++) {
+        const petal = document.createElement("span");
+        const size = Math.random() * 18 + 14;
+
+        petal.className = "rose-petal";
+        petal.style.setProperty("--left", `${Math.random() * 100}%`);
+        petal.style.setProperty("--size", `${size}px`);
+        petal.style.setProperty("--rotate", `${Math.random() * 220}deg`);
+        petal.style.setProperty("--drift", `${(Math.random() - 0.5) * 260}px`);
+        petal.style.setProperty("--duration", `${Math.random() * 2.8 + 4.2}s`);
+        petal.style.setProperty("--delay", `${Math.random() * 0.9}s`);
+        burst.appendChild(petal);
+      }
+
+      setTimeout(() => burst.remove(), 8200);
     }
 
     dateInput.addEventListener("input", () => {
@@ -795,6 +1000,11 @@
     });
 
     loginButton.addEventListener("click", checkDate);
+
+    envelopeCard.addEventListener("click", () => {
+      const isOpen = envelopeCard.classList.toggle("is-open");
+      envelopeCard.setAttribute("aria-expanded", String(isOpen));
+    });
 
     const photos = [
       "./img/ay1.jpeg",
