@@ -162,6 +162,40 @@
       display: block;
     }
 
+    .hint-button {
+      border: 0;
+      margin-top: 12px;
+      padding: 0;
+      color: var(--champagne);
+      cursor: pointer;
+      background: transparent;
+      font: inherit;
+      font-size: 0.92rem;
+      font-weight: 900;
+      text-decoration: underline;
+      text-underline-offset: 5px;
+    }
+
+    .login-hint {
+      display: grid;
+      grid-template-rows: 0fr;
+      margin: 0;
+      opacity: 0;
+      transition: grid-template-rows 0.28s ease, opacity 0.28s ease, margin-top 0.28s ease;
+    }
+
+    .login-hint.visible {
+      grid-template-rows: 1fr;
+      margin-top: 12px;
+      opacity: 1;
+    }
+
+    .login-hint span {
+      overflow: hidden;
+      color: var(--blush);
+      font-weight: 800;
+    }
+
     .page {
       position: relative;
       z-index: 1;
@@ -577,7 +611,14 @@
       padding-top: 30px;
     }
 
+    .secret-note-section .section-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     .envelope-card {
+      display: block;
       width: min(620px, 100%);
       min-height: 280px;
       margin: 0 auto;
@@ -696,6 +737,41 @@
       opacity: 1;
     }
 
+    .counter-card {
+      width: min(620px, 100%);
+      margin: 26px auto 0;
+      padding: 22px;
+      border: 1px solid rgba(255, 233, 189, 0.22);
+      border-radius: 30px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 214, 228, 0.18), transparent 15rem),
+        rgba(255, 255, 255, 0.08);
+      box-shadow: 0 18px 50px rgba(45, 12, 32, 0.28);
+    }
+
+    .counter-label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .counter-number {
+      display: block;
+      color: var(--champagne);
+      font-size: clamp(2.7rem, 8vw, 5.2rem);
+      font-weight: 900;
+      line-height: 1;
+      text-shadow: 0 16px 42px rgba(255, 233, 189, 0.18);
+    }
+
+    .counter-text {
+      margin: 8px 0 0;
+      color: var(--blush);
+      font-weight: 900;
+    }
+
     footer {
       padding: 42px 22px 54px;
       text-align: center;
@@ -739,6 +815,20 @@
       animation-delay: var(--delay);
     }
 
+    .love-pop {
+      position: fixed;
+      z-index: 130;
+      left: var(--x);
+      top: var(--y);
+      color: var(--blush);
+      font-size: var(--size);
+      font-weight: 900;
+      pointer-events: none;
+      filter: drop-shadow(0 8px 14px rgba(159, 23, 77, 0.24));
+      animation: lovePop 1.45s ease-out forwards;
+      animation-delay: var(--delay);
+    }
+
     @keyframes float {
       0%,
       100% {
@@ -773,6 +863,20 @@
       }
       100% {
         transform: translate3d(var(--drift), 112vh, 0) rotate(calc(var(--rotate) + 520deg));
+        opacity: 0;
+      }
+    }
+
+    @keyframes lovePop {
+      0% {
+        transform: translate3d(0, 0, 0) scale(0.4) rotate(0deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      100% {
+        transform: translate3d(var(--dx), var(--dy), 0) scale(1.25) rotate(var(--rotate));
         opacity: 0;
       }
     }
@@ -845,6 +949,8 @@
         autocomplete="off"
       />
       <button class="login-button" id="loginButton" type="button">Giriş Yap</button>
+      <button class="hint-button" id="hintButton" type="button" aria-expanded="false">İpucu almak için tıklayın</button>
+      <p class="login-hint" id="loginHint"><span>14 ay önce bugün</span></p>
       <p class="error" id="errorMessage">Tarih doğru değil birtanem :)</p>
     </div>
   </div>
@@ -929,6 +1035,11 @@
             <span>Bütlerinde başarılar sevgilim başarıcağına inancım sonsuz. Seni çok seviyorum</span>
           </span>
         </button>
+        <div class="counter-card" aria-label="Birlikte geçen günümüz">
+          <span class="counter-label">Birlikte geçen günümüz</span>
+          <span class="counter-number" id="loveCounter">0</span>
+          <p class="counter-text">Her gün biraz daha sen.</p>
+        </div>
       </div>
     </section>
   </main>
@@ -944,6 +1055,9 @@
     const loginOverlay = document.getElementById("loginOverlay");
     const errorMessage = document.getElementById("errorMessage");
     const envelopeCard = document.getElementById("envelopeCard");
+    const hintButton = document.getElementById("hintButton");
+    const loginHint = document.getElementById("loginHint");
+    const loveCounter = document.getElementById("loveCounter");
 
     function formatDate(value) {
       const digits = value.replace(/\D/g, "").slice(0, 8);
@@ -990,6 +1104,42 @@
       setTimeout(() => burst.remove(), 8200);
     }
 
+    function createEnvelopeSparkles() {
+      const rect = envelopeCard.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + 110;
+      const symbols = ["♥", "❀", "♡"];
+
+      for (let i = 0; i < 24; i++) {
+        const sparkle = document.createElement("span");
+        const angle = Math.random() * Math.PI * 2;
+        const distance = Math.random() * 120 + 70;
+
+        sparkle.className = "love-pop";
+        sparkle.textContent = symbols[i % symbols.length];
+        sparkle.style.setProperty("--x", `${centerX}px`);
+        sparkle.style.setProperty("--y", `${centerY}px`);
+        sparkle.style.setProperty("--dx", `${Math.cos(angle) * distance}px`);
+        sparkle.style.setProperty("--dy", `${Math.sin(angle) * distance - 40}px`);
+        sparkle.style.setProperty("--size", `${Math.random() * 16 + 16}px`);
+        sparkle.style.setProperty("--rotate", `${Math.random() * 160 - 80}deg`);
+        sparkle.style.setProperty("--delay", `${Math.random() * 0.12}s`);
+        document.body.appendChild(sparkle);
+
+        setTimeout(() => sparkle.remove(), 1700);
+      }
+    }
+
+    function updateLoveCounter() {
+      const startDate = new Date(2025, 3, 23);
+      const today = new Date();
+      const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      const dayMs = 1000 * 60 * 60 * 24;
+      const daysTogether = Math.floor((todayMidnight - startDate) / dayMs) + 1;
+
+      loveCounter.textContent = daysTogether.toLocaleString("tr-TR");
+    }
+
     dateInput.addEventListener("input", () => {
       dateInput.value = formatDate(dateInput.value);
       errorMessage.classList.remove("visible");
@@ -1001,10 +1151,18 @@
 
     loginButton.addEventListener("click", checkDate);
 
+    hintButton.addEventListener("click", () => {
+      const isVisible = loginHint.classList.toggle("visible");
+      hintButton.setAttribute("aria-expanded", String(isVisible));
+    });
+
     envelopeCard.addEventListener("click", () => {
       const isOpen = envelopeCard.classList.toggle("is-open");
       envelopeCard.setAttribute("aria-expanded", String(isOpen));
+      if (isOpen) createEnvelopeSparkles();
     });
+
+    updateLoveCounter();
 
     const photos = [
       "./img/ay1.jpeg",
