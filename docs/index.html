@@ -846,20 +846,22 @@
 
     @media (max-width: 560px) {
       .welcome h1 {
-        font-size: clamp(3.2rem, 18vw, 5rem);
+        font-size: clamp(2.8rem, 15vw, 4.4rem);
       }
 
       .scene {
-        gap: 16px;
-        padding: 14px;
+        gap: 12px;
+        padding: 12px;
       }
 
       .story-panel {
-        padding: 18px;
+        padding: 16px;
+        border-radius: 20px;
       }
 
       .story-title {
-        margin-top: 16px;
+        margin-top: 12px;
+        font-size: clamp(1.9rem, 8vw, 2.7rem);
       }
 
       .progress-row {
@@ -876,11 +878,13 @@
         right: 10px;
         max-width: calc(100% - 20px);
         border-radius: 16px;
-        font-size: 0.74rem;
+        font-size: 0.7rem;
       }
 
       .photo-shell {
-        aspect-ratio: 3 / 2;
+        width: min(100%, 430px);
+        aspect-ratio: 4 / 5;
+        transform: translateY(0) rotate(-0.6deg);
       }
 
       .photo-shell::before,
@@ -892,42 +896,68 @@
       .corner-actions {
         left: 12px;
         right: 12px;
-        top: 12px;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        top: 10px;
+        grid-template-columns: 1fr;
         gap: 10px;
       }
 
       #butterflyButton {
         order: 1;
-        grid-column: 1;
+        grid-column: auto;
       }
 
       #flowerButton {
         order: 2;
-        grid-column: 2;
+        grid-column: auto;
       }
 
       #dreamButton {
         order: 3;
-        grid-column: 1 / -1;
+        grid-column: auto;
       }
 
       .corner-button {
-        min-height: 52px;
-        padding: 11px 10px;
-        border-radius: 18px;
-        font-size: 0.74rem;
+        min-height: 46px;
+        padding: 10px 12px;
+        border-radius: 16px;
+        font-size: 0.68rem;
         line-height: 1.25;
       }
 
       .nav {
-        right: 12px;
-        bottom: 78px;
+        right: 10px;
+        bottom: 14px;
+        gap: 8px;
+      }
+
+      .nav button {
+        width: 42px;
+        height: 42px;
       }
 
       .letter-launch {
-        bottom: 108px;
+        bottom: 68px;
         width: calc(100vw - 24px);
+        font-size: 0.98rem;
+        padding: 12px 14px;
+      }
+
+      .letter-card {
+        width: min(100%, 560px);
+        max-height: 86vh;
+        padding: 20px 18px;
+        border-radius: 24px;
+      }
+
+      .letter-card::before,
+      .letter-card::after {
+        width: 68px;
+        height: 68px;
+      }
+
+      .letter-body {
+        font-size: 0.98rem;
+        line-height: 1.8;
       }
     }
 
