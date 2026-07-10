@@ -3,1320 +3,1422 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Esma & Kadir - 14. Ayımız</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <title>Kadir & Esma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #100911;
-      --bg-soft: #25121f;
-      --rose: #e94f86;
-      --rose-deep: #9f174d;
-      --blush: #ffd6e4;
-      --champagne: #ffe9bd;
-      --lavender: #b68cff;
-      --cream: #fff9f0;
-      --text: #fffaf4;
-      --muted: rgba(255, 250, 244, 0.74);
-      --card: rgba(255, 255, 255, 0.11);
-      --border: rgba(255, 233, 189, 0.2);
-      --shadow: 0 24px 70px rgba(45, 12, 32, 0.38);
+      color-scheme: dark;
+      --ink: #120b0a;
+      --night: #190b0d;
+      --wine: #52131b;
+      --ember: #ef7a38;
+      --gold: #ffd58a;
+      --rose: #ff4e6f;
+      --cream: #fff5e6;
+      --soft: rgba(255, 245, 230, 0.72);
+      --line: rgba(255, 213, 138, 0.24);
+      --glass: rgba(30, 12, 12, 0.54);
     }
 
     * {
       box-sizing: border-box;
     }
 
-    html {
-      scroll-behavior: smooth;
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      overflow: hidden;
+      background: var(--ink);
+      color: var(--cream);
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     body {
-      margin: 0;
       min-height: 100vh;
-      color: var(--text);
-      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at 12% 8%, rgba(255, 214, 228, 0.22), transparent 30rem),
-        radial-gradient(circle at 82% 12%, rgba(255, 233, 189, 0.16), transparent 28rem),
-        radial-gradient(circle at 50% 78%, rgba(182, 140, 255, 0.16), transparent 34rem),
-        linear-gradient(135deg, #100911 0%, #2a1024 45%, #130918 100%);
-      overflow-x: hidden;
+        linear-gradient(120deg, rgba(10, 6, 7, 0.94), rgba(72, 17, 22, 0.74)),
+        radial-gradient(circle at 20% 18%, rgba(239, 122, 56, 0.28), transparent 22rem),
+        radial-gradient(circle at 80% 80%, rgba(255, 78, 111, 0.18), transparent 28rem),
+        #130809;
     }
 
-    body::before {
-      content: "";
+    button {
+      font: inherit;
+    }
+
+    .experience {
+      position: relative;
+      min-height: 100vh;
+      isolation: isolate;
+      cursor: pointer;
+    }
+
+    .backgrounds,
+    .scene,
+    .welcome {
       position: fixed;
       inset: 0;
+    }
+
+    .backgrounds {
+      z-index: -3;
+      overflow: hidden;
+    }
+
+    .background-image {
+      position: absolute;
+      inset: -6vh -6vw;
+      background-image: var(--image);
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      filter: blur(22px) saturate(1.18) brightness(0.55);
+      transform: scale(1.08);
+      transition: opacity 1s ease, transform 7s ease;
+    }
+
+    .background-image.active {
+      opacity: 0.76;
+      transform: scale(1.16);
+    }
+
+    .veil {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(90deg, rgba(9, 6, 7, 0.72), rgba(9, 6, 7, 0.26) 42%, rgba(9, 6, 7, 0.76)),
+        radial-gradient(circle at 50% 55%, transparent 0 22rem, rgba(10, 5, 6, 0.38) 44rem);
       pointer-events: none;
-      background-image:
-        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-      background-size: 42px 42px;
-      mask-image: linear-gradient(to bottom, black, transparent 80%);
     }
 
-    .login-overlay {
+    .grain {
       position: fixed;
       inset: 0;
-      z-index: 100;
+      z-index: -1;
+      opacity: 0.12;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black, transparent 86%);
+      pointer-events: none;
+    }
+
+    .welcome {
+      z-index: 10;
       display: grid;
       place-items: center;
-      padding: 24px;
+      padding: 26px;
       background:
-        radial-gradient(circle at 50% 10%, rgba(255, 214, 228, 0.35), transparent 30rem),
-        radial-gradient(circle at 12% 90%, rgba(255, 233, 189, 0.14), transparent 22rem),
-        linear-gradient(145deg, #1b0b16, #080406);
-      transition: opacity 0.7s ease, visibility 0.7s ease;
+        radial-gradient(circle at 50% 38%, rgba(255, 213, 138, 0.17), transparent 20rem),
+        linear-gradient(135deg, rgba(18, 8, 9, 0.96), rgba(82, 19, 27, 0.92));
+      transition: opacity 0.9s ease, visibility 0.9s ease, transform 0.9s ease;
     }
 
-    .login-overlay.hidden {
+    .welcome.hidden {
       opacity: 0;
       visibility: hidden;
+      transform: scale(1.04);
     }
 
-    .login-card {
-      width: min(460px, 100%);
-      padding: 34px;
+    .welcome-inner {
+      width: min(760px, 100%);
       text-align: center;
-      border: 1px solid var(--border);
-      border-radius: 30px;
-      background: rgba(255, 255, 255, 0.1);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(20px);
     }
 
-    .login-card .mini {
-      margin: 0 0 10px;
-      color: var(--champagne);
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      color: var(--gold);
+      font-size: 0.78rem;
       font-weight: 800;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      font-size: 0.75rem;
     }
 
-    h1,
-    h2,
-    .script {
-      font-family: "Dancing Script", cursive;
+    .eyebrow::before,
+    .eyebrow::after {
+      content: "";
+      width: 38px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.6;
     }
 
-    .login-card h1 {
+    .welcome h1 {
       margin: 0;
-      font-size: clamp(2.4rem, 8vw, 4rem);
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(3.6rem, 11vw, 8.6rem);
+      line-height: 0.9;
+      text-wrap: balance;
+      text-shadow: 0 24px 60px rgba(255, 78, 111, 0.25);
     }
 
-    .login-card p {
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .date-input {
-      width: 100%;
-      margin-top: 14px;
-      padding: 16px 18px;
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      border-radius: 18px;
-      outline: none;
-      background: rgba(255, 255, 255, 0.92);
-      color: #2f1228;
-      text-align: center;
-      font-size: 1.3rem;
-      font-weight: 800;
-      letter-spacing: 0.1em;
-    }
-
-    .login-button,
-    .hero-link {
-      border: 0;
-      cursor: pointer;
-      margin-top: 16px;
-      padding: 14px 22px;
-      border-radius: 999px;
-      color: white;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--rose), var(--lavender));
-      box-shadow: 0 14px 34px rgba(233, 79, 134, 0.25);
-      text-decoration: none;
+    .start-button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      min-width: 172px;
+      margin-top: 34px;
+      padding: 15px 24px;
+      border: 1px solid rgba(255, 213, 138, 0.46);
+      border-radius: 999px;
+      color: #2a0d10;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ffe4a8, #ff6a82);
+      box-shadow: 0 22px 70px rgba(255, 78, 111, 0.28);
+      font-weight: 900;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .login-button:hover,
-    .hero-link:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 18px 44px rgba(233, 79, 134, 0.34);
-    }
-
-    .error {
-      display: none;
-      color: #ffd0dc;
-      font-weight: 700;
-    }
-
-    .error.visible {
-      display: block;
-    }
-
-    .hint-button {
-      border: 0;
-      margin-top: 12px;
-      padding: 0;
-      color: var(--champagne);
-      cursor: pointer;
-      background: transparent;
-      font: inherit;
-      font-size: 0.92rem;
-      font-weight: 900;
-      text-decoration: underline;
-      text-underline-offset: 5px;
-    }
-
-    .login-hint {
-      display: grid;
-      grid-template-rows: 0fr;
-      margin: 0;
-      opacity: 0;
-      transition: grid-template-rows 0.28s ease, opacity 0.28s ease, margin-top 0.28s ease;
-    }
-
-    .login-hint.visible {
-      grid-template-rows: 1fr;
-      margin-top: 12px;
-      opacity: 1;
-    }
-
-    .login-hint span {
-      overflow: hidden;
-      color: var(--blush);
-      font-weight: 800;
-    }
-
-    .page {
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero {
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 90px 22px 70px;
-      text-align: center;
-      overflow: hidden;
-    }
-
-    .hero::before,
-    .hero::after {
-      content: "";
-      position: absolute;
-      width: 280px;
-      height: 280px;
-      border-radius: 50%;
-      filter: blur(12px);
-      opacity: 0.35;
-      animation: float 8s ease-in-out infinite;
-      z-index: -1;
-    }
-
-    .hero::before {
-      top: 12%;
-      left: 8%;
-      background: var(--rose);
-    }
-
-    .hero::after {
-      right: 6%;
-      bottom: 12%;
-      background: var(--lavender);
-      animation-delay: -3s;
-    }
-
-    .hero-inner {
-      width: min(980px, 100%);
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 18px;
-      padding: 9px 15px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--champagne);
-      font-size: 0.9rem;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-    }
-
-    .hero h1 {
-      margin: 0;
-      font-size: clamp(3.3rem, 12vw, 7.8rem);
-      line-height: 0.92;
-      text-shadow: 0 18px 54px rgba(255, 95, 158, 0.35);
-    }
-
-    .hero-text {
-      width: min(780px, 100%);
-      margin: 24px auto 0;
-      color: var(--muted);
-      font-size: clamp(1rem, 2.6vw, 1.3rem);
-      line-height: 1.8;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      width: min(760px, 100%);
-      margin: 34px auto 0;
-    }
-
-    .stat {
-      padding: 18px;
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(16px);
-    }
-
-    .stat strong {
-      display: block;
-      font-size: clamp(1.8rem, 5vw, 3rem);
-      color: var(--champagne);
-    }
-
-    .stat span {
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-
-    section {
-      padding: 74px 22px;
-    }
-
-    .section-inner {
-      width: min(1180px, 100%);
-      margin: 0 auto;
-    }
-
-    .section-heading {
-      margin-bottom: 30px;
-      text-align: center;
-    }
-
-    .section-heading h2 {
-      margin: 0;
-      font-size: clamp(2.4rem, 7vw, 4.5rem);
-    }
-
-    .section-heading p {
-      width: min(720px, 100%);
-      margin: 12px auto 0;
-      color: var(--muted);
-      line-height: 1.8;
-    }
-
-    .gallery {
-      position: relative;
-      width: min(100vw, 1180px);
-      margin: 0 auto;
-      overflow: hidden;
-      padding: 28px 0 40px;
-      mask-image: linear-gradient(90deg, transparent, black 9%, black 91%, transparent);
-    }
-
-    .gallery::before {
-      content: "";
-      position: absolute;
-      inset: 76px 7% 0;
-      border-radius: 999px;
-      background: radial-gradient(circle, rgba(255, 95, 158, 0.2), transparent 70%);
-      filter: blur(28px);
-      pointer-events: none;
-    }
-
-    .photo-track {
-      display: flex;
-      width: max-content;
-      gap: 22px;
-      align-items: center;
-      animation: galleryFlow 58s linear infinite;
-    }
-
-    .gallery:hover .photo-track {
-      animation-play-state: paused;
-    }
-
-    .photo-card {
-      position: relative;
-      flex: 0 0 clamp(250px, 30vw, 390px);
-      height: clamp(330px, 42vw, 480px);
-      margin: 0;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      border-radius: 34px;
-      background: var(--card);
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
-      transform: rotate(var(--tilt));
-      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
-    }
-
-    .photo-card:nth-child(3n) {
-      flex-basis: clamp(310px, 38vw, 500px);
-    }
-
-    .photo-card:nth-child(4n) {
-      height: clamp(280px, 34vw, 400px);
-    }
-
-    .photo-card:hover {
-      z-index: 3;
-      transform: rotate(0deg) translateY(-10px) scale(1.03);
-      border-color: rgba(255, 193, 217, 0.7);
-      box-shadow: 0 34px 80px rgba(255, 95, 158, 0.22);
-    }
-
-    .photo-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transform: scale(1.03);
-      transition: transform 0.45s ease, filter 0.45s ease;
-    }
-
-    .photo-card:hover img {
-      transform: scale(1.1);
-      filter: saturate(1.12) brightness(1.08);
-    }
-
-    .photo-card::after {
-      content: "Esma & Kadir";
-      position: absolute;
-      right: 16px;
-      bottom: 14px;
-      padding: 7px 12px;
-      border-radius: 999px;
-      background: rgba(0, 0, 0, 0.38);
-      color: white;
-      font-size: 0.78rem;
-      font-weight: 800;
-      backdrop-filter: blur(10px);
-    }
-
-    .reasons-grid {
-      display: grid;
-      grid-template-columns: repeat(7, minmax(0, 1fr));
-      gap: 14px;
-      align-items: stretch;
-    }
-
-    .reason-card {
-      position: relative;
-      min-height: 210px;
-      padding: 16px;
-      border: 1px solid var(--border);
-      border-radius: 28px;
-      appearance: none;
-      color: var(--text);
-      font: inherit;
-      text-align: left;
-      cursor: pointer;
-      overflow: hidden;
-      background:
-        linear-gradient(150deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.06)),
-        radial-gradient(circle at top right, rgba(255, 95, 158, 0.26), transparent 9rem),
-        radial-gradient(circle at bottom left, rgba(139, 92, 246, 0.18), transparent 8rem);
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
-      transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
-    }
-
-    .reason-card::before {
-      content: "♥";
-      position: absolute;
-      right: -18px;
-      top: -28px;
-      color: rgba(255, 193, 217, 0.15);
-      font-size: 6.5rem;
-      line-height: 1;
-      transform: rotate(14deg);
-    }
-
-    .reason-card:hover,
-    .reason-card:focus-visible {
-      transform: translateY(-6px);
-      border-color: rgba(255, 193, 217, 0.62);
-      box-shadow: 0 24px 60px rgba(255, 95, 158, 0.16);
+    .start-button:hover,
+    .start-button:focus-visible {
+      transform: translateY(-3px);
+      box-shadow: 0 28px 82px rgba(255, 78, 111, 0.38);
       outline: none;
     }
 
-    .reason-card.is-open {
-      background:
-        linear-gradient(150deg, rgba(255, 247, 251, 0.97), rgba(255, 221, 237, 0.92)),
-        white;
-      color: #351628;
-      border-color: rgba(255, 193, 217, 0.75);
-    }
-
-    .reason-top {
-      position: relative;
-      z-index: 1;
-      display: flex;
+    .scene {
+      display: grid;
+      grid-template-columns: minmax(260px, 0.78fr) minmax(0, 1.22fr);
+      gap: clamp(18px, 4vw, 56px);
       align-items: center;
+      padding: clamp(18px, 5vw, 70px);
+    }
+
+    .story-panel {
+      align-self: stretch;
+      display: flex;
+      flex-direction: column;
       justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 18px;
-    }
-
-    .reason-number {
-      display: inline-grid;
-      place-items: center;
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      color: white;
-      font-weight: 900;
-      background: linear-gradient(135deg, var(--rose), var(--lavender));
-      box-shadow: 0 10px 24px rgba(255, 95, 158, 0.24);
-    }
-
-    .reason-lock {
-      color: var(--champagne);
-      font-size: 0.75rem;
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .reason-card.is-open .reason-lock {
-      color: #b62268;
-    }
-
-    .reason-closed {
-      position: relative;
-      z-index: 1;
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.92rem;
-      font-weight: 800;
-      line-height: 1.5;
-    }
-
-    .reason-text {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      min-height: 96px;
-      place-items: center;
-      margin: 0;
-      color: transparent;
-      font-size: clamp(0.88rem, 1.15vw, 1rem);
-      font-weight: 800;
-      line-height: 1.55;
-      text-align: center;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.24s ease, transform 0.24s ease, color 0.24s ease;
-    }
-
-    .reason-card.is-open .reason-closed {
-      display: none;
-    }
-
-    .reason-card.is-open .reason-text {
-      color: #4b2439;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .letter-wrap {
-      display: grid;
-      grid-template-columns: 0.85fr 1.15fr;
-      gap: 24px;
-      align-items: stretch;
-    }
-
-    .letter-photo,
-    .letter-card {
-      border: 1px solid var(--border);
-      border-radius: 34px;
-      background: rgba(255, 255, 255, 0.1);
-      box-shadow: var(--shadow);
+      min-height: min(720px, calc(100vh - 80px));
+      padding: clamp(20px, 3vw, 34px);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background:
+        linear-gradient(160deg, rgba(30, 12, 12, 0.7), rgba(84, 18, 24, 0.38)),
+        rgba(16, 8, 8, 0.36);
+      box-shadow: 0 26px 90px rgba(0, 0, 0, 0.34);
+      backdrop-filter: blur(20px);
       overflow: hidden;
     }
 
-    .letter-photo {
-      min-height: 460px;
+    .story-top {
       position: relative;
+      z-index: 1;
     }
 
-    .letter-photo img {
+    .story-count {
+      color: var(--gold);
+      font-size: clamp(2.8rem, 7vw, 5.8rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 0.88;
+    }
+
+    .story-count span {
+      color: rgba(255, 245, 230, 0.38);
+      font-size: 0.32em;
+      letter-spacing: 0;
+    }
+
+    .story-title {
+      margin: 24px 0 0;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(2.1rem, 5vw, 4.6rem);
+      line-height: 0.98;
+      text-wrap: balance;
+    }
+
+    .story-copy {
+      width: min(360px, 100%);
+      margin: 18px 0 0;
+      color: var(--soft);
+      font-size: clamp(0.98rem, 1.6vw, 1.08rem);
+      line-height: 1.8;
+    }
+
+    .controls {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 16px;
+    }
+
+    .hint {
+      color: rgba(255, 245, 230, 0.64);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .progress-ring {
+      width: 58px;
+      height: 58px;
+      transform: rotate(-90deg);
+    }
+
+    .progress-ring circle {
+      fill: none;
+      stroke-width: 5;
+    }
+
+    .progress-ring .track {
+      stroke: rgba(255, 245, 230, 0.14);
+    }
+
+    .progress-ring .fill {
+      stroke: var(--gold);
+      stroke-linecap: round;
+      stroke-dasharray: 157;
+      stroke-dashoffset: 157;
+    }
+
+    .dots {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 7px;
+      width: min(260px, 100%);
+    }
+
+    .dot {
+      height: 4px;
+      border-radius: 99px;
+      background: rgba(255, 245, 230, 0.2);
+      transition: background 0.25s ease, transform 0.25s ease;
+    }
+
+    .dot.active {
+      background: linear-gradient(90deg, var(--gold), var(--rose));
+      transform: scaleY(1.8);
+    }
+
+    .stage {
+      position: relative;
+      min-height: min(720px, calc(100vh - 80px));
+      display: grid;
+      place-items: center;
+    }
+
+    .map-line {
+      position: absolute;
+      inset: 10% 0 9%;
+      width: 100%;
+      height: 80%;
+      opacity: 0.76;
+      pointer-events: none;
+      filter: drop-shadow(0 0 18px rgba(255, 94, 77, 0.6));
+    }
+
+    .map-line path {
+      fill: none;
+      stroke: url(#lineGradient);
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-dasharray: 18 18;
+      animation: lineMove 1.8s linear infinite;
+    }
+
+    .photo-shell {
+      position: relative;
+      width: min(88%, 690px);
+      aspect-ratio: 3 / 2;
+      display: grid;
+      place-items: center;
+      transform: translateY(0) rotate(-1.5deg);
+      transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .photo-shell::before,
+    .photo-shell::after {
+      content: "";
+      position: absolute;
+      border-radius: 28px;
+      pointer-events: none;
+    }
+
+    .photo-shell::before {
+      inset: -18px;
+      border: 1px solid rgba(255, 213, 138, 0.22);
+      transform: rotate(2.2deg);
+    }
+
+    .photo-shell::after {
+      inset: 18px;
+      border: 1px solid rgba(255, 245, 230, 0.2);
+      transform: rotate(-1.8deg);
+    }
+
+    .story-image {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
+      border: 1px solid rgba(255, 245, 230, 0.26);
+      border-radius: 24px;
+      background: #1a0c0d;
+      box-shadow:
+        0 38px 110px rgba(0, 0, 0, 0.48),
+        0 0 0 10px rgba(255, 245, 230, 0.04);
+      transform: scale(0.98);
+      opacity: 0;
+      transition: opacity 0.65s ease, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.8s ease;
     }
 
-    .letter-photo::after {
-      content: "14 ay, sayısız güzel anı";
+    .story-image.ready {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .photo-shell.switching {
+      transform: translateY(14px) rotate(1.2deg) scale(0.985);
+    }
+
+    .photo-shell.switching .story-image {
+      opacity: 0;
+      transform: scale(0.94);
+      filter: blur(6px);
+    }
+
+    .caption-chip {
       position: absolute;
-      left: 22px;
-      right: 22px;
-      bottom: 22px;
-      padding: 16px;
-      border-radius: 22px;
-      background: rgba(18, 7, 19, 0.58);
-      color: white;
+      top: clamp(12px, 2vw, 22px);
+      right: clamp(12px, 2vw, 22px);
+      max-width: min(430px, calc(100% - 28px));
+      padding: 13px 16px;
+      border: 1px solid rgba(255, 213, 138, 0.25);
+      border-radius: 999px;
+      background: rgba(14, 8, 8, 0.62);
+      color: rgba(255, 245, 230, 0.86);
+      font-size: 0.86rem;
       font-weight: 800;
       backdrop-filter: blur(14px);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
+    }
+
+    .corner-actions {
+      position: fixed;
+      left: clamp(14px, 3vw, 34px);
+      right: clamp(14px, 3vw, 34px);
+      top: clamp(12px, 2vw, 22px);
+      z-index: 7;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      pointer-events: none;
+    }
+
+    .corner-button {
+      pointer-events: auto;
+      width: 100%;
+      min-height: 54px;
+      padding: 14px 18px;
+      border: 1px solid rgba(255, 213, 138, 0.36);
+      border-radius: 999px;
+      color: var(--cream);
+      cursor: pointer;
+      background:
+        linear-gradient(135deg, rgba(30, 12, 12, 0.76), rgba(82, 19, 27, 0.72)),
+        rgba(18, 8, 9, 0.72);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(16px);
+      font-size: 0.9rem;
+      font-weight: 900;
+      text-align: center;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .corner-button:hover,
+    .corner-button:focus-visible {
+      transform: translateY(-3px);
+      border-color: rgba(255, 213, 138, 0.74);
+      box-shadow: 0 24px 64px rgba(255, 78, 111, 0.24);
+      outline: none;
+    }
+
+    .nav {
+      position: fixed;
+      right: clamp(16px, 3vw, 34px);
+      bottom: clamp(78px, 8vw, 104px);
+      z-index: 6;
+      display: flex;
+      gap: 10px;
+    }
+
+    .nav button {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border: 1px solid rgba(255, 213, 138, 0.32);
+      border-radius: 50%;
+      color: var(--cream);
+      cursor: pointer;
+      background: rgba(18, 8, 9, 0.66);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(16px);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .nav button:hover,
+    .nav button:focus-visible {
+      transform: translateY(-2px);
+      background: rgba(82, 19, 27, 0.84);
+      outline: none;
+    }
+
+    .heart {
+      position: fixed;
+      z-index: 3;
+      left: var(--x);
+      top: var(--y);
+      color: var(--gold);
+      font-size: var(--size);
+      line-height: 1;
+      pointer-events: none;
+      opacity: 0;
+      filter: drop-shadow(0 8px 18px rgba(255, 78, 111, 0.32));
+      animation: floatHeart 1.5s ease-out forwards;
+    }
+
+    .butterfly,
+    .flower {
+      position: fixed;
+      z-index: 8;
+      left: var(--x);
+      top: var(--y);
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .butterfly {
+      width: var(--size);
+      height: calc(var(--size) * 0.72);
+      filter: drop-shadow(0 10px 18px rgba(255, 213, 138, 0.36));
+      animation: butterflyFlight 2.5s ease-out forwards;
+    }
+
+    .butterfly::before,
+    .butterfly::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 55%;
+      height: 100%;
+      background:
+        radial-gradient(circle at 42% 38%, rgba(255, 245, 230, 0.9) 0 10%, transparent 12%),
+        linear-gradient(145deg, #ffd58a, #ff4e6f 68%, #ef7a38);
+    }
+
+    .butterfly::before {
+      left: 0;
+      border-radius: 76% 24% 68% 32%;
+      transform: rotate(-18deg);
+      transform-origin: right center;
+    }
+
+    .butterfly::after {
+      right: 0;
+      border-radius: 24% 76% 32% 68%;
+      transform: rotate(18deg);
+      transform-origin: left center;
+    }
+
+    .flower {
+      width: var(--size);
+      height: var(--size);
+      transform: translate(-50%, -50%) scale(0.2) rotate(var(--rotate));
+      animation: flowerBloom 2.25s ease-out forwards;
+    }
+
+    .dream-name {
+      position: fixed;
+      z-index: 8;
+      left: var(--x);
+      top: var(--y);
+      color: var(--cream);
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: var(--size);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      pointer-events: none;
+      opacity: 0;
+      text-shadow:
+        0 0 16px rgba(255, 213, 138, 0.82),
+        0 0 34px rgba(255, 78, 111, 0.48);
+      animation: dreamFloat 2.7s ease-out forwards;
+    }
+
+    .flower::before,
+    .flower::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 50%, #ffe4a8 0 14%, transparent 16%),
+        radial-gradient(circle at 50% 12%, #ff7d98 0 18%, transparent 19%),
+        radial-gradient(circle at 87% 50%, #ff5f83 0 18%, transparent 19%),
+        radial-gradient(circle at 50% 88%, #ff9bb0 0 18%, transparent 19%),
+        radial-gradient(circle at 13% 50%, #ff6e8e 0 18%, transparent 19%);
+    }
+
+    .flower::after {
+      transform: rotate(45deg);
+      opacity: 0.78;
+    }
+
+    .letter-launch {
+      position: fixed;
+      left: 50%;
+      bottom: clamp(20px, 4vw, 42px);
+      transform: translateX(-50%);
+      z-index: 12;
+      width: min(520px, calc(100vw - 28px));
+      padding: 14px 18px;
+      border: 1px solid rgba(255, 213, 138, 0.34);
+      border-radius: 24px;
+      color: var(--cream);
+      cursor: pointer;
+      background:
+        linear-gradient(135deg, rgba(30, 12, 12, 0.76), rgba(82, 19, 27, 0.7)),
+        rgba(18, 8, 9, 0.68);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(16px);
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-align: center;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .letter-launch:hover,
+    .letter-launch:focus-visible {
+      transform: translateX(-50%) translateY(-3px);
+      border-color: rgba(255, 213, 138, 0.72);
+      box-shadow: 0 24px 64px rgba(255, 78, 111, 0.24);
+      outline: none;
+    }
+
+    .letter-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+      background:
+        radial-gradient(circle at 20% 12%, rgba(255, 213, 138, 0.2), transparent 16rem),
+        radial-gradient(circle at 82% 16%, rgba(255, 78, 111, 0.18), transparent 18rem),
+        linear-gradient(135deg, rgba(18, 8, 9, 0.92), rgba(54, 13, 19, 0.92));
+    }
+
+    .letter-overlay.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
     }
 
     .letter-card {
-      padding: clamp(26px, 5vw, 46px);
+      position: relative;
+      width: min(860px, 100%);
+      max-height: min(88vh, 920px);
+      padding: clamp(24px, 4vw, 48px);
+      border-radius: 30px;
+      border: 1px solid rgba(255, 233, 189, 0.26);
       background:
-        linear-gradient(160deg, rgba(255, 247, 251, 0.96), rgba(255, 228, 240, 0.93)),
-        white;
-      color: #341729;
+        linear-gradient(160deg, rgba(255, 249, 241, 0.98), rgba(255, 234, 216, 0.96)),
+        #fff7ef;
+      color: #4a2732;
+      box-shadow: 0 32px 110px rgba(0, 0, 0, 0.42);
+      overflow: hidden;
+      transform: translateY(24px) scale(0.98);
+      transition: transform 0.35s ease;
+    }
+
+    .letter-overlay.open .letter-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .letter-card::before,
+    .letter-card::after {
+      content: "";
+      position: absolute;
+      width: 92px;
+      height: 92px;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255, 210, 225, 0.92) 0 16%, transparent 17%),
+        radial-gradient(circle at 50% 16%, #ff9bb0 0 19%, transparent 20%),
+        radial-gradient(circle at 84% 50%, #ff7e9a 0 19%, transparent 20%),
+        radial-gradient(circle at 50% 84%, #ffd58a 0 19%, transparent 20%),
+        radial-gradient(circle at 16% 50%, #ff6f88 0 19%, transparent 20%);
+      filter: drop-shadow(0 8px 20px rgba(255, 78, 111, 0.2));
+      opacity: 0.95;
+    }
+
+    .letter-card::before {
+      top: -18px;
+      left: -18px;
+    }
+
+    .letter-card::after {
+      right: -18px;
+      bottom: -18px;
+      transform: rotate(20deg);
+    }
+
+    .letter-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 44px;
+      height: 44px;
+      border: 0;
+      border-radius: 50%;
+      color: #4a2732;
+      cursor: pointer;
+      background: rgba(255, 213, 138, 0.9);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.14);
+      font-size: 1.2rem;
+      font-weight: 900;
+    }
+
+    .letter-meta {
+      color: #b62268;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      margin-bottom: 14px;
     }
 
     .letter-card h2 {
       margin: 0 0 16px;
-      color: #b62268;
-      font-size: clamp(2.4rem, 7vw, 4.4rem);
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(2.2rem, 6vw, 4.2rem);
+      line-height: 0.95;
+      color: #8f123e;
     }
 
-    .letter-card p {
+    .letter-body {
       margin: 0;
-      color: #4b2439;
-      font-size: 1.05rem;
-      line-height: 1.95;
-      font-weight: 500;
+      font-size: clamp(1.02rem, 2vw, 1.2rem);
+      line-height: 2;
+      color: #4a2732;
+      white-space: pre-line;
     }
 
-    .signature {
-      margin-top: 24px;
+    .letter-sign {
+      margin-top: 22px;
       color: #b62268;
-      font-size: 2rem;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 2.1rem;
       text-align: right;
     }
 
-    .secret-note-section {
-      padding-top: 30px;
-    }
-
-    .secret-note-section .section-inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .envelope-card {
-      display: block;
-      width: min(620px, 100%);
-      min-height: 280px;
-      margin: 0 auto;
-      padding: 28px;
-      border: 1px solid rgba(255, 233, 189, 0.28);
-      border-radius: 34px;
-      color: var(--text);
-      font: inherit;
-      text-align: center;
-      cursor: pointer;
-      background:
-        radial-gradient(circle at top, rgba(255, 233, 189, 0.18), transparent 18rem),
-        linear-gradient(150deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.06));
-      box-shadow: var(--shadow);
-      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .envelope-card:hover,
-    .envelope-card:focus-visible {
-      transform: translateY(-6px);
-      border-color: rgba(255, 214, 228, 0.68);
-      box-shadow: 0 30px 80px rgba(233, 79, 134, 0.18);
-      outline: none;
-    }
-
-    .envelope {
-      position: relative;
-      width: 210px;
-      height: 138px;
-      margin: 4px auto 24px;
-      border-radius: 12px;
-      background: linear-gradient(145deg, #ffe9bd, #ffd3e0);
-      box-shadow: 0 22px 45px rgba(0, 0, 0, 0.24);
-      overflow: hidden;
-    }
-
-    .envelope::before,
-    .envelope::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-    }
-
-    .envelope::before {
-      clip-path: polygon(0 0, 50% 58%, 100% 0);
-      background: linear-gradient(145deg, #fff1ca, #ffc0d5);
-      transform-origin: top;
-      transition: transform 0.45s ease;
-      z-index: 2;
-    }
-
-    .envelope::after {
-      clip-path: polygon(0 100%, 50% 42%, 100% 100%);
-      background: linear-gradient(145deg, #f8c7d7, #f1a9c1);
-      z-index: 3;
-    }
-
-    .envelope-letter {
-      position: absolute;
-      left: 18px;
-      right: 18px;
-      top: 34px;
-      height: 92px;
-      border-radius: 10px;
-      background: #fffaf4;
-      color: #9f174d;
-      display: grid;
-      place-items: center;
-      font-weight: 900;
-      transform: translateY(46px);
-      transition: transform 0.45s ease;
-      z-index: 1;
-    }
-
-    .envelope-card.is-open .envelope::before {
-      transform: rotateX(180deg);
-    }
-
-    .envelope-card.is-open .envelope-letter {
-      transform: translateY(-24px);
-    }
-
-    .envelope-title {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--champagne);
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .envelope-hint {
-      margin: 0;
-      color: var(--muted);
-      font-weight: 700;
-    }
-
-    .envelope-message {
-      display: grid;
-      grid-template-rows: 0fr;
-      opacity: 0;
-      transition: grid-template-rows 0.35s ease, opacity 0.35s ease, margin-top 0.35s ease;
-    }
-
-    .envelope-message span {
-      overflow: hidden;
-      color: var(--cream);
-      font-size: clamp(1.1rem, 2.4vw, 1.45rem);
-      font-weight: 800;
-      line-height: 1.7;
-    }
-
-    .envelope-card.is-open .envelope-message {
-      grid-template-rows: 1fr;
-      margin-top: 22px;
-      opacity: 1;
-    }
-
-    .love-timer {
-      position: fixed;
-      top: 18px;
-      right: 18px;
-      z-index: 20;
-      width: min(360px, calc(100vw - 36px));
-      padding: 12px 14px;
-      border: 1px solid rgba(255, 233, 189, 0.24);
-      border-radius: 22px;
-      background: rgba(16, 9, 17, 0.58);
-      box-shadow: 0 18px 42px rgba(45, 12, 32, 0.28);
-      backdrop-filter: blur(18px);
-    }
-
-    .love-timer-label {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--champagne);
-      font-size: 0.78rem;
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      text-align: center;
-      text-transform: uppercase;
-    }
-
-    .love-timer-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 7px;
-    }
-
-    .love-timer-part {
-      min-width: 0;
-      padding: 8px 6px;
-      border-radius: 15px;
-      text-align: center;
-      background: rgba(255, 255, 255, 0.09);
-    }
-
-    .love-timer-part strong {
-      display: block;
-      color: var(--blush);
-      font-size: 1.08rem;
-      line-height: 1;
-    }
-
-    .love-timer-part span {
-      display: block;
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 0.66rem;
-      font-weight: 800;
-    }
-
-    footer {
-      padding: 42px 22px 54px;
-      text-align: center;
-      color: var(--muted);
-    }
-
-    .floating-heart {
-      position: fixed;
-      bottom: -30px;
-      left: var(--left);
-      z-index: 0;
-      color: rgba(255, 193, 217, 0.2);
-      font-size: var(--size);
-      animation: rise var(--duration) linear infinite;
-      animation-delay: var(--delay);
-      pointer-events: none;
-    }
-
-    .petal-burst {
-      position: fixed;
-      inset: 0;
-      z-index: 120;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .rose-petal {
-      position: absolute;
-      top: -60px;
-      left: var(--left);
-      width: var(--size);
-      height: calc(var(--size) * 0.72);
-      border-radius: 70% 20% 70% 30%;
-      background:
-        radial-gradient(circle at 30% 25%, #ffd1df 0 18%, transparent 20%),
-        linear-gradient(135deg, #ff8eb5, #d61f62 58%, #8f123e);
-      box-shadow: 0 10px 22px rgba(159, 23, 77, 0.25);
-      opacity: 0;
-      transform: rotate(var(--rotate));
-      animation: petalFall var(--duration) cubic-bezier(0.2, 0.7, 0.25, 1) forwards;
-      animation-delay: var(--delay);
-    }
-
-    .love-pop {
-      position: fixed;
-      z-index: 130;
-      left: var(--x);
-      top: var(--y);
-      color: var(--blush);
-      font-size: var(--size);
-      font-weight: 900;
-      pointer-events: none;
-      filter: drop-shadow(0 8px 14px rgba(159, 23, 77, 0.24));
-      animation: lovePop 1.45s ease-out forwards;
-      animation-delay: var(--delay);
-    }
-
-    @keyframes float {
-      0%,
-      100% {
-        transform: translate3d(0, 0, 0);
-      }
-      50% {
-        transform: translate3d(0, -26px, 0);
-      }
-    }
-
-    @keyframes rise {
-      from {
-        transform: translateY(0) rotate(0deg);
-        opacity: 0;
-      }
-      15% {
-        opacity: 1;
-      }
+    @keyframes lineMove {
       to {
-        transform: translateY(-115vh) rotate(24deg);
-        opacity: 0;
+        stroke-dashoffset: -72;
       }
     }
 
-    @keyframes petalFall {
+    @keyframes floatHeart {
       0% {
-        transform: translate3d(0, -80px, 0) rotate(var(--rotate));
         opacity: 0;
+        transform: translate3d(0, 0, 0) scale(0.5) rotate(0deg);
       }
-      10% {
+      18% {
         opacity: 1;
       }
       100% {
-        transform: translate3d(var(--drift), 112vh, 0) rotate(calc(var(--rotate) + 520deg));
         opacity: 0;
+        transform: translate3d(var(--dx), var(--dy), 0) scale(1.3) rotate(var(--rotate));
       }
     }
 
-    @keyframes lovePop {
+    @keyframes butterflyFlight {
       0% {
-        transform: translate3d(0, 0, 0) scale(0.4) rotate(0deg);
         opacity: 0;
+        transform: translate3d(0, 0, 0) scale(0.55) rotate(-14deg);
       }
-      20% {
+      18% {
         opacity: 1;
       }
       100% {
-        transform: translate3d(var(--dx), var(--dy), 0) scale(1.25) rotate(var(--rotate));
         opacity: 0;
+        transform: translate3d(var(--dx), var(--dy), 0) scale(1.18) rotate(var(--rotate));
       }
     }
 
-    @keyframes galleryFlow {
-      from {
-        transform: translateX(0);
+    @keyframes flowerBloom {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.15) rotate(var(--rotate));
       }
-      to {
-        transform: translateX(-50%);
+      24% {
+        opacity: 1;
+      }
+      76% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.08) rotate(calc(var(--rotate) + 28deg));
       }
     }
 
-    @media (max-width: 900px) {
-      .stats,
-      .letter-wrap {
+    @keyframes dreamFloat {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0) scale(0.72) rotate(-5deg);
+      }
+      18% {
+        opacity: 1;
+      }
+      76% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate3d(var(--dx), var(--dy), 0) scale(1.12) rotate(var(--rotate));
+      }
+    }
+
+    @media (max-width: 920px) {
+      body {
+        overflow-y: auto;
+      }
+
+      .experience {
+        min-height: 100svh;
+      }
+
+      .scene {
+        position: relative;
+        min-height: 100svh;
         grid-template-columns: 1fr;
+        align-content: center;
+        padding: 18px;
       }
 
-      .gallery {
+      .story-panel {
+        order: 2;
+        min-height: auto;
+        border-radius: 22px;
+      }
+
+      .stage {
+        order: 1;
+        min-height: auto;
+        padding-top: 28px;
+      }
+
+      .photo-shell {
+        width: min(92%, 620px);
+      }
+
+      .story-copy {
         width: 100%;
-        mask-image: linear-gradient(90deg, transparent, black 5%, black 95%, transparent);
       }
 
-      .reasons-grid {
-        grid-template-columns: repeat(2, 1fr);
+      .nav {
+        right: 16px;
+        bottom: 86px;
       }
     }
 
     @media (max-width: 560px) {
-      .login-card {
-        padding: 26px 20px;
+      .welcome h1 {
+        font-size: clamp(3.2rem, 18vw, 5rem);
       }
 
-      .stats,
-      .reasons-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .photo-track {
+      .scene {
         gap: 16px;
-        animation-duration: 70s;
+        padding: 14px;
       }
 
-      .photo-card,
-      .photo-card:nth-child(3n) {
-        flex-basis: 78vw;
-        height: 390px;
+      .story-panel {
+        padding: 18px;
       }
 
-      .letter-photo {
-        min-height: 340px;
+      .story-title {
+        margin-top: 16px;
       }
 
-      .love-timer {
+      .progress-row {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .dots {
+        width: 100%;
+      }
+
+      .caption-chip {
         top: 10px;
         right: 10px;
-        left: 10px;
-        width: auto;
-        padding: 10px;
+        max-width: calc(100% - 20px);
+        border-radius: 16px;
+        font-size: 0.74rem;
       }
 
-      .love-timer-part strong {
-        font-size: 0.95rem;
+      .photo-shell {
+        aspect-ratio: 3 / 2;
+      }
+
+      .photo-shell::before,
+      .photo-shell::after,
+      .map-line {
+        display: none;
+      }
+
+      .corner-actions {
+        left: 12px;
+        right: 12px;
+        top: 12px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      #butterflyButton {
+        order: 1;
+        grid-column: 1;
+      }
+
+      #flowerButton {
+        order: 2;
+        grid-column: 2;
+      }
+
+      #dreamButton {
+        order: 3;
+        grid-column: 1 / -1;
+      }
+
+      .corner-button {
+        min-height: 52px;
+        padding: 11px 10px;
+        border-radius: 18px;
+        font-size: 0.74rem;
+        line-height: 1.25;
+      }
+
+      .nav {
+        right: 12px;
+        bottom: 78px;
+      }
+
+      .letter-launch {
+        bottom: 108px;
+        width: calc(100vw - 24px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
       }
     }
   </style>
 </head>
 <body>
-  <div class="login-overlay" id="loginOverlay">
-    <div class="login-card">
-      <p class="mini">Esma & Kadir</p>
-      <h1>Kapıyı Anılar Açsın</h1>
-      <p>Ne zaman sevgili olduk?</p>
-      <p>Gün-ay-yıl şeklinde yazın</p>
-      <input
-        class="date-input"
-        id="dateInput"
-        inputmode="numeric"
-        maxlength="10"
-        placeholder="gg.aa.yyyy"
-        autocomplete="off"
-      />
-      <button class="login-button" id="loginButton" type="button">Giriş Yap</button>
-      <button class="hint-button" id="hintButton" type="button" aria-expanded="false">İpucu almak için tıklayın</button>
-      <p class="login-hint" id="loginHint"><span>14 ay önce bugün</span></p>
-      <p class="error" id="errorMessage">Tarih doğru değil birtanem :)</p>
+  <main class="experience" id="experience" aria-live="polite">
+    <div class="backgrounds" id="backgrounds"></div>
+    <div class="veil"></div>
+    <div class="grain"></div>
+
+    <section class="welcome" id="welcome">
+      <div class="welcome-inner">
+        <div class="eyebrow">Kadir & Esma</div>
+        <h1>Hazır mısın sevgilim?</h1>
+        <button class="start-button" id="startButton" type="button">Başlayalım</button>
+      </div>
+    </section>
+
+    <section class="scene" aria-label="Kadir ve Esma hikayesi">
+      <aside class="story-panel">
+        <div class="story-top">
+          <div class="story-count"><strong id="sceneNumber">01</strong> <span>/ 16</span></div>
+          <h2 class="story-title" id="sceneTitle">Bir hikaye açılıyor</h2>
+          <p class="story-copy" id="sceneCopy">Her dokunuşta yeni bir anı, her karede bize çıkan küçük bir yol var.</p>
+        </div>
+
+        <div class="controls">
+          <div class="hint">Ekrana tıkla ya da bekle; hikaye kendiliğinden devam eder.</div>
+          <div class="progress-row">
+            <svg class="progress-ring" viewBox="0 0 58 58" aria-hidden="true">
+              <circle class="track" cx="29" cy="29" r="25"></circle>
+              <circle class="fill" id="progressFill" cx="29" cy="29" r="25"></circle>
+            </svg>
+            <div class="dots" id="dots"></div>
+          </div>
+        </div>
+      </aside>
+
+      <div class="stage">
+        <svg class="map-line" viewBox="0 0 800 420" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="lineGradient" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ffd58a"></stop>
+              <stop offset="48%" stop-color="#ff4e6f"></stop>
+              <stop offset="100%" stop-color="#ef7a38"></stop>
+            </linearGradient>
+          </defs>
+          <path d="M60 330 C180 120 294 354 404 208 C516 58 594 270 742 80"></path>
+        </svg>
+        <figure class="photo-shell" id="photoShell">
+          <img class="story-image" id="storyImage" src="./img/16-foto-kirpildi/foto-01.jpeg" alt="Kadir ve Esma hikayesi 1. kare" />
+          <figcaption class="caption-chip" id="captionChip">Kırşehir'de başlayan küçük ışık.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <nav class="nav" aria-label="Hikaye kontrolü">
+      <button type="button" id="previousButton" aria-label="Önceki kare">‹</button>
+      <button type="button" id="nextButton" aria-label="Sonraki kare">›</button>
+    </nav>
+
+    <div class="corner-actions" aria-label="Küçük sürprizler">
+      <button class="corner-button" id="butterflyButton" type="button">Seninle tanıştıktan sonra midemi görmek ister misin?</button>
+      <button class="corner-button" id="dreamButton" type="button">Hayallerimi görmek ister misin?</button>
+      <button class="corner-button" id="flowerButton" type="button">Seninle tanıştıktan sonra kalbimi görmek ister misin?</button>
     </div>
-  </div>
 
-  <aside class="love-timer" aria-label="Birlikte geçen zaman">
-    <span class="love-timer-label">Birlikte geçen zamanımız</span>
-    <div class="love-timer-grid">
-      <div class="love-timer-part">
-        <strong id="timerDays">0</strong>
-        <span>Gün</span>
-      </div>
-      <div class="love-timer-part">
-        <strong id="timerHours">0</strong>
-        <span>Saat</span>
-      </div>
-      <div class="love-timer-part">
-        <strong id="timerMinutes">0</strong>
-        <span>Dakika</span>
-      </div>
-      <div class="love-timer-part">
-        <strong id="timerSeconds">0</strong>
-        <span>Saniye</span>
-      </div>
-    </div>
-  </aside>
+    <button class="letter-launch" id="letterLaunch" type="button">Altta bir mektup sakladım. Tıklayınca açılır.</button>
 
-  <main class="page">
-    <section class="hero">
-      <div class="hero-inner">
-        <div class="badge">23.04.2025'ten beri aynı hikayenin içindeyiz</div>
-        <h1>14. Ayımız Kutlu Olsun Sevgilim</h1>
-        <p class="hero-text">
-          Bu sayfada bizim güzel anılarımız, fotoğraflarımız ve sana söylemek istediklerim var.
-          Yıl geçti sevdamızdan ama hiç azalmıyor aşkım sana.
-        </p>
-        <div class="stats" aria-label="İlişki özeti">
-          <div class="stat">
-            <strong>14</strong>
-            <span>güzel ay</span>
-          </div>
-          <div class="stat">
-            <strong>426</strong>
-            <span>günden fazla sevda</span>
-          </div>
-          <div class="stat">
-            <strong>∞</strong>
-            <span>devam edecek hayal</span>
-          </div>
-        </div>
-        <a class="hero-link" href="#gallery">Anılarımıza Bak</a>
-      </div>
-    </section>
-
-    <section id="gallery">
-      <div class="section-inner">
-        <div class="section-heading">
-          <h2>Seninle keyifli zamanlarımızdan parçalar</h2>
-          <p>Her fotoğrafta başka bir mutluluğumuz, başka bir gülüşümüz saklı.</p>
-        </div>
-        <div class="gallery" id="photoGallery" aria-label="Fotoğraf galerisi"></div>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-inner">
-        <div class="section-heading">
-          <h2>14. Ayımıza Özel 14 İltifat</h2>
-          <p>Kartlara dokun; her birinin içinde sana sakladığım küçük bir iltifat var.</p>
-        </div>
-        <div class="reasons-grid" id="reasonsGrid"></div>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-inner letter-wrap">
-        <div class="letter-photo">
-          <img id="letterImage" src="./img/WhatsApp Image 2026-06-22 at 23.50.14.jpeg" alt="Bizden bir fotoğraf">
-        </div>
-        <article class="letter-card">
-          <h2>HATUNUM,</h2>
-          <p>
-            Sevgilim seninle 14 ayı geride bıraktık. Bu ayların hepsinde birçok güzel anımız kaldı.
-            Seninle her geçen gün her geçen an öylesine büyüleyici ki arkamı dönüp bakınca yüzümde
-            gülümsemeden başka birşey bırakmıyor. Ben seninle çok mutluyum tartışsak da üzülsek de
-            ne olursa olsun seninle çok mutluyum aşkım. Sen benim herşeyimsin. Seninle evlenmek
-            mutlu bir yuva kurmak istiyorum birtanem. Bu yuvada ne pahalı eşyalar ne de kocaman
-            odalar olmasına gerek yok bir sen varsan dünyada benden zengini yoktur. Seni çok
-            seviyorum. iyi ki varsın Aşkım. 14. AYIMIZ KUTLU OLSUN.
-          </p>
-          <div class="signature script">- Kadir</div>
-        </article>
-      </div>
-    </section>
-
-    <section class="secret-note-section">
-      <div class="section-inner">
-        <button class="envelope-card" id="envelopeCard" type="button" aria-expanded="false">
-          <span class="envelope" aria-hidden="true">
-            <span class="envelope-letter">Not</span>
-          </span>
-          <span class="envelope-title">Kapalı Zarf</span>
-          <p class="envelope-hint">Tıklayın, içinde sana küçük bir not var.</p>
-          <span class="envelope-message">
-            <span>Bütlerinde başarılar sevgilim başarıcağına inancım sonsuz. Seni çok seviyorum</span>
-          </span>
-        </button>
-      </div>
+    <section class="letter-overlay" id="letterOverlay" aria-hidden="true">
+      <article class="letter-card" role="dialog" aria-modal="true" aria-label="Mektup">
+        <button class="letter-close" id="letterClose" type="button" aria-label="Mektubu kapat">×</button>
+        <div class="letter-meta">Sadece sana</div>
+        <h2>Sevgilim</h2>
+        <p class="letter-body" id="letterBody"></p>
+        <div class="letter-sign">Kadir</div>
+      </article>
     </section>
   </main>
 
-  <footer>
-    Esma & Kadir için, 14. ay hatırası.
-  </footer>
-
   <script>
-    const correctDate = "23.04.2025";
-    const dateInput = document.getElementById("dateInput");
-    const loginButton = document.getElementById("loginButton");
-    const loginOverlay = document.getElementById("loginOverlay");
-    const errorMessage = document.getElementById("errorMessage");
-    const envelopeCard = document.getElementById("envelopeCard");
-    const hintButton = document.getElementById("hintButton");
-    const loginHint = document.getElementById("loginHint");
-    const timerDays = document.getElementById("timerDays");
-    const timerHours = document.getElementById("timerHours");
-    const timerMinutes = document.getElementById("timerMinutes");
-    const timerSeconds = document.getElementById("timerSeconds");
+    const slideDuration = 15000;
+    const imageBase = "./img/16-foto-kirpildi/";
+    const slides = [
+      {
+        file: "foto-01.jpeg",
+        title: "Türkiye ışıkları yandı",
+        copy: "Her güzel hikaye önce uzaktan görünür; sonra yavaşça kalbin merkezine yaklaşır.",
+        caption: "Haritanın üstünde ilk işaret."
+      },
+      {
+        file: "foto-02.jpeg",
+        title: "Her şey burada başladı",
+        copy: "Kırşehir sadece bir şehir değil, bizim hikayemizin ilk cümlesi oldu.",
+        caption: "Başlangıcın adı: Kırşehir."
+      },
+      {
+        file: "foto-03.jpeg",
+        title: "Aynı şehir, aynı tesadüf",
+        copy: "İki kalp aynı yere düşünce tesadüf olmaktan çıkıp kader gibi hissettirir.",
+        caption: "Kadir ve Esma yan yana."
+      },
+      {
+        file: "foto-04.jpeg",
+        title: "Birkaç sokak kadar yakın",
+        copy: "Aramızda yollar vardı ama kalbimiz birbirinin yerini çoktan ezberlemişti.",
+        caption: "Yakınlığın en güzel hali."
+      },
+      {
+        file: "foto-05.jpeg",
+        title: "Yollar ayrıldı sandık",
+        copy: "Bazı yollar uzaklaştırmaz; sadece kavuşmayı daha anlamlı yapar.",
+        caption: "Farklı şehirler, aynı yön."
+      },
+      {
+        file: "foto-06.jpeg",
+        title: "Manisa ve İzmir arasında",
+        copy: "Ben Manisa'ya giderken hikaye durmadı; sadece yeni bir bölüm açıldı.",
+        caption: "İki şehir, tek bağ."
+      },
+      {
+        file: "foto-07.jpeg",
+        title: "Sen İzmir'e",
+        copy: "Bir şehrin adı, sevdiğin insan oradaysa bambaşka duyulur.",
+        caption: "İzmir artık sadece İzmir değil."
+      },
+      {
+        file: "foto-08.jpeg",
+        title: "38 kilometrelik yakınlık",
+        copy: "Bazen mesafe rakamla ölçülür, özlemse kalbin attığı yerden.",
+        caption: "Manisa ile İzmir arasında sıcak bir çizgi."
+      },
+      {
+        file: "foto-09.jpeg",
+        title: "Zaman geçti",
+        copy: "Saatler aktı, günler değişti; ama bağımız aynı yerde güçlü kaldı.",
+        caption: "Kalbin saati başka çalışır."
+      },
+      {
+        file: "foto-10.jpeg",
+        title: "İzmir'den Kırşehir'e",
+        copy: "Haritada uzak görünen her yer, sen varsın diye yakın gelmeye başladı.",
+        caption: "Kalpler kendi yolunu bulur."
+      },
+      {
+        file: "foto-11.jpeg",
+        title: "736 kilometre bile yetmedi",
+        copy: "Mesafe büyüdü belki, ama sevgimiz ondan daha hızlı büyüdü.",
+        caption: "Uzaklığın üstünden geçen ışık."
+      },
+      {
+        file: "foto-12.jpeg",
+        title: "Özlem büyüdü",
+        copy: "Uzakta olmak bazen zor; ama seni sevmek her şeyi daha dayanılır yapıyor.",
+        caption: "Aynı gökyüzünün altında."
+      },
+      {
+        file: "foto-13.jpeg",
+        title: "Manisa'ya dönüş vakti",
+        copy: "Yeniden yaklaşan yollar var; insanın içini heyecanla dolduran cinsten.",
+        caption: "Dönüş yolu da hikayenin parçası."
+      },
+      {
+        file: "foto-14.jpeg",
+        title: "Biraz daha yaklaşmak",
+        copy: "Her kilometre azaldıkça içimdeki sabırsızlık daha güzel bir şeye dönüştü.",
+        caption: "Kavuşmaya yaklaşan çizgi."
+      },
+      {
+        file: "foto-15.jpeg",
+        title: "Artık günleri sayıyorum",
+        copy: "Mesafeyi değil, birlikte geçireceğimiz anları saymak istiyorum.",
+        caption: "Yakınlığın bekleyişi."
+      },
+      {
+        file: "foto-16.jpeg",
+        title: "Seni çok seviyorum Esma",
+        copy: "Mesafeler geçer. Gerçek sevgi, birbirine giden yolu daima bulur.",
+        caption: "Kadir ve Esma."
+      }
+    ];
 
-    function formatDate(value) {
-      const digits = value.replace(/\D/g, "").slice(0, 8);
-      const parts = [];
+    const welcome = document.getElementById("welcome");
+    const startButton = document.getElementById("startButton");
+    const experience = document.getElementById("experience");
+    const backgrounds = document.getElementById("backgrounds");
+    const sceneNumber = document.getElementById("sceneNumber");
+    const sceneTitle = document.getElementById("sceneTitle");
+    const sceneCopy = document.getElementById("sceneCopy");
+    const captionChip = document.getElementById("captionChip");
+    const storyImage = document.getElementById("storyImage");
+    const photoShell = document.getElementById("photoShell");
+    const dots = document.getElementById("dots");
+    const progressFill = document.getElementById("progressFill");
+    const previousButton = document.getElementById("previousButton");
+    const nextButton = document.getElementById("nextButton");
+    const butterflyButton = document.getElementById("butterflyButton");
+    const dreamButton = document.getElementById("dreamButton");
+    const flowerButton = document.getElementById("flowerButton");
+    const letterLaunch = document.getElementById("letterLaunch");
+    const letterOverlay = document.getElementById("letterOverlay");
+    const letterClose = document.getElementById("letterClose");
+    const letterBody = document.getElementById("letterBody");
 
-      if (digits.length > 0) parts.push(digits.slice(0, 2));
-      if (digits.length > 2) parts.push(digits.slice(2, 4));
-      if (digits.length > 4) parts.push(digits.slice(4, 8));
+    const letterText = [
+      "Sevgilim,\n\nSabah uyandın ve bu web sitesini açtın.",
+      "Gözlerin sabahları çok güzel oluyor. Sen zaten ayrı bir güzelsin.",
+      "Seni çok özledim.",
+      "Seninle kavuşacağımız günü iple çekiyorum. Hemen gelsin istiyorum.",
+      "Sana sımsıkı sarılacağım, söz veriyorum.",
+      "Günaydın aşkım."
+    ].join("\n\n");
 
-      return parts.filter(Boolean).join(".");
+    let currentIndex = 0;
+    let hasStarted = false;
+    let timer = null;
+    let progressStart = performance.now();
+    const circumference = 157;
+
+    slides.forEach((slide, index) => {
+      const background = document.createElement("div");
+      background.className = "background-image";
+      background.style.setProperty("--image", `url("${imageBase}${slide.file}")`);
+      background.dataset.index = String(index);
+      backgrounds.appendChild(background);
+
+      const dot = document.createElement("span");
+      dot.className = "dot";
+      dots.appendChild(dot);
+
+      const preload = new Image();
+      preload.src = imageBase + slide.file;
+    });
+
+    letterBody.textContent = letterText;
+
+    function padNumber(value) {
+      return String(value).padStart(2, "0");
     }
 
-    function checkDate() {
-      if (dateInput.value === correctDate) {
-        errorMessage.classList.remove("visible");
-        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-        loginOverlay.classList.add("hidden");
-        createPetalBurst();
+    function activateBackground(index) {
+      document.querySelectorAll(".background-image").forEach((item) => {
+        item.classList.toggle("active", Number(item.dataset.index) === index);
+      });
+    }
+
+    function updateDots(index) {
+      document.querySelectorAll(".dot").forEach((dot, dotIndex) => {
+        dot.classList.toggle("active", dotIndex === index);
+      });
+    }
+
+    function setSlide(index, direction = 1) {
+      currentIndex = (index + slides.length) % slides.length;
+      const slide = slides[currentIndex];
+
+      photoShell.classList.add("switching");
+
+      window.setTimeout(() => {
+        storyImage.classList.remove("ready");
+        storyImage.onload = () => {
+          storyImage.classList.add("ready");
+          photoShell.classList.remove("switching");
+        };
+        storyImage.src = imageBase + slide.file;
+        storyImage.alt = `Kadir ve Esma hikayesi ${currentIndex + 1}. kare`;
+        sceneNumber.textContent = padNumber(currentIndex + 1);
+        sceneTitle.textContent = slide.title;
+        sceneCopy.textContent = slide.copy;
+        captionChip.textContent = slide.caption;
+        activateBackground(currentIndex);
+        updateDots(currentIndex);
+        progressStart = performance.now();
+        if (storyImage.complete) {
+          storyImage.classList.add("ready");
+          photoShell.classList.remove("switching");
+        }
+        createHearts(direction);
+      }, 280);
+    }
+
+    function nextSlide() {
+      setSlide(currentIndex + 1, 1);
+      restartTimer();
+    }
+
+    function previousSlide() {
+      setSlide(currentIndex - 1, -1);
+      restartTimer();
+    }
+
+    function restartTimer() {
+      if (!hasStarted) return;
+      window.clearTimeout(timer);
+      progressStart = performance.now();
+      timer = window.setTimeout(nextSlide, slideDuration);
+    }
+
+    function animateProgress(now) {
+      const elapsed = hasStarted ? Math.min(now - progressStart, slideDuration) : 0;
+      const progress = elapsed / slideDuration;
+      progressFill.style.strokeDashoffset = String(circumference - circumference * progress);
+      requestAnimationFrame(animateProgress);
+    }
+
+    function createHearts(direction) {
+      for (let index = 0; index < 8; index++) {
+        const heart = document.createElement("span");
+        heart.className = "heart";
+        heart.textContent = "♥";
+        heart.style.setProperty("--x", `${Math.random() * 82 + 8}vw`);
+        heart.style.setProperty("--y", `${Math.random() * 72 + 14}vh`);
+        heart.style.setProperty("--dx", `${(Math.random() * 90 + 40) * direction}px`);
+        heart.style.setProperty("--dy", `${Math.random() * -130 - 40}px`);
+        heart.style.setProperty("--rotate", `${Math.random() * 140 - 70}deg`);
+        heart.style.setProperty("--size", `${Math.random() * 16 + 16}px`);
+        document.body.appendChild(heart);
+        window.setTimeout(() => heart.remove(), 1600);
+      }
+    }
+
+    function createButterflies(origin) {
+      const rect = origin.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      for (let index = 0; index < 16; index++) {
+        const butterfly = document.createElement("span");
+        const direction = index % 2 === 0 ? 1 : -1;
+
+        butterfly.className = "butterfly";
+        butterfly.style.setProperty("--x", `${centerX + (Math.random() - 0.5) * 42}px`);
+        butterfly.style.setProperty("--y", `${centerY + (Math.random() - 0.5) * 22}px`);
+        butterfly.style.setProperty("--dx", `${(Math.random() * 170 + 70) * direction}px`);
+        butterfly.style.setProperty("--dy", `${Math.random() * -190 - 70}px`);
+        butterfly.style.setProperty("--rotate", `${Math.random() * 180 - 90}deg`);
+        butterfly.style.setProperty("--size", `${Math.random() * 15 + 18}px`);
+        document.body.appendChild(butterfly);
+        window.setTimeout(() => butterfly.remove(), 2600);
+      }
+    }
+
+    function createFlowers(origin) {
+      const rect = origin.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      for (let index = 0; index < 18; index++) {
+        const flower = document.createElement("span");
+        const angle = (Math.PI * 2 * index) / 18;
+        const distance = Math.random() * 82 + 30;
+
+        flower.className = "flower";
+        flower.style.setProperty("--x", `${centerX + Math.cos(angle) * 24}px`);
+        flower.style.setProperty("--y", `${centerY + Math.sin(angle) * 10}px`);
+        flower.style.setProperty("--dx", `${Math.cos(angle) * distance}px`);
+        flower.style.setProperty("--dy", `${Math.sin(angle) * distance - 38}px`);
+        flower.style.setProperty("--rotate", `${Math.random() * 140 - 70}deg`);
+        flower.style.setProperty("--size", `${Math.random() * 18 + 26}px`);
+        document.body.appendChild(flower);
+        window.setTimeout(() => flower.remove(), 2400);
+      }
+    }
+
+    function createDreamWords(origin) {
+      const rect = origin.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const letters = ["E", "S", "M", "A"];
+
+      for (let index = 0; index < 20; index++) {
+        const dreamName = document.createElement("span");
+        const letter = letters[index % letters.length];
+        const angle = (Math.PI * 2 * index) / 20;
+        const distance = Math.random() * 110 + 46;
+
+        dreamName.className = "dream-name";
+        dreamName.textContent = letter;
+        dreamName.style.setProperty("--x", `${centerX + Math.cos(angle) * 8}px`);
+        dreamName.style.setProperty("--y", `${centerY + Math.sin(angle) * 8}px`);
+        dreamName.style.setProperty("--dx", `${Math.cos(angle) * distance}px`);
+        dreamName.style.setProperty("--dy", `${Math.sin(angle) * distance - 72}px`);
+        dreamName.style.setProperty("--rotate", `${Math.random() * 160 - 80}deg`);
+        dreamName.style.setProperty("--size", `${Math.random() * 20 + 20}px`);
+        document.body.appendChild(dreamName);
+        window.setTimeout(() => dreamName.remove(), 2700);
+      }
+    }
+
+    function openLetter() {
+      letterOverlay.classList.add("open");
+      letterOverlay.setAttribute("aria-hidden", "false");
+      createFlowers(letterLaunch);
+    }
+
+    function closeLetter() {
+      letterOverlay.classList.remove("open");
+      letterOverlay.setAttribute("aria-hidden", "true");
+    }
+
+    function startExperience() {
+      hasStarted = true;
+      welcome.classList.add("hidden");
+      storyImage.classList.add("ready");
+      setSlide(0, 1);
+      restartTimer();
+    }
+
+    startButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      startExperience();
+    });
+
+    nextButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      nextSlide();
+    });
+
+    previousButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      previousSlide();
+    });
+
+    butterflyButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      createButterflies(butterflyButton);
+    });
+
+    dreamButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      createDreamWords(dreamButton);
+    });
+
+    flowerButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      createFlowers(flowerButton);
+    });
+
+    letterLaunch.addEventListener("click", (event) => {
+      event.stopPropagation();
+      openLetter();
+    });
+
+    letterClose.addEventListener("click", (event) => {
+      event.stopPropagation();
+      closeLetter();
+    });
+
+    letterOverlay.addEventListener("click", (event) => {
+      if (event.target === letterOverlay) closeLetter();
+    });
+
+    experience.addEventListener("click", () => {
+      if (!hasStarted) {
+        startExperience();
+        return;
+      }
+      nextSlide();
+    });
+
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && letterOverlay.classList.contains("open")) {
+        event.preventDefault();
+        closeLetter();
         return;
       }
 
-      errorMessage.classList.add("visible");
-      dateInput.focus();
-    }
-
-    function createPetalBurst() {
-      const burst = document.createElement("div");
-      burst.className = "petal-burst";
-      document.body.appendChild(burst);
-
-      for (let i = 0; i < 54; i++) {
-        const petal = document.createElement("span");
-        const size = Math.random() * 18 + 14;
-
-        petal.className = "rose-petal";
-        petal.style.setProperty("--left", `${Math.random() * 100}%`);
-        petal.style.setProperty("--size", `${size}px`);
-        petal.style.setProperty("--rotate", `${Math.random() * 220}deg`);
-        petal.style.setProperty("--drift", `${(Math.random() - 0.5) * 260}px`);
-        petal.style.setProperty("--duration", `${Math.random() * 2.8 + 4.2}s`);
-        petal.style.setProperty("--delay", `${Math.random() * 0.9}s`);
-        burst.appendChild(petal);
+      if (event.key === "ArrowRight" || event.key === " ") {
+        event.preventDefault();
+        hasStarted ? nextSlide() : startExperience();
       }
 
-      setTimeout(() => burst.remove(), 8200);
-    }
-
-    function createEnvelopeSparkles() {
-      const rect = envelopeCard.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + 110;
-      const symbols = ["♥", "❀", "♡"];
-
-      for (let i = 0; i < 24; i++) {
-        const sparkle = document.createElement("span");
-        const angle = Math.random() * Math.PI * 2;
-        const distance = Math.random() * 120 + 70;
-
-        sparkle.className = "love-pop";
-        sparkle.textContent = symbols[i % symbols.length];
-        sparkle.style.setProperty("--x", `${centerX}px`);
-        sparkle.style.setProperty("--y", `${centerY}px`);
-        sparkle.style.setProperty("--dx", `${Math.cos(angle) * distance}px`);
-        sparkle.style.setProperty("--dy", `${Math.sin(angle) * distance - 40}px`);
-        sparkle.style.setProperty("--size", `${Math.random() * 16 + 16}px`);
-        sparkle.style.setProperty("--rotate", `${Math.random() * 160 - 80}deg`);
-        sparkle.style.setProperty("--delay", `${Math.random() * 0.12}s`);
-        document.body.appendChild(sparkle);
-
-        setTimeout(() => sparkle.remove(), 1700);
+      if (event.key === "ArrowLeft" && hasStarted) {
+        event.preventDefault();
+        previousSlide();
       }
-    }
-
-    function updateLoveTimer() {
-      const startDate = new Date(2025, 3, 23, 0, 0, 0);
-      const now = new Date();
-      const elapsed = Math.max(0, now - startDate);
-      const dayMs = 1000 * 60 * 60 * 24;
-      const hourMs = 1000 * 60 * 60;
-      const minuteMs = 1000 * 60;
-      const days = Math.floor(elapsed / dayMs);
-      const hours = Math.floor((elapsed % dayMs) / hourMs);
-      const minutes = Math.floor((elapsed % hourMs) / minuteMs);
-      const seconds = Math.floor((elapsed % minuteMs) / 1000);
-
-      timerDays.textContent = days.toLocaleString("tr-TR");
-      timerHours.textContent = String(hours).padStart(2, "0");
-      timerMinutes.textContent = String(minutes).padStart(2, "0");
-      timerSeconds.textContent = String(seconds).padStart(2, "0");
-    }
-
-    dateInput.addEventListener("input", () => {
-      dateInput.value = formatDate(dateInput.value);
-      errorMessage.classList.remove("visible");
     });
 
-    dateInput.addEventListener("keydown", (event) => {
-      if (event.key === "Enter") checkDate();
-    });
-
-    loginButton.addEventListener("click", checkDate);
-
-    hintButton.addEventListener("click", () => {
-      const isVisible = loginHint.classList.toggle("visible");
-      hintButton.setAttribute("aria-expanded", String(isVisible));
-    });
-
-    envelopeCard.addEventListener("click", () => {
-      const isOpen = envelopeCard.classList.toggle("is-open");
-      envelopeCard.setAttribute("aria-expanded", String(isOpen));
-      if (isOpen) createEnvelopeSparkles();
-    });
-
-    updateLoveTimer();
-    setInterval(updateLoveTimer, 1000);
-
-    const photos = [
-      "./img/ay1.jpeg",
-      "./img/ay2.jpeg",
-      "./img/ay3.jpeg",
-      "./img/ay4.jpeg",
-      "./img/ay5.jpeg",
-      "./img/ay6.jpeg",
-      "./img/ay7.jpeg",
-      "./img/ay8.jpeg",
-      "./img/ay9.jpeg",
-      "./img/WhatsApp Image 2026-06-22 at 23.50.14.jpeg",
-      "./img/WhatsApp Image 2026-06-22 at 23.50.1555.jpeg",
-      "./img/WhatsApp Image 2026-06-22 at 23.50.1455.jpeg"
-    ];
-
-    const reasons = [
-      "Tek gülüşünle en kötü günüm bile güzelleşiyor.",
-      "O kadar güzelsin ki güneş kremi sürmeden yanına gelmemek lazım.",
-      "Seni o kadar seviyorum ki her an yanında olmak istiyorum.",
-      "Seninle sohbet etmek çok keyifli sevgilim",
-      "Sen bu dünyadaki en zeki insansın",
-      "Tadın meyveye benziyor",
-      "Saçların çok güzel keşke her dakika bakabilsem onlara",
-      "Gözlerine bakmak bile dünyayı keşfetmeme yetiyor",
-      "Senin yanaklarından öpmek insani rahatlatıyor",
-      "Sen çokk güzel gülüyorsun bebeğim",
-      "Benim herşeyim sensin yol göstericimsin",
-      "Seninle her şeyi yapabilirim",
-      "Sana sarılmak her derde devadır",
-      "Seni çok seviyorum nedensiz"
-    ];
-
-    function shuffled(items) {
-      return [...items].sort(() => Math.random() - 0.5);
-    }
-
-    function createPhotoCard(src, index) {
-      const card = document.createElement("figure");
-      const image = document.createElement("img");
-
-      card.className = "photo-card";
-      card.style.setProperty("--tilt", `${(index % 2 === 0 ? -1 : 1) * (Math.random() * 2.4 + 0.6)}deg`);
-      image.src = src;
-      image.alt = `Esma ve Kadir anısı ${index + 1}`;
-      image.loading = "lazy";
-
-      card.appendChild(image);
-      return card;
-    }
-
-    const photoGallery = document.getElementById("photoGallery");
-    const photoTrack = document.createElement("div");
-    const mixedPhotos = shuffled(photos);
-
-    photoTrack.className = "photo-track";
-    [...mixedPhotos, ...mixedPhotos].forEach((src, index) => {
-      photoTrack.appendChild(createPhotoCard(src, index));
-    });
-    photoGallery.appendChild(photoTrack);
-
-    const reasonsGrid = document.getElementById("reasonsGrid");
-    reasons.forEach((reason, index) => {
-      const card = document.createElement("button");
-      card.className = "reason-card";
-      card.type = "button";
-      card.setAttribute("aria-expanded", "false");
-      card.innerHTML = `
-        <span class="reason-top">
-          <span class="reason-number">${index + 1}</span>
-          <span class="reason-lock">Kapalı</span>
-        </span>
-        <span class="reason-closed">İltifatı açmak için dokun</span>
-        <span class="reason-text">${reason}</span>
-      `;
-      card.addEventListener("click", () => {
-        const isOpen = card.classList.toggle("is-open");
-        card.setAttribute("aria-expanded", String(isOpen));
-        card.querySelector(".reason-lock").textContent = isOpen ? "Açık" : "Kapalı";
-      });
-      reasonsGrid.appendChild(card);
-    });
-
-    for (let i = 0; i < 18; i++) {
-      const heart = document.createElement("span");
-      heart.className = "floating-heart";
-      heart.textContent = "♥";
-      heart.style.setProperty("--left", `${Math.random() * 100}%`);
-      heart.style.setProperty("--size", `${Math.random() * 20 + 14}px`);
-      heart.style.setProperty("--duration", `${Math.random() * 8 + 10}s`);
-      heart.style.setProperty("--delay", `${Math.random() * -14}s`);
-      document.body.appendChild(heart);
-    }
+    setSlide(0, 1);
+    requestAnimationFrame(animateProgress);
   </script>
 </body>
 </html>
