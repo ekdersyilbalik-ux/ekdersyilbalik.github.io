@@ -77,7 +77,7 @@
       opacity: 0;
       filter: blur(22px) saturate(1.18) brightness(0.55);
       transform: scale(1.08);
-      transition: opacity 1s ease, transform 7s ease;
+      transition: none;
     }
 
     .background-image.active {
@@ -373,7 +373,7 @@
         0 0 0 10px rgba(255, 245, 230, 0.04);
       transform: scale(0.98);
       opacity: 0;
-      transition: opacity 0.65s ease, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.8s ease;
+      transition: none;
     }
 
     .story-image.ready {
@@ -382,13 +382,13 @@
     }
 
     .photo-shell.switching {
-      transform: translateY(14px) rotate(1.2deg) scale(0.985);
+      transform: translateY(0) rotate(-1.5deg);
     }
 
     .photo-shell.switching .story-image {
-      opacity: 0;
-      transform: scale(0.94);
-      filter: blur(6px);
+      opacity: 1;
+      transform: scale(1);
+      filter: none;
     }
 
     .caption-chip {
@@ -1292,29 +1292,16 @@
       currentIndex = (index + slides.length) % slides.length;
       const slide = slides[currentIndex];
 
-      photoShell.classList.add("switching");
-
-      window.setTimeout(() => {
-        storyImage.classList.remove("ready");
-        storyImage.onload = () => {
-          storyImage.classList.add("ready");
-          photoShell.classList.remove("switching");
-        };
-        storyImage.src = imageBase + slide.file;
-        storyImage.alt = `Kadir ve Esma hikayesi ${currentIndex + 1}. kare`;
-        sceneNumber.textContent = padNumber(currentIndex + 1);
-        sceneTitle.textContent = slide.title;
-        sceneCopy.textContent = slide.copy;
-        captionChip.textContent = slide.caption;
-        activateBackground(currentIndex);
-        updateDots(currentIndex);
-        progressStart = performance.now();
-        if (storyImage.complete) {
-          storyImage.classList.add("ready");
-          photoShell.classList.remove("switching");
-        }
-        createHearts(direction);
-      }, 280);
+      storyImage.classList.add("ready");
+      storyImage.src = imageBase + slide.file;
+      storyImage.alt = `Kadir ve Esma hikayesi ${currentIndex + 1}. kare`;
+      sceneNumber.textContent = padNumber(currentIndex + 1);
+      sceneTitle.textContent = slide.title;
+      sceneCopy.textContent = slide.copy;
+      captionChip.textContent = slide.caption;
+      activateBackground(currentIndex);
+      updateDots(currentIndex);
+      progressStart = performance.now();
     }
 
     function nextSlide() {
