@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seni Ne Kadar Seviyorum?</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffe6ea; /* Tatlı bir pembe */
+            font-family: 'Poppins', sans-serif;
+            color: #d6336c;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        /* Başlangıç Ekranı */
+        .intro-screen {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(180deg, #ff9a9e 0%, #fecfef 100%);
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin: 0 20px;
+        }
+
+        .scroll-hint {
+            margin-top: 30px;
+            color: #fff;
+            font-size: 1rem;
+            animation: bounce 2s infinite;
+        }
+
+        .arrow {
+            font-size: 2rem;
+            display: block;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        /* İçerik Kutuları */
+        .love-container {
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        .message-block {
+            margin: 50px auto;
+            max-width: 80%;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(214, 51, 108, 0.15);
+            font-size: 1.2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.5s ease;
+        }
+
+        .message-block.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message-block span {
+            display: block;
+            font-size: 2rem;
+            margin-top: 10px;
+        }
+
+        /* Çökme Ekranı */
+        .crash-screen {
+            display: none;
+            background-color: #222;
+            color: #0f0; /* Hacker yeşili */
+            font-family: 'Courier New', Courier, monospace;
+            padding: 40px 20px;
+            text-align: left;
+            min-height: 50vh;
+        }
+
+        .crash-title {
+            color: red;
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .restart-btn {
+            background: #fff;
+            color: #222;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            display: block;
+            width: 100%;
+        }
+
+    </style>
+<link rel="stylesheet" href="../hediye-menu.css">
+</head>
+<body>
+<a id="esma-home-link" href="../index.html" aria-label="Hediye ana menüsüne dön">← Ana menü <span aria-hidden="true">♡</span></a>
+
+    <div class="intro-screen">
+        <h1>Seni Ne Kadar Mı Seviyorum?</h1>
+        <p style="color:white; font-size:1.1rem; padding:0 20px;">Cevabı görmek için aşağı kaydır...</p>
+        <div class="scroll-hint">
+            Başla bakalım!
+            <span class="arrow">⬇️</span>
+        </div>
+    </div>
+
+    <div class="love-container" id="container">
+        </div>
+
+    <div class="crash-screen" id="crashScreen">
+        <div class="crash-title">⚠️ SYSTEM ERROR ⚠️</div>
+        <p>> Love_Capacity_Overload detected.</p>
+        <p>> Abdulkadir_Server status: CRASHED.</p>
+        <p>> Hata Raporu: Esma'ya olan sevgi miktarı RAM belleğini aştı.</p>
+        <br>
+        <p style="color:white; text-align:center; font-family:'Poppins', sans-serif;">
+            "Tamam şimdilik bu kadar, sunucularımı yaktın! 🔥<br>
+            Seni Dünyalar Kadar Çok Seviyorum ❤️"
+        </p>
+        <button class="restart-btn" onclick="window.scrollTo(0,0); location.reload();">Başa Dön 🔄</button>
+    </div>
+
+    <script>
+        const container = document.getElementById('container');
+        const crashScreen = document.getElementById('crashScreen');
+        
+        // Esma için özel mesaj havuzu
+        const messages = [
+            "Çok seviyorum! ❤️",
+            "Hala bitmedi...",
+            "Daha yeni başladık 🚀",
+            "Kocaman seviyorum! 🌍",
+            "Yorulmadın mı? Ben sevmekten yorulmam.",
+            "Sayfalar yetmez...",
+            "Bayağı çok seviyorum 😍",
+            "Acıktın mı? (Şaka şaka devam et)",
+            "Esmaaa! ❤️",
+            "Parmaklarına kuvvet 💪",
+            "Sonsuza kadar... ♾️",
+            "Evren kadar 🌌",
+            "Pıt pıt atıyor kalbim 💓",
+            "Daha dur, bitmez bu sevgi.",
+            "Aşağıda sürpriz yok, sadece sevgi var.",
+            "Benim ponçik sevgilim 🧸",
+            "En çok ben seviyorum!",
+            "Kaydır kaydır bitmez...",
+            "Abdulkadir ❤️ Esma",
+            "Gözlerini kapatma, devam et 👀"
+        ];
+
+        let count = 0;
+        const maxCount = 50; // Kaç tane mesajdan sonra çöksün? (50 iyi bir rakam)
+        let isCrashed = false;
+
+        // Rastgele mesaj getirme fonksiyonu
+        function getRandomMessage() {
+            return messages[Math.floor(Math.random() * messages.length)];
+        }
+
+        // Yeni blok ekleme fonksiyonu
+        function addBlock() {
+            if (isCrashed) return;
+
+            const div = document.createElement('div');
+            div.classList.add('message-block');
+            
+            // İçerik: Mesaj + Rastgele bir emoji boyutu
+            div.innerHTML = `
+                ${getRandomMessage()}
+                <span style="font-size:${Math.random() * 2 + 1}rem">
+                    ${Math.random() > 0.5 ? '❤️' : '💖'}
+                </span>
+            `;
+            
+            container.appendChild(div);
+
+            // Animasyon için minik bir gecikme
+            setTimeout(() => {
+                div.classList.add('visible');
+            }, 100);
+
+            count++;
+        }
+
+        // Başlangıç için 3-4 tane ekleyelim
+        for(let i=0; i<4; i++) addBlock();
+
+        // Scroll Olayı
+        window.addEventListener('scroll', () => {
+            if (isCrashed) return;
+
+            // Sayfanın altına yaklaştık mı?
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 300) {
+                
+                // Limit kontrolü
+                if (count >= maxCount) {
+                    triggerCrash();
+                } else {
+                    addBlock(); // Yeni mesaj ekle
+                }
+            }
+        });
+
+        // Çökme Fonksiyonu
+        function triggerCrash() {
+            isCrashed = true;
+            
+            // Kullanıcı en alta geldiğinde biraz bekletip gümletelim
+            setTimeout(() => {
+                document.body.style.backgroundColor = "#000"; // Arka planı karart
+                container.style.display = 'none'; // Mesajları gizle
+                document.querySelector('.intro-screen').style.display = 'none';
+                crashScreen.style.display = 'block'; // Hata ekranını aç
+                window.scrollTo(0, document.body.scrollHeight); // En alta odakla
+            }, 800);
+        }
+
+    </script>
+
+</body>
+</html>

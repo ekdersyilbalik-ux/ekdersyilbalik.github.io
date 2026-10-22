@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Esma İçin Sevgi Baloncukları 🫧</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Sayfa kaymasını engeller */
+            background: linear-gradient(180deg, #ffc3a0 0%, #ffafbd 100%); /* Romantik gün batımı renkleri */
+            font-family: 'Quicksand', sans-serif;
+            height: 100vh;
+            touch-action: none; /* Mobilde yakınlaştırma/kaydırmayı kapatır */
+            user-select: none; /* Yazı seçimini engeller */
+        }
+
+        /* Mesaj Kutusu */
+        .message-box {
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px); /* Buzlu cam efekti */
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            z-index: 100;
+            pointer-events: none; /* Mesaj kutusuna tıklanmasın, arkasındaki balonlara tıklansın */
+            transition: transform 0.2s;
+        }
+
+        #messageText {
+            font-family: 'Pacifico', cursive;
+            font-size: 1.8rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .hint {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.8);
+            margin-top: 10px;
+            display: block;
+        }
+
+        /* Uçan Baloncuklar */
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.1) 60%, rgba(255, 255, 255, 0.05) 100%);
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            animation: floatUp linear forwards;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        /* Baloncuk üzerindeki parlama */
+        .bubble::after {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: 20%;
+            width: 25%;
+            height: 15%;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.8);
+            transform: rotate(-45deg);
+        }
+
+        /* Patlama Efekti */
+        .pop-effect {
+            animation: popAnim 0.3s ease-out forwards;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-120vh) translateX(var(--wobble));
+                opacity: 1;
+            }
+        }
+
+        @keyframes popAnim {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.4); opacity: 0.8; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+    </style>
+<link rel="stylesheet" href="../hediye-menu.css">
+</head>
+<body>
+<a id="esma-home-link" href="../index.html" aria-label="Hediye ana menüsüne dön">← Ana menü <span aria-hidden="true">♡</span></a>
+
+    <div class="message-box" id="msgBox">
+        <div id="messageText">Esma için hazırlanıyor... ❤️</div>
+        <span class="hint">Baloncukları yakala!</span>
+    </div>
+
+    <audio id="popSound" preload="auto">
+        <source src="data:audio/mpeg;base64,//NkxAAACDxQSkBAAAAA0o4gEAAAAA//NkxAkP+e8Wq14ABUe+57X9673///8tUq8l57yH//NkxAMRie0cK17QB3e373vvv7//v/+WqVeS895D//NkxAIRueUca2bgB+eW773vvv7//v/+WqVeS895D//NkxAERWeEUK2bgB1d/73vvv7//v/+WqVeS895D//NkxAAQ2d0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const messageText = document.getElementById('messageText');
+        const msgBox = document.getElementById('msgBox');
+        const popSound = document.getElementById('popSound');
+
+        // İltifat Listesi
+        const messages = [
+            "Sana hayranım ❤️",
+            "Burnunu yerim 🥺",
+            "Kurban olurum sana 🥰",
+            "Seni yerim 😋",
+            "Çok güzelsin 🌸",
+            "Seni çok seviyorum! ❤️‍🔥",
+            "Birtanecik sevgilim 💑",
+            "Boncuk gözlerinden öperim 😘",
+            "Sen benim prensesimsin 👑",
+            "İyi ki varsın hayatım 🙏",
+            "Dünyanın en tatlısı sensin 🍭",
+            "Gülüşüne aşığım 😍",
+            "Benim ponçik sevgilim 🧸",
+            "Seninle her şey çok güzel ✨",
+            "Kalbim seninle atıyor 💓"
+        ];
+
+        let bubbleInterval;
+
+        // Sayfa yüklendiğinde başlat
+        window.onload = function() {
+            messageText.innerText = "Stres savar yükleniyor... 💕";
+            setTimeout(() => {
+                messageText.innerText = "Baloncuklara dokun!";
+                startBubbles();
+            }, 1000);
+        };
+
+        function startBubbles() {
+            // Her 400ms'de yeni bir balon üret (Hızı buradan ayarla)
+            bubbleInterval = setInterval(createBubble, 400);
+        }
+
+        function createBubble() {
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+
+            // Rastgele Boyut (40px ile 90px arası)
+            const size = Math.random() * 50 + 40;
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
+
+            // Rastgele Konum (Ekran genişliğinde)
+            bubble.style.left = Math.random() * 90 + '%';
+
+            // Rastgele Hız (3s ile 8s arası)
+            const duration = Math.random() * 5 + 3;
+            bubble.style.animationDuration = duration + 's';
+
+            // Sağa sola sallanma efekti (Wobble)
+            const wobble = (Math.random() * 100 - 50) + 'px';
+            bubble.style.setProperty('--wobble', wobble);
+
+            // Tıklama / Dokunma Olayı
+            // 'touchstart' mobil için gecikmesiz tepki verir
+            bubble.addEventListener('touchstart', popBubble, {passive: true}); 
+            bubble.addEventListener('mousedown', popBubble); // PC için yedek
+
+            document.body.appendChild(bubble);
+
+            // Ekrandan çıkınca temizle (Bellek şişmesin diye)
+            setTimeout(() => {
+                if (document.body.contains(bubble)) {
+                    bubble.remove();
+                }
+            }, duration * 1000);
+        }
+
+        function popBubble(e) {
+            // Çift tetiklemeyi önle
+            if(this.classList.contains('popping')) return;
+            this.classList.add('popping');
+
+            // Ses Çal
+            const soundClone = popSound.cloneNode();
+            soundClone.volume = 0.4;
+            soundClone.play().catch(() => {}); // Hata olursa yoksay
+
+            // Görsel Patlama Efekti
+            this.style.animation = 'none'; // Yükselmeyi durdur
+            this.classList.add('pop-effect'); // Patlama animasyonunu ekle
+            
+            // Mesajı Güncelle
+            updateMessage();
+
+            // DOM'dan kaldır
+            setTimeout(() => {
+                this.remove();
+            }, 300);
+        }
+
+        let lastIndex = -1;
+        function updateMessage() {
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * messages.length);
+            } while (randomIndex === lastIndex);
+            lastIndex = randomIndex;
+
+            // Kutuya hafif bir "büyüme" efekti ver dikkat çeksin
+            msgBox.style.transform = "translateX(-50%) scale(1.1)";
+            messageText.innerText = messages[randomIndex];
+            
+            setTimeout(() => {
+                msgBox.style.transform = "translateX(-50%) scale(1)";
+            }, 150);
+        }
+
+    </script>
+</body>
+</html>

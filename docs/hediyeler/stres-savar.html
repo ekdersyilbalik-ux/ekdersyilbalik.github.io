@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Esma'nın Stres-Savar Baloncukları 🛁</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@500&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+            font-family: 'Quicksand', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            touch-action: manipulation; /* Mobilde yakınlaştırmayı engeller */
+        }
+
+        /* Üstteki Mesaj Alanı */
+        .header-message {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 10;
+            backdrop-filter: blur(5px);
+        }
+
+        #currentMessage {
+            font-family: 'Pacifico', cursive;
+            color: #e91e63;
+            font-size: 1.8rem;
+            margin: 0;
+            min-height: 1.8rem;
+            transition: transform 0.2s ease-out;
+        }
+        
+        .subtitle {
+             font-size: 0.9rem;
+             color: #666;
+             margin-top: 5px;
+        }
+
+        /* Baloncukların Konteyneri */
+        .bubble-wrap-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 5px;
+            padding: 20px;
+            width: 95%;
+            max-width: 800px;
+            margin-top: 10px;
+            justify-items: center;
+        }
+
+        /* Baloncuk Tasarımı */
+        .bubble {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4) 60%, rgba(255, 255, 255, 0.1) 100%);
+            border-radius: 50%;
+            box-shadow: 
+                inset 0 0 10px rgba(255, 255, 255, 0.8),
+                0 4px 10px rgba(0, 0, 0, 0.1),
+                inset 0 -5px 10px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.1s ease;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Baloncuğun üzerindeki parlama efekti */
+        .bubble::after {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 15%;
+            width: 25%;
+            height: 25%;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            filter: blur(2px);
+        }
+
+        /* Patlamış Baloncuk Hali */
+        .bubble.popped {
+            background: rgba(200, 200, 200, 0.3);
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+            transform: scale(0.9);
+            border: 2px solid rgba(200,200,200,0.5);
+        }
+        
+        .bubble.popped::after {
+            display: none; /* Parlama kaybolsun */
+        }
+
+        /* Mobilde dokunmatik yüzeyi iyileştirme */
+        @media (max-width: 600px) {
+             .bubble-wrap-container {
+                 gap: 2px;
+             }
+            .bubble {
+                width: 50px;
+                height: 50px;
+            }
+            #currentMessage {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+<link rel="stylesheet" href="../hediye-menu.css">
+</head>
+<body>
+<a id="esma-home-link" href="../index.html" aria-label="Hediye ana menüsüne dön">← Ana menü <span aria-hidden="true">♡</span></a>
+
+    <div class="header-message">
+        <p id="currentMessage">Gerginlik savar hazır! 👆</p>
+        <p class="subtitle">Fareyi gezdir veya parmağınla dokun...</p>
+    </div>
+
+    <div class="bubble-wrap-container" id="bubbleContainer">
+        </div>
+
+    <audio id="popSound" preload="auto">
+        <source src="data:audio/mpeg;base64,//NkxAAACDxQSkBAAAAA0o4gEAAAAA//NkxAkP+e8Wq14ABUe+57X9673///8tUq8l57yH//NkxAMRie0cK17QB3e373vvv7//v/+WqVeS895D//NkxAIRueUca2bgB+eW773vvv7//v/+WqVeS895D//NkxAERWeEUK2bgB1d/73vvv7//v/+WqVeS895D//NkxAAQ2d0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D//NkxAAQGd0UK2bgBzd/73vvv7//v/+WqVeS895D" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const container = document.getElementById('bubbleContainer');
+        const messageDisplay = document.getElementById('currentMessage');
+        const popSound = document.getElementById('popSound');
+
+        // Senin listelerin + Benim eklediklerim
+        const messages = [
+            "Sana hayranım ❤️",
+            "Burnunu yerim 🥺",
+            "Kurban olurum sana 🥰",
+            "Seni yerim 😋",
+            "Çok güzelsin 🌸",
+            "Seni çok seviyorum! ❤️‍🔥",
+            "Birtanecik sevgilim 💑",
+            "Boncuk gözlerinden öperim 😘",
+            "Sen benim prensesimsin 👑",
+            "İyi ki varsın hayatım 🙏",
+            "Dünyanın en tatlısı sensin 🍭",
+            "Gülüşüne aşığım 😍",
+            "Stres yok, ben varım! 💪",
+            "Her şey çok güzel olacak 🌈",
+            "Derin bir nefes al meleğim 💨"
+        ];
+
+        // Kaç baloncuk olsun?
+        const totalBubbles = 150;
+
+        // Baloncukları oluştur
+        for (let i = 0; i < totalBubbles; i++) {
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            
+            // Hem fare gezdirme hem dokunma olaylarını dinleyelim
+            bubble.addEventListener('mouseover', popBubble);
+            bubble.addEventListener('touchstart', popBubble, {passive: true});
+
+            container.appendChild(bubble);
+        }
+
+        let lastMessageIndex = -1;
+
+        function popBubble(e) {
+            // Eğer zaten patlamışsa işlem yapma
+            if (this.classList.contains('popped')) return;
+
+            // Patlamış class'ı ekle
+            this.classList.add('popped');
+
+            // Sesi çal (Hızlı patlatmalarda sesin üst üste binmesi için klonluyoruz)
+            const soundClone = popSound.cloneNode();
+            soundClone.volume = 0.5; // Ses seviyesi biraz kısık olsun rahatsız etmesin
+            soundClone.play().catch(e => console.log("Ses oynatma hatası (tarayıcı engeli olabilir):", e));
+            
+            // Rastgele mesaj seç (arka arkaya aynı mesaj gelmesin diye kontrol)
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * messages.length);
+            } while (randomIndex === lastMessageIndex);
+            lastMessageIndex = randomIndex;
+
+            // Mesajı göster ve hafif bir animasyon yap
+            messageDisplay.style.transform = "scale(1.1)";
+            messageDisplay.textContent = messages[randomIndex];
+            setTimeout(() => {
+                messageDisplay.style.transform = "scale(1)";
+            }, 100);
+        }
+
+    </script>
+
+</body>
+</html>

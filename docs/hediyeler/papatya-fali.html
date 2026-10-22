@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esma İçin Papatya Falı 🌼</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .flower-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .flower-container:hover {
+            transform: scale(1.02);
+        }
+
+        /* Papatyanın Sapı */
+        .stem {
+            position: absolute;
+            width: 10px;
+            height: 200px;
+            background-color: #4CAF50;
+            top: 200px;
+            z-index: -1;
+            border-radius: 5px;
+        }
+
+        /* Papatyanın Merkezi */
+        .center {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #ffeb3b 40%, #fbc02d 100%);
+            border-radius: 50%;
+            z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Yapraklar */
+        .petal {
+            position: absolute;
+            width: 50px;
+            height: 140px;
+            background: linear-gradient(to bottom, #ffffff 0%, #f0f0f0 100%);
+            border-radius: 50px;
+            transform-origin: bottom center;
+            bottom: 50%; /* Merkezin ortasından başlasın */
+            left: calc(50% - 25px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.5s ease;
+            z-index: 5;
+            cursor: pointer;
+        }
+
+        .petal:hover {
+            background: #fff0f5; /* Üzerine gelince hafif pembeleşsin */
+        }
+
+        /* Yaprak Kopma Animasyonu */
+        .falling {
+            animation: fallDown 1.5s forwards;
+            pointer-events: none; /* Düşerken tekrar tıklanamasın */
+        }
+
+        @keyframes fallDown {
+            0% {
+                transform: translateY(0) rotate(var(--r));
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(400px) rotate(calc(var(--r) + 60deg));
+                opacity: 0;
+            }
+        }
+
+        /* Durum Metni (Seviyor / Çok Seviyor) */
+        .status-text {
+            margin-top: 180px; /* Saptan aşağıda */
+            font-size: 2rem;
+            font-family: 'Dancing Script', cursive;
+            color: #e91e63;
+            min-height: 50px;
+            transition: opacity 0.3s;
+        }
+
+        /* Final Mesajı Ekranı */
+        .final-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            display: none; /* Başlangıçta gizli */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            text-align: center;
+        }
+
+        .final-text {
+            font-family: 'Pacifico', cursive;
+            font-size: 3rem;
+            color: #d32f2f;
+            padding: 20px;
+            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Konfetiler */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            animation: rain 3s linear infinite;
+        }
+
+        @keyframes rain {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+
+    </style>
+<link rel="stylesheet" href="../hediye-menu.css">
+</head>
+<body>
+<a id="esma-home-link" href="../index.html" aria-label="Hediye ana menüsüne dön">← Ana menü <span aria-hidden="true">♡</span></a>
+
+    <h1>Esma'nın Papatya Falı</h1>
+
+    <div class="flower-container" id="flower">
+        <div class="stem"></div>
+        <div class="center"></div>
+        </div>
+
+    <div class="status-text" id="status">Bir yaprak seç... 🌸</div>
+
+    <div class="final-screen" id="finalScreen">
+        <div class="final-text">Seni Dünyalar Kadar<br>Çok Seviyor! ❤️</div>
+    </div>
+
+    <script>
+        const flower = document.getElementById('flower');
+        const statusText = document.getElementById('status');
+        const finalScreen = document.getElementById('finalScreen');
+        
+        // Yaprak sayısı
+        const petalCount = 12; 
+        let petalsRemoved = 0;
+        let isLoves = true; // İlk hamle "Seviyor" ile başlasın diye true/false döngüsü
+
+        // Yaprakları oluştur ve yerleştir
+        for (let i = 0; i < petalCount; i++) {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            
+            // Yaprakları 360 dereceye yay
+            const angle = (360 / petalCount) * i;
+            petal.style.transform = `rotate(${angle}deg) translateY(-40px)`; // translateY ile merkezden biraz dışa ittik
+            // Orijinal açısını bir değişkene atayalım ki düşerken kullanabilelim
+            petal.style.setProperty('--r', `${angle}deg`);
+
+            // Tıklama Olayı
+            petal.addEventListener('click', function() {
+                if (this.classList.contains('falling')) return; // Zaten düşüyorsa işlem yapma
+
+                // Düşme animasyonunu başlat
+                this.classList.add('falling');
+                petalsRemoved++;
+
+                // Yazıyı güncelle
+                // Basit mantık: Bir "Seviyor", bir "Çok Seviyor"
+                if (isLoves) {
+                    statusText.textContent = "Seviyor... 🥰";
+                    statusText.style.color = "#e91e63"; // Pembe
+                } else {
+                    statusText.textContent = "Çok Seviyor! 😍";
+                    statusText.style.color = "#d32f2f"; // Kırmızı
+                }
+                isLoves = !isLoves; // Durumu tersine çevir
+
+                // Hepsi bitti mi kontrol et
+                if (petalsRemoved === petalCount) {
+                    setTimeout(showFinalResult, 1000); // Son yaprak düştükten 1 saniye sonra finali göster
+                }
+            });
+
+            flower.appendChild(petal);
+        }
+
+        // Final Ekranı ve Konfetiler
+        function showFinalResult() {
+            finalScreen.style.display = 'flex';
+            startConfetti();
+        }
+
+        function startConfetti() {
+            const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722'];
+            
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                
+                // Rastgele özellikler
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's'; // 2-4 saniye arası düşüş hızı
+                confetti.style.opacity = Math.random();
+                
+                finalScreen.appendChild(confetti);
+            }
+        }
+    </script>
+
+</body>
+</html>
