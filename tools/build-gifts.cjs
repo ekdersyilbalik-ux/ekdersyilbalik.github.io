@@ -23,6 +23,7 @@ const sites = [
   ['yolculugumuz', '8b9da94', 'Bizim Yolculuğumuz', 'Birlikte gördüğümüz yerler, birlikte kurduğumuz hayaller.', 'Anılar', '🧳'],
   ['pcos-rehberi', '1d0ceb6', 'Senin İçin Yaşam Rehberi', 'Beslenme, günlük rutin ve her zaman yanında olma sözü.', 'Yanındayım', '🌿'],
   ['motivasyon', '1d0e6d1', 'Her Daim Yanındayım', 'İhtiyacın olduğunda aç: seni çok seviyorum.', 'Yanındayım', '💗'],
+  ['onsekizinci-ay', null, '18 Aydır Evim Sensin', 'Küçük yuvamızı keşfet; her köşesinde biz, sonunda sana bir mektup.', 'Anılar', '🏡', 'onsekizinci-ay/WhatsApp Image 2026-10-22 at 23.17.25.jpeg'],
 ];
 
 // Recover the photographs at the last revision before their deletion.
@@ -34,6 +35,11 @@ for (const file of git('ls-tree', '-r', '--name-only', 'e1d6352', '--', 'docs/im
 }
 
 for (const [slug, rev] of sites) {
+  // New gifts are authored in place; only historical gifts need restoration.
+  if (!rev) {
+    if (!fs.existsSync(path.join(target, `${slug}.html`))) throw new Error(`Missing gift: ${slug}`);
+    continue;
+  }
   const source = slug === 'motivasyon' ? 'docs/motivasyon.html' : 'docs/index.html';
   let html = git('show', `${rev}:${source}`).toString('utf8');
   html = html.replaceAll('./img/', '../img/');
@@ -62,7 +68,7 @@ fs.writeFileSync(path.join(docs, 'index.html'), `<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#faf6ef">
-  <meta name="description" content="Esmam için sevgiyle hazırladığım 15 hediye: anılarımız, çiçekler, küçük oyunlar ve sürprizler.">
+  <meta name="description" content="Esmam için sevgiyle hazırladığım ${sites.length} hediye: anılarımız, çiçekler, küçük oyunlar ve sürprizler.">
   <title>ESMAMA HEDİYE WEB SİTELERİM</title>
   <link rel="stylesheet" href="hediyeler.css">
   <script src="hediyeler.js" defer></script>
@@ -72,10 +78,10 @@ fs.writeFileSync(path.join(docs, 'index.html'), `<!DOCTYPE html>
   <header class="topbar"><a class="brand" href="index.html">K <span>♡</span> E</a><span class="top-note">Sadece senin için, sevgiyle.</span><a class="top-link" href="#hediyeler">Hediyelerin <span aria-hidden="true">↗</span></a></header>
   <main>
     <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-copy"><p class="eyebrow"><span aria-hidden="true">✦</span> KALBİMDEN EKRANINA</p><h1 id="hero-title">ESMAMA HEDİYE<br><em>WEB SİTELERİM</em></h1><p class="intro">Sana hazırladığım bütün küçük mutluluklar,<br class="desktop-break"> artık aynı yerde. Birini seç, içindeki sevgiyi aç.</p><a class="primary" href="#hediyeler">Hediyelerini keşfet <span aria-hidden="true">↓</span></a><div class="hero-foot"><span class="tiny-heart" aria-hidden="true">♡</span><span>15 hediye, hepsinde sen.</span></div></div>
+      <div class="hero-copy"><p class="eyebrow"><span aria-hidden="true">✦</span> KALBİMDEN EKRANINA</p><h1 id="hero-title">ESMAMA HEDİYE<br><em>WEB SİTELERİM</em></h1><p class="intro">Sana hazırladığım bütün küçük mutluluklar,<br class="desktop-break"> artık aynı yerde. Birini seç, içindeki sevgiyi aç.</p><a class="primary" href="#hediyeler">Hediyelerini keşfet <span aria-hidden="true">↓</span></a><div class="hero-foot"><span class="tiny-heart" aria-hidden="true">♡</span><span>${sites.length} hediye, hepsinde sen.</span></div></div>
       <div class="hero-art"><span class="scribble s1" aria-hidden="true">♡</span><figure class="polaroid back"><img src="img/ay9.jpeg" alt="Birlikte bir anımız"><figcaption>iyi ki biz…</figcaption></figure><figure class="polaroid front"><span class="tape" aria-hidden="true"></span><img src="img/ay4.jpeg" alt="Kadir ve Esma"><figcaption>en güzel hikâyem sensin ♡</figcaption></figure><span class="scribble s2" aria-hidden="true">✧</span><span class="handwritten">Esmam'a, Kadir'den</span></div>
     </section>
-    <section class="collection" id="hediyeler" aria-labelledby="collection-title"><div class="section-top"><div><p class="eyebrow">KÜÇÜK BİR HEDİYE KOLEKSİYONU</p><h2 id="collection-title">Hangisini açmak istersin?</h2></div><span class="collection-count" aria-live="polite">15 hediye seni bekliyor</span></div><div class="filters" role="group" aria-label="Hediye kategorileri">${categories.map((c,i) => `<button type="button" data-filter="${c}" aria-pressed="${i === 0}">${c}</button>`).join('')}</div><div class="gift-grid">${cards}
+    <section class="collection" id="hediyeler" aria-labelledby="collection-title"><div class="section-top"><div><p class="eyebrow">KÜÇÜK BİR HEDİYE KOLEKSİYONU</p><h2 id="collection-title">Hangisini açmak istersin?</h2></div><span class="collection-count" aria-live="polite">${sites.length} hediye seni bekliyor</span></div><div class="filters" role="group" aria-label="Hediye kategorileri">${categories.map((c,i) => `<button type="button" data-filter="${c}" aria-pressed="${i === 0}">${c}</button>`).join('')}</div><div class="gift-grid">${cards}
     </div></section>
     <section class="closing"><span aria-hidden="true">♡</span><p>Her sayfada başka bir sürpriz,<br><em>hepsinde aynı cümle: seni çok seviyorum.</em></p><span class="signature">Kadir</span></section>
   </main><footer><a class="brand" href="index.html">K <span>♡</span> E</a><p>Esmam için, sevgiyle hazırlandı.</p><a href="#hero-title">Yukarı dön ↑</a></footer>

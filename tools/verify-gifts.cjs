@@ -4,11 +4,11 @@ const vm = require('node:vm');
 const assert = require('node:assert/strict');
 const root = path.resolve(__dirname, '../docs');
 const gifts = fs.readdirSync(path.join(root, 'hediyeler')).filter(f => f.endsWith('.html'));
-assert.equal(gifts.length, 15);
+assert.equal(gifts.length, 16);
 const home = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 assert(home.includes('ESMAMA HEDİYE'));
 assert(!home.includes('Özür Dilerim'));
-assert.equal([...home.matchAll(/class="gift /g)].length, 15);
+assert.equal([...home.matchAll(/class="gift /g)].length, gifts.length);
 let assets = 0, scripts = 0;
 for (const file of ['index.html', ...gifts.map(f => `hediyeler/${f}`)]) {
   const absolute = path.join(root, file);
@@ -31,4 +31,11 @@ for (const file of ['index.html', ...gifts.map(f => `hediyeler/${f}`)]) {
   }
 }
 new vm.Script(fs.readFileSync(path.join(root, 'hediyeler.js'), 'utf8'));
-console.log(`PASS: 15 gift pages, ${assets} local references, ${scripts} restored scripts, home links and excluded apology page.`);
+new vm.Script(fs.readFileSync(path.join(root, 'hediyeler/onsekizinci-ay.js'), 'utf8'));
+const anniversary = JSON.parse(fs.readFileSync(path.join(root, 'hediyeler/onsekizinci-ay-icerik.json'), 'utf8'));
+assert.equal(anniversary.sections.notebook.entries.length, 10);
+for (const section of Object.values(anniversary.sections)) {
+  if (section.image) assert(fs.existsSync(path.resolve(root, 'hediyeler', section.image)), `Missing anniversary photo: ${section.image}`);
+}
+assert(anniversary.sections.letter.text.includes('1,5 yılı devirdik'));
+console.log(`PASS: ${gifts.length} gift pages, ${assets} local references, ${scripts} restored scripts, anniversary content, home links and excluded apology page.`);
