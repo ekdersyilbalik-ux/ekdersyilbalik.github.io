@@ -15,9 +15,16 @@ function randomIndex(length) {
   return buffer[0] % length;
 }
 function whatsapp() {
-  const choices = options.length ? '\nSeçeneklerim:\n' + options.map((text, i) => `${i + 1}. ${text}`).join('\n') : '';
-  return `https://wa.me/${phone}?text=${encodeURIComponent('Aşkım, karar veremedim. Bir de sana sorayım dedim. 💌' + choices + '\nSence ne seçeyim?')}`;
+  const choicesToSend = [...options];
+  const pending = $('option-input').value.trim();
+  if (pending && !choicesToSend.some(text => text.toLocaleLowerCase('tr') === pending.toLocaleLowerCase('tr'))) choicesToSend.push(pending);
+  const choices = choicesToSend.length ? '\nSeçeneklerim:\n' + choicesToSend.map((text, i) => `${i + 1}. ${text}`).join('\n') : '';
+  return `https://wa.me/${phone}?text=${encodeURIComponent('askim, karar veremedim. Bir de sana sorayım dedim. 💌' + choices + '\nSence ne seçeyim?')}`;
 }
+function updateWhatsappLinks() {
+  for (const id of ['ask-kadir', 'ask-kadir-direct', 'result-whatsapp']) $(id).href = whatsapp();
+}
+$('option-input').addEventListener('input', updateWhatsappLinks);
 function svgNode(tag, attributes, text) {
   const node = document.createElementNS('http://www.w3.org/2000/svg', tag);
   for (const [key, value] of Object.entries(attributes)) node.setAttribute(key, value);
@@ -58,7 +65,7 @@ function render() {
     remove.addEventListener('click',()=>{if(spinning)return;options.splice(index,1);resetWheel();render();});
     row.append(dot,label,remove); $('option-list').append(row);
   });
-  $('ask-kadir').href = whatsapp();
+  updateWhatsappLinks();
 }
 function resetWheel() { wheelAnimation?.cancel(); angle=0; $('wheel').style.transform='rotate(0deg)'; }
 $('option-form').addEventListener('submit',event=>{

@@ -22,9 +22,9 @@ if (newGiftDialog) {
   });
   // Show once per tab visit; returning from the gift leaves the menu accessible.
   let seen = false;
-  try { seen = sessionStorage.getItem('karar-carki-announced') === 'yes'; } catch {}
+  try { seen = sessionStorage.getItem('karar-carki-update-v2-announced') === 'yes'; } catch {}
   if (!seen) {
     newGiftDialog.showModal();
-    try { sessionStorage.setItem('karar-carki-announced', 'yes'); } catch {}
+    try { sessionStorage.setItem('karar-carki-update-v2-announced', 'yes'); } catch {}
   }
 }
