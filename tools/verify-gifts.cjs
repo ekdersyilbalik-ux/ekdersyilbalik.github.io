@@ -4,7 +4,7 @@ const vm = require('node:vm');
 const assert = require('node:assert/strict');
 const root = path.resolve(__dirname, '../docs');
 const gifts = fs.readdirSync(path.join(root, 'hediyeler')).filter(f => f.endsWith('.html'));
-assert.equal(gifts.length, 16);
+assert.equal(gifts.length, 17);
 const home = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 assert(home.includes('ESMAMA HEDİYE'));
 assert(!home.includes('Özür Dilerim'));
@@ -32,6 +32,9 @@ for (const file of ['index.html', ...gifts.map(f => `hediyeler/${f}`)]) {
 }
 new vm.Script(fs.readFileSync(path.join(root, 'hediyeler.js'), 'utf8'));
 new vm.Script(fs.readFileSync(path.join(root, 'hediyeler/onsekizinci-ay.js'), 'utf8'));
+new vm.Script(fs.readFileSync(path.join(root, 'hediyeler/karar-carki.js'), 'utf8'));
+assert(home.includes('id="new-gift-dialog"'));
+assert(home.includes('href="hediyeler/karar-carki.html"'));
 const anniversary = JSON.parse(fs.readFileSync(path.join(root, 'hediyeler/onsekizinci-ay-icerik.json'), 'utf8'));
 assert.equal(anniversary.sections.notebook.entries.length, 10);
 for (const section of Object.values(anniversary.sections)) {

@@ -24,6 +24,7 @@ const sites = [
   ['pcos-rehberi', '1d0ceb6', 'Senin İçin Yaşam Rehberi', 'Beslenme, günlük rutin ve her zaman yanında olma sözü.', 'Yanındayım', '🌿'],
   ['motivasyon', '1d0e6d1', 'Her Daim Yanındayım', 'İhtiyacın olduğunda aç: seni çok seviyorum.', 'Yanındayım', '💗'],
   ['onsekizinci-ay', null, '18 Aydır Evim Sensin', 'Küçük yuvamızı keşfet; her köşesinde biz, sonunda sana bir mektup.', 'Anılar', '🏡', 'onsekizinci-ay/WhatsApp Image 2026-10-22 at 23.17.25.jpeg'],
+  ['karar-carki', null, 'Karar Çarkı', 'Kararsız mı kaldın sevgilim? Seçeneklerini ekle, gerisini şansa bırak.', 'Oyunlar', '✳'],
 ];
 
 // Recover the photographs at the last revision before their deletion.
@@ -85,6 +86,7 @@ fs.writeFileSync(path.join(docs, 'index.html'), `<!DOCTYPE html>
     </div></section>
     <section class="closing"><span aria-hidden="true">♡</span><p>Her sayfada başka bir sürpriz,<br><em>hepsinde aynı cümle: seni çok seviyorum.</em></p><span class="signature">Kadir</span></section>
   </main><footer><a class="brand" href="index.html">K <span>♡</span> E</a><p>Esmam için, sevgiyle hazırlandı.</p><a href="#hero-title">Yukarı dön ↑</a></footer>
+  <dialog class="new-gift-dialog" id="new-gift-dialog" aria-labelledby="new-gift-title"><button class="new-gift-close" id="new-gift-close" type="button" aria-label="Duyuruyu kapat">×</button><p class="eyebrow">SANA KÜÇÜK BİR SÜRPRİZİM VAR</p><span class="new-gift-art" aria-hidden="true">✳</span><p class="new-gift-label">YENİ SAYFA HAZIR</p><h2 id="new-gift-title">Kararsız mı kaldın<br><em>sevgilim?</em></h2><p>Karar Çarkı seni bekliyor. Seçeneklerini ekle,<br>birazını şansa, birazını bana bırak.</p><a class="primary" href="hediyeler/karar-carki.html">Yeni hediyeni aç <span aria-hidden="true">↗</span></a><small>Seni çok seviyorum aşkım. ♡</small></dialog>
 </body>
 </html>`);
 console.log(`Restored ${sites.length} gifts and their photographs.`);
